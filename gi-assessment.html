@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استبيان التغذية – التهاب الجهاز الهضمي | GI Nutrition Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f8f5f0;--sand:#f0e8d8;--teal:#3a7d7b;--teal-deep:#2a5c5a;
+  --rose:#c26b6b;--rose-soft:#f5dada;--gold:#b8923a;--ink:#2c2e2b;
+  --muted:#847e70;--white:#fff;
+  --shadow:0 16px 40px -18px rgba(42,92,90,.4);--radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Cairo','Poppins',sans-serif;
+  background:
+    radial-gradient(circle at 10% 8%,#fff 0,transparent 36%),
+    radial-gradient(circle at 90% 0%,var(--rose-soft) 0,transparent 28%),
+    radial-gradient(circle at 50% 115%,var(--sand) 0,transparent 52%),
+    var(--cream);
+  color:var(--ink);line-height:1.9;padding:24px 14px 70px;min-height:100vh;
+}
+body.lang-en{font-family:'Poppins',sans-serif;direction:ltr;text-align:left}
+.wrap{max-width:700px;margin:0 auto}
+
+/* lang toggle */
+.lang-bar{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
+.lang-bar button{
+  border:1.5px solid var(--teal);background:#fff;color:var(--teal-deep);
+  font-family:inherit;font-weight:700;font-size:13.5px;padding:8px 20px;
+  border-radius:99px;cursor:pointer;transition:.2s;
+}
+.lang-bar button.active{background:var(--teal);color:#fff;box-shadow:0 6px 14px -6px rgba(58,125,123,.7)}
+
+/* hero */
+.hero{
+  background:linear-gradient(145deg,var(--teal),var(--teal-deep));
+  color:#fff;border-radius:var(--radius);padding:40px 28px 36px;text-align:center;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:6px;
+}
+.hero::before{content:"";position:absolute;inset:0;opacity:.12;
+  background:radial-gradient(circle at 25% 25%,#fff 1px,transparent 1px) 0 0/24px 24px;}
+.hero .icon{font-size:32px;display:block;margin-bottom:8px}
+.hero h1{font-weight:800;font-size:26px;position:relative;line-height:1.4}
+.hero p{font-size:14.5px;margin-top:10px;opacity:.9;position:relative;max-width:480px;margin-inline:auto}
+.hero .by{margin-top:14px;font-size:12.5px;color:#ffd98a;font-weight:600;position:relative}
+
+/* instruction banner */
+.instr{background:linear-gradient(135deg,var(--sand),#fff);border:1.5px solid var(--gold);
+  border-radius:16px;padding:14px 18px;margin-top:18px;font-size:13.5px;color:var(--muted);line-height:1.7}
+.instr strong{color:var(--teal-deep)}
+
+/* progress */
+.progress-shell{position:sticky;top:10px;z-index:20;margin:16px 0 4px}
+.progress-track{height:9px;background:var(--sand);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .4s;border-radius:99px}
+.progress-label{text-align:center;font-size:13px;color:var(--muted);margin-top:5px;font-weight:500}
+
+/* section cards */
+.section{background:var(--white);border-radius:var(--radius);padding:26px 24px;margin-top:20px;
+  box-shadow:var(--shadow);border:1px solid #e8dfd0}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.section-badge{
+  background:var(--rose-soft);color:var(--rose);font-weight:800;
+  padding:6px 14px;border-radius:99px;font-size:13px;white-space:nowrap;flex:none
+}
+.section-head h2{font-weight:800;font-size:20px;color:var(--teal-deep)}
+.section-sub{color:var(--muted);font-size:13.5px;margin:0 0 18px 0;line-height:1.6;padding-top:4px}
+
+/* fields */
+.field{margin-bottom:18px}
+.field > label{display:block;font-weight:600;margin-bottom:8px;font-size:15px;color:var(--ink)}
+.field .hint{color:var(--muted);font-size:12px;font-weight:400;display:block;margin-top:2px}
+input[type=text],input[type=number],textarea,select{
+  width:100%;padding:12px 15px;border:1.5px solid #ddd5c4;border-radius:14px;
+  background:#fdfaf5;font-family:inherit;font-size:15px;color:var(--ink);
+  transition:border .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{
+  outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(58,125,123,.12);background:#fff}
+textarea{resize:vertical;min-height:64px}
+.row2{display:flex;gap:14px;flex-wrap:wrap}
+.row2 .field{flex:1;min-width:140px}
+
+/* chips (radio/checkbox) */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.chips input{position:absolute;opacity:0;width:0;height:0}
+.chips label{
+  cursor:pointer;padding:9px 15px;border-radius:99px;
+  border:1.5px solid #ddd5c4;background:#fdfaf5;
+  font-size:13.5px;font-weight:600;transition:.18s;user-select:none;line-height:1.3}
+.chips input:checked + label{
+  background:var(--teal);color:#fff;border-color:var(--teal);
+  box-shadow:0 6px 14px -6px rgba(58,125,123,.7);transform:translateY(-1px)}
+.chips.rose input:checked + label{
+  background:var(--rose);border-color:var(--rose);
+  box-shadow:0 6px 14px -6px rgba(194,107,107,.7)}
+
+/* checkbox grid */
+.check-grid{display:flex;flex-direction:column;gap:9px}
+.check-item{
+  display:flex;align-items:flex-start;gap:10px;padding:11px 14px;
+  border:1.5px solid #ddd5c4;border-radius:12px;background:#fdfaf5;
+  cursor:pointer;transition:.18s;user-select:none}
+.check-item:hover{border-color:var(--teal);background:#fff}
+.check-item input[type=checkbox]{
+  width:18px;height:18px;accent-color:var(--teal);flex:none;margin-top:2px;cursor:pointer}
+.check-item.checked{border-color:var(--teal);background:#eef5f5}
+.check-item .ci-label{font-weight:600;font-size:14px;flex:1;line-height:1.4}
+.check-item .ci-sub{font-size:12.5px;color:var(--muted);font-weight:400;margin-top:2px}
+.check-item .ci-extra{margin-top:8px;display:none}
+.check-item.checked .ci-extra{display:block}
+.check-item .ci-extra input{font-size:13px;padding:8px 12px;border-radius:10px}
+
+/* activity scale */
+.activity-list{display:flex;flex-direction:column;gap:8px}
+.act-item{
+  display:flex;align-items:flex-start;gap:10px;padding:12px 15px;
+  border:1.5px solid #ddd5c4;border-radius:14px;background:#fdfaf5;
+  cursor:pointer;transition:.18s}
+.act-item input{width:20px;height:20px;accent-color:var(--teal);flex:none;margin-top:2px}
+.act-item.selected{border-color:var(--teal);background:#eef5f5}
+.act-icon{font-size:20px;flex:none}
+.act-text .act-title{font-weight:700;font-size:14px}
+.act-text .act-desc{font-size:12.5px;color:var(--muted)}
+
+/* weight trend box */
+.wt-box{background:linear-gradient(135deg,var(--sand),#fff);border:1.5px dashed var(--gold);
+  border-radius:16px;padding:16px 18px;margin-top:6px}
+.wt-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.wt-row:last-child{margin-bottom:0}
+.wt-label{font-weight:700;font-size:13.5px;color:var(--teal-deep);min-width:160px;flex:none}
+
+/* actions */
+.actions{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:16px;
+  padding:16px;border-radius:16px;transition:.2s;display:flex;align-items:center;
+  justify-content:center;gap:10px;color:#fff;width:100%}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.btn-wa{background:#25a366;box-shadow:0 10px 22px -10px #25a366}
+.btn-print{background:var(--teal);box-shadow:0 10px 22px -10px var(--teal)}
+.note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:12px}
+
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px;line-height:2}
+footer b{color:var(--teal-deep)}
+
+/* lang hide/show */
+[data-en]{display:none}
+body.lang-en [data-ar]{display:none}
+body.lang-en [data-en]{display:inline}
+body.lang-en [data-en].blk{display:block}
+
+@media print{
+  body{background:#fff;padding:0}
+  .progress-shell,.actions,.note,.lang-bar{display:none}
+  .section,.hero{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="lang-bar">
+    <button id="btnAr" class="active" onclick="setLang('ar')">العربية</button>
+    <button id="btnEn" onclick="setLang('en')">English</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="icon">🫀</span>
+    <h1>
+      <span data-ar>استبيان التغذية — التهاب الجهاز الهضمي</span>
+      <span data-en>Nutrition Assessment — GI Inflammation</span>
+    </h1>
+    <p>
+      <span data-ar>يُرجى تعبئة الأقسام من أ إلى هـ بعناية. إجاباتك تساعد دكتورتك في تصميم خطة غذائية دقيقة تناسب حالتك.</span>
+      <span data-en>Please complete Sections A to E carefully. Your answers help your doctor design a precise nutrition plan suited to your condition.</span>
+    </p>
+    <div class="by">
+      <span data-ar>أ.د / رندا رضا — مؤسِّسة وأستاذة ورئيسة سابقة لوحدة التغذية الإكلينيكية — كلية الطب، جامعة عين شمس</span>
+      <span data-en>Prof. Randa Reda — Main Founder, Main Founder, Professor & Former Head, Clinical Nutrition Unit — Faculty of Medicine, Ain Shams University</span>
+    </div>
+  </div>
+
+  <div class="instr">
+    <span data-ar>📋 <strong>تعليمات:</strong> هذا الاستبيان خاص بالمريض (الأقسام أ–هـ). اقرأ كل سؤال بعناية، وعلّم على الخيار المناسب، أو اكتب إجابتك في المربع. بعد الانتهاء، اضغط زر الواتساب لإرسال إجاباتك مباشرة للدكتورة.</span>
+    <span data-en class="blk">📋 <strong>Instructions:</strong> This questionnaire is for the patient (Sections A–E). Read each question carefully, check the appropriate option or type your answer. When done, press the WhatsApp button to send your answers directly to the doctor.</span>
+  </div>
+
+  <div class="progress-shell">
+    <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+    <div class="progress-label" id="prog"></div>
+  </div>
+
+  <form id="form">
+
+  <!-- ═══════════════════════════════ SECTION A ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-badge"><span data-ar>القسم أ</span><span data-en>Section A</span></div>
+      <h2><span data-ar>تاريخ الوزن</span><span data-en>Weight History</span></h2>
+    </div>
+    <p class="section-sub">
+      <span data-ar>أجب بدقة قدر الإمكان — معلومات الوزن ضرورية لتقييم حالتك الغذائية.</span>
+      <span data-en>Answer as accurately as possible — weight information is essential to assess your nutritional status.</span>
+    </p>
+
+    <div class="row2">
+      <div class="field">
+        <label><span data-ar>الوزن الحالي (كجم)</span><span data-en>Current Weight (kg)</span></label>
+        <input type="number" step="0.1" name="الوزن_الحالي" id="wCurr" placeholder="kg">
+      </div>
+      <div class="field">
+        <label><span data-ar>الطول (سم)</span><span data-en>Height (cm)</span></label>
+        <input type="number" name="الطول" id="hVal" placeholder="cm">
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>وزنك المعتاد قبل المرض (كجم)</span><span data-en>Usual weight before illness (kg)</span></label>
+      <input type="number" step="0.1" name="الوزن_المعتاد" id="wUsual" placeholder="kg">
+    </div>
+
+    <!-- Weight loss 6 months -->
+    <div class="field">
+      <label><span data-ar>خلال الـ٦ أشهر الماضية، وزنك:</span><span data-en>Over the past 6 months, your weight has:</span></label>
+      <div class="chips">
+        <input type="radio" id="w6a" name="تغير_وزن_6شهر" value="نقص/Decreased"><label for="w6a"><span data-ar>نقص ⬇️</span><span data-en>Decreased ⬇️</span></label>
+        <input type="radio" id="w6b" name="تغير_وزن_6شهر" value="ثابت/Stayed the same"><label for="w6b"><span data-ar>ثابت</span><span data-en>Stayed the same</span></label>
+        <input type="radio" id="w6c" name="تغير_وزن_6شهر" value="زاد/Increased"><label for="w6c"><span data-ar>زاد ⬆️</span><span data-en>Increased ⬆️</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>مقدار التغيّر خلال الـ٦ أشهر (كجم)</span><span data-en>Amount of change over 6 months (kg)</span></label>
+      <input type="number" step="0.1" name="مقدار_تغير_6شهر" data-ph-ar="اكتب عدد الكيلوجرامات" data-ph-en="Enter number of kg">
+    </div>
+
+    <!-- Weight loss 1 month -->
+    <div class="field">
+      <label><span data-ar>خلال الشهر الماضي، وزنك:</span><span data-en>Over the past 1 month, your weight has:</span></label>
+      <div class="chips">
+        <input type="radio" id="w1a" name="تغير_وزن_1شهر" value="نقص/Decreased"><label for="w1a"><span data-ar>نقص ⬇️</span><span data-en>Decreased ⬇️</span></label>
+        <input type="radio" id="w1b" name="تغير_وزن_1شهر" value="ثابت/Stayed the same"><label for="w1b"><span data-ar>ثابت</span><span data-en>Stayed the same</span></label>
+        <input type="radio" id="w1c" name="تغير_وزن_1شهر" value="زاد/Increased"><label for="w1c"><span data-ar>زاد ⬆️</span><span data-en>Increased ⬆️</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>مقدار التغيّر خلال الشهر الأخير (كجم)</span><span data-en>Amount of change over the last month (kg)</span></label>
+      <input type="number" step="0.1" name="مقدار_تغير_1شهر" data-ph-ar="اكتب عدد الكيلوجرامات" data-ph-en="Enter number of kg">
+    </div>
+
+    <!-- Past 2 weeks -->
+    <div class="field">
+      <label><span data-ar>في الأسبوعين الأخيرين، وزنك:</span><span data-en>In the past 2 weeks, your weight is:</span></label>
+      <div class="chips rose">
+        <input type="radio" id="w2a" name="وزن_أسبوعين" value="لا يزال ينخفض/Still falling"><label for="w2a"><span data-ar>لا يزال ينخفض</span><span data-en>Still falling</span></label>
+        <input type="radio" id="w2b" name="وزن_أسبوعين" value="ثابت/Stable"><label for="w2b"><span data-ar>ثابت</span><span data-en>Stable</span></label>
+        <input type="radio" id="w2c" name="وزن_أسبوعين" value="في ارتفاع/Rising"><label for="w2c"><span data-ar>في ارتفاع</span><span data-en>Rising</span></label>
+      </div>
+    </div>
+
+    <!-- BMI display -->
+    <div class="wt-box" id="bmiBox" style="display:none">
+      <div style="display:flex;align-items:center;gap:16px;justify-content:space-between">
+        <div>
+          <div style="font-weight:800;font-size:28px;color:var(--teal-deep)" id="bmiNum">—</div>
+          <div style="font-size:12.5px;color:var(--muted)">BMI kg/m²</div>
+        </div>
+        <div id="bmiTag" style="padding:7px 16px;border-radius:99px;font-size:13px;font-weight:700;color:#fff;background:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION B ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-badge"><span data-ar>القسم ب</span><span data-en>Section B</span></div>
+      <h2><span data-ar>تناول الطعام</span><span data-en>Food Intake</span></h2>
+    </div>
+    <p class="section-sub">
+      <span data-ar>قارن تناولك الحالي بما كنت عليه قبل أن تمرض.</span>
+      <span data-en>Compare your current intake with what it was before you became ill.</span>
+    </p>
+
+    <div class="field">
+      <label><span data-ar>مقارنةً بالمعتاد، تناولك الحالي للطعام:</span><span data-en>Compared with normal, your current food intake is:</span></label>
+      <div class="chips">
+        <input type="radio" id="fi1" name="تناول_الطعام" value="كالمعتاد/Unchanged"><label for="fi1"><span data-ar>كالمعتاد</span><span data-en>Unchanged</span></label>
+        <input type="radio" id="fi2" name="تناول_الطعام" value="أكثر من المعتاد/More than usual"><label for="fi2"><span data-ar>أكثر من المعتاد</span><span data-en>More than usual</span></label>
+        <input type="radio" id="fi3" name="تناول_الطعام" value="أقل من المعتاد/Less than usual"><label for="fi3"><span data-ar>أقل من المعتاد</span><span data-en>Less than usual</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>إذا كان أقل، تناولك الحالي يتكون أساساً من:</span><span data-en>If less, your current intake consists mostly of:</span></label>
+      <div class="chips rose">
+        <input type="radio" id="lt1" name="نوع_التناول" value="طعام عادي لكن أقل/Normal food but less"><label for="lt1"><span data-ar>طعام عادي لكن أقل</span><span data-en>Normal food but less</span></label>
+        <input type="radio" id="lt2" name="نوع_التناول" value="طعام صلب قليل/Little solid food"><label for="lt2"><span data-ar>طعام صلب قليل</span><span data-en>Little solid food</span></label>
+        <input type="radio" id="lt3" name="نوع_التناول" value="سوائل فقط/Only liquids"><label for="lt3"><span data-ar>سوائل فقط</span><span data-en>Only liquids</span></label>
+        <input type="radio" id="lt4" name="نوع_التناول" value="مكملات غذائية فقط/Only supplements"><label for="lt4"><span data-ar>مكملات غذائية فقط</span><span data-en>Only supplements</span></label>
+        <input type="radio" id="lt5" name="نوع_التناول" value="القليل جداً/Very little of anything"><label for="lt5"><span data-ar>القليل جداً من أي شيء</span><span data-en>Very little of anything</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>عدد الوجبات الكاملة في اليوم حالياً:</span><span data-en>Number of full meals per day currently:</span></label>
+      <div class="chips">
+        <input type="radio" id="ml0" name="عدد_الوجبات" value="0 وجبة/0 meals"><label for="ml0">0</label>
+        <input type="radio" id="ml1" name="عدد_الوجبات" value="وجبة واحدة/1 meal"><label for="ml1">1</label>
+        <input type="radio" id="ml2" name="عدد_الوجبات" value="وجبتان/2 meals"><label for="ml2">2</label>
+        <input type="radio" id="ml3" name="عدد_الوجبات" value="3 وجبات أو أكثر/≥3 meals"><label for="ml3"><span data-ar>٣ أو أكثر</span><span data-en>≥3</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>شهيّتك للأكل خلال الأسبوع الماضي:</span><span data-en>Your appetite over the past week:</span></label>
+      <div class="chips rose">
+        <input type="radio" id="ap1" name="الشهية" value="طبيعية/Normal"><label for="ap1"><span data-ar>طبيعية</span><span data-en>Normal</span></label>
+        <input type="radio" id="ap2" name="الشهية" value="منخفضة قليلاً/Mildly reduced"><label for="ap2"><span data-ar>منخفضة قليلاً</span><span data-en>Mildly reduced</span></label>
+        <input type="radio" id="ap3" name="الشهية" value="منخفضة بشكل ملحوظ/Markedly reduced"><label for="ap3"><span data-ar>منخفضة بشكل ملحوظ</span><span data-en>Markedly reduced</span></label>
+        <input type="radio" id="ap4" name="الشهية" value="معدومة/None"><label for="ap4"><span data-ar>معدومة</span><span data-en>None</span></label>
+      </div>
+    </div>
+
+    <!-- Foods avoided -->
+    <div class="field">
+      <label>
+        <span data-ar>الأطعمة التي تتجنبها حالياً <span class="hint">(اختر كل ما ينطبق)</span></span>
+        <span data-en>Foods you currently avoid <span class="hint">(check all that apply)</span></span>
+      </label>
+      <div class="check-grid">
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="خبز/غلوتين/Bread & Gluten">
+          <div class="ci-label"><span data-ar>🍞 الخبز / الغلوتين</span><span data-en>🍞 Bread / Gluten</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="ألبان/Dairy">
+          <div class="ci-label"><span data-ar>🥛 منتجات الألبان</span><span data-en>🥛 Dairy products</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="لحم أحمر/Red Meat">
+          <div class="ci-label"><span data-ar>🥩 اللحم الأحمر</span><span data-en>🥩 Red meat</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="ألياف عالية/High-fibre foods">
+          <div class="ci-label"><span data-ar>🥦 الأغذية الغنية بالألياف (خضار نيئة، مكسرات)</span><span data-en>🥦 High-fibre foods (raw veg, nuts)</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="دهون/مقليات/Fatty or fried foods">
+          <div class="ci-label"><span data-ar>🍟 الأطعمة الدهنية والمقلية</span><span data-en>🍟 Fatty or fried foods</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة" value="حار/Spicy foods">
+          <div class="ci-label"><span data-ar>🌶️ الأطعمة الحارة</span><span data-en>🌶️ Spicy foods</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محظورة_أخرى" value="أخرى/Other">
+          <div>
+            <div class="ci-label"><span data-ar>أطعمة أخرى</span><span data-en>Other foods</span></div>
+            <div class="ci-extra"><input type="text" name="تفاصيل_محظورة" data-ph-ar="اذكر ما تتجنبه…" data-ph-en="Specify what you avoid…"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>من أشار إليك بهذه القيود الغذائية؟</span><span data-en>Who advised these food restrictions?</span></label>
+      <div class="chips">
+        <input type="radio" id="ra1" name="مصدر_القيود" value="طبيب/Physician"><label for="ra1"><span data-ar>طبيب</span><span data-en>Physician</span></label>
+        <input type="radio" id="ra2" name="مصدر_القيود" value="أخصائي تغذية/Dietitian"><label for="ra2"><span data-ar>أخصائي تغذية</span><span data-en>Dietitian</span></label>
+        <input type="radio" id="ra3" name="مصدر_القيود" value="قرار شخصي/Self-directed"><label for="ra3"><span data-ar>قرار شخصي</span><span data-en>Self-directed</span></label>
+        <input type="radio" id="ra4" name="مصدر_القيود" value="إنترنت/Other source"><label for="ra4"><span data-ar>إنترنت / مصدر آخر</span><span data-en>Internet / other</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>هل تتناول مكملات غذائية أو فيتامينات؟</span><span data-en>Are you currently taking any supplements or vitamins?</span></label>
+      <input type="text" name="المكملات" data-ph-ar="اذكر الاسم والجرعة إن أمكن…" data-ph-en="Name and dose if possible…">
+    </div>
+
+    <div class="field">
+      <label>
+        <span data-ar>الأدوية التي تتناولينها حالياً <span class="hint">(بما فيها أدوية الجهاز الهضمي، أدوية الالتهاب، المسكنات، أو أي دواء منتظم)</span></span>
+        <span data-en>Medications you are currently taking <span class="hint">(including GI medications, anti-inflammatories, pain killers, or any regular prescription)</span></span>
+      </label>
+      <div class="check-grid">
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="الأدوية" value="مضادات حموضة / PPI / أومبيبرازول/Antacids or PPI (e.g. omeprazole)">
+          <div class="ci-label"><span data-ar>💊 مضادات الحموضة / أومبيبرازول / PPI</span><span data-en>💊 Antacids / omeprazole / PPI</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="الأدوية" value="كورتيزون / ستيرويدات/Corticosteroids">
+          <div class="ci-label"><span data-ar>💊 كورتيزون / ستيرويدات</span><span data-en>💊 Corticosteroids (steroids)</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="الأدوية" value="مسكنات (بروفين، مسكين، إلخ)/Pain relievers (ibuprofen, paracetamol)">
+          <div class="ci-label"><span data-ar>💊 مسكنات الألم (بروفين، باراسيتامول، إلخ)</span><span data-en>💊 Pain relievers (ibuprofen, paracetamol, etc.)</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="الأدوية" value="مضادات حيوية/Antibiotics">
+          <div class="ci-label"><span data-ar>💊 مضادات حيوية</span><span data-en>💊 Antibiotics</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="الأدوية" value="حديد/Iron supplements">
+          <div class="ci-label"><span data-ar>💊 حديد (مكملات الحديد)</span><span data-en>💊 Iron supplements</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أدوية_أخرى" value="نعم/Yes — Other medications">
+          <div>
+            <div class="ci-label"><span data-ar>💊 أدوية أخرى</span><span data-en>💊 Other medications</span></div>
+            <div class="ci-extra">
+              <input type="text" name="تفاصيل_الأدوية_الأخرى" data-ph-ar="اذكر اسم الدواء والجرعة إن أمكن…" data-ph-en="Name and dose if possible…">
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION C ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-badge"><span data-ar>القسم ج</span><span data-en>Section C</span></div>
+      <h2><span data-ar>الأعراض المؤثرة على التغذية</span><span data-en>Nutrition-Impact Symptoms</span></h2>
+    </div>
+    <p class="section-sub">
+      <span data-ar>علّم على كل الأعراض التي تعانيها خلال الأسبوعين الأخيرين.</span>
+      <span data-en>Check all symptoms you have experienced in the past 2 weeks.</span>
+    </p>
+
+    <div class="check-grid">
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="فقدان الشهية/No appetite">
+        <div class="ci-label"><span data-ar>😞 فقدان الشهية</span><span data-en>😞 No appetite</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="غثيان/Nausea">
+        <div class="ci-label"><span data-ar>🤢 غثيان</span><span data-en>🤢 Nausea</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="قيء/Vomiting">
+        <div class="ci-label"><span data-ar>🤮 قيء</span><span data-en>🤮 Vomiting</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="إسهال" value="نعم/Yes — Diarrhoea">
+        <div>
+          <div class="ci-label"><span data-ar>🚽 إسهال</span><span data-en>🚽 Diarrhoea</span></div>
+          <div class="ci-extra">
+            <input type="number" name="عدد_حركات_الأمعاء" data-ph-ar="عدد مرات الإخراج في اليوم" data-ph-en="Number of stools per day" min="1" max="20">
+          </div>
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="دم في البراز/Blood in stool">
+        <div class="ci-label"><span data-ar>🔴 دم في البراز</span><span data-en>🔴 Blood in stool</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="إمساك/Constipation">
+        <div class="ci-label"><span data-ar>🟤 إمساك</span><span data-en>🟤 Constipation</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="ألم/تقلصات بطنية/Abdominal pain or cramping">
+        <div class="ci-label"><span data-ar>😣 ألم أو تقلصات في البطن</span><span data-en>😣 Abdominal pain / cramping</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="انتفاخ/شبع مبكر/Bloating or early satiety">
+        <div class="ci-label"><span data-ar>🎈 انتفاخ أو شعور بالامتلاء السريع</span><span data-en>🎈 Bloating / feeling full quickly</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="تقرحات الفم/Mouth sores">
+        <div class="ci-label"><span data-ar>🫦 تقرحات أو ألم في الفم</span><span data-en>🫦 Mouth sores / painful mouth</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="جفاف الفم/Dry mouth">
+        <div class="ci-label"><span data-ar>🌵 جفاف الفم</span><span data-en>🌵 Dry mouth</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="تغيّر الطعم أو الرائحة/Altered taste or smell">
+        <div class="ci-label"><span data-ar>👅 تغيّر في حاسة الطعم أو الشم</span><span data-en>👅 Altered taste or smell</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="صعوبة البلع/Difficulty swallowing">
+        <div class="ci-label"><span data-ar>😰 صعوبة أو ألم عند البلع</span><span data-en>😰 Difficulty or pain when swallowing</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أكل_يزيد_الأعراض" value="نعم/Yes — Food worsens symptoms">
+        <div>
+          <div class="ci-label"><span data-ar>⚠️ الأكل يزيد الأعراض سوءاً</span><span data-en>⚠️ Food makes symptoms worse</span></div>
+          <div class="ci-extra">
+            <input type="text" name="أطعمة_تزيد_الأعراض" data-ph-ar="أيّ الأطعمة تزيد الأعراض؟" data-ph-en="Which foods worsen symptoms?">
+          </div>
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="حرقة/ارتجاع/Heartburn or acid reflux">
+        <div class="ci-label"><span data-ar>🔥 حرقة المعدة / ارتجاع الحمض</span><span data-en>🔥 Heartburn / acid reflux</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="ألم_المريء" value="نعم/Yes — Oesophageal pain">
+        <div>
+          <div class="ci-label"><span data-ar>🫁 ألم في المريء أو الصدر عند البلع</span><span data-en>🫁 Oesophageal or chest pain when swallowing</span></div>
+          <div class="ci-extra">
+            <input type="text" name="تفاصيل_ألم_المريء" data-ph-ar="صف الألم — متى يحدث؟ مع الأكل أم في الراحة؟" data-ph-en="Describe the pain — when does it occur? With food or at rest?">
+          </div>
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="إرهاق يؤثر على الأكل/Fatigue limiting eating">
+        <div class="ci-label"><span data-ar>😴 إرهاق شديد يؤثر على الأكل</span><span data-en>😴 Fatigue limiting eating</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="اكتئاب/قلق يؤثر على الشهية/Depression or anxiety affecting appetite">
+        <div class="ci-label"><span data-ar>💭 اكتئاب أو قلق يؤثر على الشهية</span><span data-en>💭 Depression / anxiety affecting appetite</span></div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="ألم" value="نعم/Yes — Pain">
+        <div>
+          <div class="ci-label"><span data-ar>🤕 ألم في مكان ما</span><span data-en>🤕 Pain (in a specific area)</span></div>
+          <div class="ci-extra">
+            <input type="text" name="موضع_الألم" data-ph-ar="أين يكون الألم؟" data-ph-en="Where is the pain located?">
+          </div>
+        </div>
+      </label>
+
+      <label class="check-item" onclick="toggleCheck(this)">
+        <input type="checkbox" name="أعراض" value="لا أعراض/No symptoms limiting intake">
+        <div class="ci-label"><span data-ar>✅ لا توجد أعراض تؤثر على تناول الطعام</span><span data-en>✅ No symptoms limiting my intake</span></div>
+      </label>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SECTION D ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-badge"><span data-ar>القسم د</span><span data-en>Section D</span></div>
+      <h2><span data-ar>النشاط البدني والحيوية</span><span data-en>Function & Activity</span></h2>
+    </div>
+    <p class="section-sub">
+      <span data-ar>صف مستوى نشاطك وقدرتك على أداء المهام اليومية خلال الشهر الماضي.</span>
+      <span data-en>Describe your activity level and ability to perform daily tasks over the past month.</span>
+    </p>
+
+    <div class="field">
+      <label><span data-ar>خلال الشهر الماضي، نشاطك وطاقتك:</span><span data-en>Over the past month, your activity and energy:</span></label>
+      <div class="activity-list">
+        <label class="act-item" onclick="selectAct(this)">
+          <input type="radio" name="مستوى_النشاط" value="طبيعي تماماً/Normal — no limitations">
+          <span class="act-icon">🏃</span>
+          <div class="act-text">
+            <div class="act-title"><span data-ar>طبيعي — بدون أي قيود</span><span data-en>Normal — no limitations</span></div>
+            <div class="act-desc"><span data-ar>تقوم بكل أنشطتك المعتادة كالسابق</span><span data-en>You do all your usual activities as before</span></div>
+          </div>
+        </label>
+        <label class="act-item" onclick="selectAct(this)">
+          <input type="radio" name="مستوى_النشاط" value="ليس طبيعياً تماماً لكن متحرك/Not fully normal but up and about">
+          <span class="act-icon">🚶</span>
+          <div class="act-text">
+            <div class="act-title"><span data-ar>ليس طبيعياً تماماً، لكنك تتحرك</span><span data-en>Not fully normal but up and about</span></div>
+            <div class="act-desc"><span data-ar>تؤدي بعض الأنشطة لكن بجهد أكبر</span><span data-en>You do some activities but with more effort</span></div>
+          </div>
+        </label>
+        <label class="act-item" onclick="selectAct(this)">
+          <input type="radio" name="مستوى_النشاط" value="قادر على القليل، في السرير أقل من نصف اليوم/Able to do little — in bed less than half day">
+          <span class="act-icon">🛋️</span>
+          <div class="act-text">
+            <div class="act-title"><span data-ar>قادر على القليل — في السرير أقل من نصف اليوم</span><span data-en>Able to do little — in bed less than half day</span></div>
+            <div class="act-desc"><span data-ar>معظم وقتك جالس أو مستلقٍ</span><span data-en>Most of your time sitting or lying down</span></div>
+          </div>
+        </label>
+        <label class="act-item" onclick="selectAct(this)">
+          <input type="radio" name="مستوى_النشاط" value="في السرير أكثر من نصف اليوم/Mostly in bed more than half day">
+          <span class="act-icon">🛏️</span>
+          <div class="act-text">
+            <div class="act-title"><span data-ar>في السرير أكثر من نصف اليوم</span><span data-en>Mostly in bed more than half day</span></div>
+            <div class="act-desc"><span data-ar>تقضي معظم يومك مستلقياً</span><span data-en>You spend most of the day lying down</span></div>
+          </div>
+        </label>
+        <label class="act-item" onclick="selectAct(this)">
+          <input type="radio" name="مستوى_النشاط" value="شبه طريح الفراش/Almost entirely bedbound">
+          <span class="act-icon">🏥</span>
+          <div class="act-text">
+            <div class="act-title"><span data-ar>شبه طريح الفراش</span><span data-en>Almost entirely bedbound</span></div>
+            <div class="act-desc"><span data-ar>لا تكاد تغادر السرير</span><span data-en>You barely leave the bed</span></div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>المهام اليومية (السلالم، حمل الأشياء، العمل) أصبحت:</span><span data-en>Everyday tasks (stairs, carrying, work) are now:</span></label>
+      <div class="chips rose">
+        <input type="radio" id="dt1" name="المهام_اليومية" value="كالمعتاد/Unchanged"><label for="dt1"><span data-ar>كالمعتاد</span><span data-en>Unchanged</span></label>
+        <input type="radio" id="dt2" name="المهام_اليومية" value="أصعب من قبل/Harder than before"><label for="dt2"><span data-ar>أصعب من قبل</span><span data-en>Harder than before</span></label>
+        <input type="radio" id="dt3" name="المهام_اليومية" value="أصعب بكثير أو لا أستطيع/Much harder or cannot do"><label for="dt3"><span data-ar>أصعب بكثير / لا أستطيع فعلها</span><span data-en>Much harder / cannot do</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label><span data-ar>أي ملاحظات إضافية تود إضافتها؟</span><span data-en>Any additional notes you'd like to add?</span></label>
+      <textarea name="ملاحظات_إضافية" data-ph-ar="اكتب هنا أي معلومات أخرى تراها مهمة…" data-ph-en="Write any other information you think is important…"></textarea>
+    </div>
+  </div>
+
+  </form>
+
+  <!-- ═══════════════════════════════ SECTION E ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-badge"><span data-ar>القسم هـ</span><span data-en>Section E</span></div>
+      <h2><span data-ar>تفضيلاتك الغذائية</span><span data-en>Food Preferences</span></h2>
+    </div>
+    <p class="section-sub">
+      <span data-ar>هذه المعلومات تساعدنا في تصميم خطة غذائية تناسب ذوقك وتجعل الالتزام بها أسهل.</span>
+      <span data-en>This helps us design a plan that suits your taste and makes it easier to follow.</span>
+    </p>
+
+    <!-- Favourite foods -->
+    <div class="field">
+      <label>
+        <span data-ar>الأطعمة التي تحبينها وتستمتعين بتناولها ❤️ <span class="hint">(اختر كل ما ينطبق)</span></span>
+        <span data-en>Foods you enjoy and love to eat ❤️ <span class="hint">(check all that apply)</span></span>
+      </label>
+      <div class="check-grid">
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="أرز/Rice">
+          <div class="ci-label"><span data-ar>🍚 أرز</span><span data-en>🍚 Rice</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="دجاج/Chicken">
+          <div class="ci-label"><span data-ar>🍗 دجاج</span><span data-en>🍗 Chicken</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="أسماك/Fish">
+          <div class="ci-label"><span data-ar>🐟 أسماك</span><span data-en>🐟 Fish</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="خضروات مطبوخة/Cooked vegetables">
+          <div class="ci-label"><span data-ar>🥕 خضروات مطبوخة</span><span data-en>🥕 Cooked vegetables</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="بيض/Eggs">
+          <div class="ci-label"><span data-ar>🥚 بيض</span><span data-en>🥚 Eggs</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="شوربة/Soup">
+          <div class="ci-label"><span data-ar>🍲 شوربة</span><span data-en>🍲 Soup</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="فاكهة/Fruit">
+          <div class="ci-label"><span data-ar>🍎 فاكهة</span><span data-en>🍎 Fruit</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="بقوليات (عدس، فول)/Legumes (lentils, beans)">
+          <div class="ci-label"><span data-ar>🫘 بقوليات (عدس، فول، حمص)</span><span data-en>🫘 Legumes (lentils, beans, chickpeas)</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة" value="ألبان/Dairy (yoghurt, cheese)">
+          <div class="ci-label"><span data-ar>🧀 منتجات الألبان (زبادي، جبن)</span><span data-en>🧀 Dairy (yoghurt, cheese)</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_محببة_أخرى" value="نعم/Yes — Other favourites">
+          <div>
+            <div class="ci-label"><span data-ar>أطعمة محببة أخرى</span><span data-en>Other favourite foods</span></div>
+            <div class="ci-extra">
+              <input type="text" name="تفاصيل_محببة" data-ph-ar="اذكر أي أكل تحبيه…" data-ph-en="Mention any other foods you love…">
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Disliked foods -->
+    <div class="field">
+      <label>
+        <span data-ar>الأطعمة التي لا تحبينها أو ترفضينها تماماً 🚫 <span class="hint">(اختر كل ما ينطبق)</span></span>
+        <span data-en>Foods you dislike or completely refuse 🚫 <span class="hint">(check all that apply)</span></span>
+      </label>
+      <div class="check-grid">
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="كبدة/باطة/Liver or organ meats">
+          <div class="ci-label"><span data-ar>🥩 كبدة / أعضاء داخلية</span><span data-en>🥩 Liver / organ meats</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="أسماك/Fish">
+          <div class="ci-label"><span data-ar>🐟 أسماك</span><span data-en>🐟 Fish</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="خضروات نيئة/Raw vegetables">
+          <div class="ci-label"><span data-ar>🥗 خضروات نيئة</span><span data-en>🥗 Raw vegetables</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="بقوليات/Legumes">
+          <div class="ci-label"><span data-ar>🫘 بقوليات</span><span data-en>🫘 Legumes</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="ألبان/Dairy">
+          <div class="ci-label"><span data-ar>🥛 منتجات الألبان</span><span data-en>🥛 Dairy products</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة" value="بيض/Eggs">
+          <div class="ci-label"><span data-ar>🥚 بيض</span><span data-en>🥚 Eggs</span></div>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" name="أطعمة_مكروهة_أخرى" value="نعم/Yes — Other dislikes">
+          <div>
+            <div class="ci-label"><span data-ar>أطعمة مكروهة أخرى</span><span data-en>Other disliked foods</span></div>
+            <div class="ci-extra">
+              <input type="text" name="تفاصيل_مكروهة" data-ph-ar="اذكر أي أكل لا تحبيه…" data-ph-en="Mention any foods you dislike…">
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Free text preferences -->
+    <div class="field">
+      <label>
+        <span data-ar>هل هناك طريقة طبخ معينة تفضلينها؟ (مثلاً: مسلوق، مشوي، على البخار)</span>
+        <span data-en>Any cooking method you prefer? (e.g. boiled, grilled, steamed)</span>
+      </label>
+      <input type="text" name="طريقة_الطبخ" data-ph-ar="اكتبي طريقة الطبخ المفضلة لديك…" data-ph-en="Write your preferred cooking method…">
+    </div>
+
+    <div class="field">
+      <label>
+        <span data-ar>هل هناك أكل كنتِ تحبينه سابقاً لكنه يزيد أعراضك الآن؟</span>
+        <span data-en>Is there food you used to enjoy but now worsens your symptoms?</span>
+      </label>
+      <textarea name="أكل_كان_محبباً_ويزيد_الأعراض" data-ph-ar="مثلاً: كنت أحب الفول لكنه يسبب لي انتفاخاً الآن…" data-ph-en="e.g. I used to love beans but they now cause bloating…"></textarea>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button type="button" class="btn btn-wa" onclick="sendWhatsApp()">
+      📲 <span data-ar>إرسال الإجابات عبر الواتساب</span><span data-en>Send Answers via WhatsApp</span>
+    </button>
+    <button type="button" class="btn btn-print" onclick="window.print()">
+      🖨️ <span data-ar>حفظ / طباعة PDF</span><span data-en>Save / Print PDF</span>
+    </button>
+    <p class="note">
+      <span data-ar>بعد الانتهاء اضغط زر الواتساب وستُرسل إجاباتك مباشرة للدكتورة 💚</span>
+      <span data-en>When finished, press the WhatsApp button and your answers will be sent directly to the doctor 💚</span>
+    </p>
+  </div>
+
+  <footer>
+    <span data-ar>أ.د / <b>رندا رضا</b><br>مؤسِّسة وأستاذة ورئيسة سابقة لوحدة التغذية الإكلينيكية — كلية الطب، جامعة عين شمس</span>
+    <span data-en>Prof. <b>Randa Reda</b><br>Main Founder, Professor & Former Head, Clinical Nutrition Unit — Faculty of Medicine, Ain Shams University</span>
+  </footer>
+
+</div>
+
+<script>
+const form = document.getElementById('form');
+let currentLang = 'ar';
+
+/* ── Language ── */
+function setLang(lang){
+  currentLang = lang;
+  const isEn = lang === 'en';
+  document.body.classList.toggle('lang-en', isEn);
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', isEn ? 'ltr' : 'rtl');
+  document.getElementById('btnAr').classList.toggle('active', !isEn);
+  document.getElementById('btnEn').classList.toggle('active', isEn);
+  // update placeholders
+  document.querySelectorAll('[data-ph-ar]').forEach(el => {
+    el.placeholder = isEn ? el.getAttribute('data-ph-en') : el.getAttribute('data-ph-ar');
+  });
+  updateProgress();
+  calcBMI();
+}
+
+/* ── Check items ── */
+function toggleCheck(label){
+  const cb = label.querySelector('input[type=checkbox]');
+  if(!cb) return;
+  setTimeout(()=>{ label.classList.toggle('checked', cb.checked); updateProgress(); }, 0);
+}
+
+/* ── Activity ── */
+function selectAct(label){
+  document.querySelectorAll('.act-item').forEach(a => a.classList.remove('selected'));
+  setTimeout(()=>{ label.classList.add('selected'); updateProgress(); }, 0);
+}
+
+/* ── BMI ── */
+function calcBMI(){
+  const w = parseFloat(document.getElementById('wCurr').value);
+  const h = parseFloat(document.getElementById('hVal').value) / 100;
+  const box = document.getElementById('bmiBox');
+  const num = document.getElementById('bmiNum');
+  const tag = document.getElementById('bmiTag');
+  if(w > 0 && h > 0){
+    box.style.display = 'block';
+    const bmi = w / (h * h); num.textContent = bmi.toFixed(1);
+    let t, c;
+    const isEn = currentLang === 'en';
+    if(bmi < 18.5){t = isEn ? 'Underweight' : 'نقص في الوزن'; c = '#7aa6c2';}
+    else if(bmi < 25){t = isEn ? 'Healthy Weight 🌿' : 'وزن مثالي 🌿'; c = '#3a7d7b';}
+    else if(bmi < 30){t = isEn ? 'Overweight' : 'زيادة في الوزن'; c = '#b8923a';}
+    else {t = isEn ? 'Obesity' : 'سمنة'; c = '#c26b6b';}
+    tag.textContent = t; tag.style.background = c;
+  } else { box.style.display = 'none'; }
+}
+
+/* ── Progress ── */
+function updateProgress(){
+  const allFields = form.querySelectorAll('input, textarea');
+  const groups = {};
+  allFields.forEach(f => {
+    if(f.type === 'radio'){
+      groups[f.name] = groups[f.name] || (form.querySelector('[name="'+CSS.escape(f.name)+'"]:checked') != null);
+    } else if(f.type === 'checkbox'){
+      groups[f.name] = groups[f.name] || f.checked;
+    } else {
+      if(!groups[f.name]) groups[f.name] = f.value.trim() !== '';
+    }
+  });
+  const keys = Object.keys(groups);
+  const done = keys.filter(k => groups[k]).length;
+  const pct = Math.round(done / keys.length * 100);
+  document.getElementById('bar').style.width = pct + '%';
+  const lbl = document.getElementById('prog');
+  const isEn = currentLang === 'en';
+  if(pct === 0) lbl.textContent = isEn ? "Let's begin ✨" : 'ابدأ بتعبئة الاستبيان ✨';
+  else if(pct < 50) lbl.textContent = isEn ? `Good progress 💪 (${pct}%)` : `ماشيين تمام 💪 (${pct}%)`;
+  else if(pct < 100) lbl.textContent = isEn ? `Almost done! (${pct}%)` : `اقتربنا من النهاية! (${pct}%)`;
+  else lbl.textContent = isEn ? 'All done — ready to send 🎉' : 'تمام! جاهز للإرسال 🎉';
+}
+
+/* ── Build WhatsApp text ── */
+function buildText(){
+  const isEn = currentLang === 'en';
+  const data = {};
+
+  form.querySelectorAll('input, textarea').forEach(f => {
+    if(f.type === 'radio'){ if(f.checked) data[f.name] = f.value; }
+    else if(f.type === 'checkbox'){ if(f.checked){ data[f.name] = (data[f.name] ? data[f.name] + '، ' : '') + f.value; } }
+    else if(f.value.trim() !== ''){ data[f.name] = f.value.trim(); }
+  });
+
+  const bmi = document.getElementById('bmiNum').textContent;
+  const title = isEn
+    ? '📋 GI Inflammation — Nutrition Assessment (Sections A–D)\n— — — — — — — — —'
+    : '📋 استبيان التغذية — التهاب الجهاز الهضمي (أقسام أ–د)\n— — — — — — — — —';
+
+  let txt = title + '\n';
+  for(const k in data){
+    const label = k.replace(/_/g,' ');
+    txt += `• ${label}: ${data[k]}\n`;
+  }
+  if(bmi !== '—') txt += `• BMI: ${bmi}\n`;
+  return txt;
+}
+
+function sendWhatsApp(){
+  /* غيّري الرقم: wa.me/2010XXXXXXXX?text= */
+  window.open('https://wa.me/?text=' + encodeURIComponent(buildText()), '_blank');
+}
+
+/* ── Event listeners ── */
+form.querySelectorAll('input, textarea').forEach(f => {
+  f.addEventListener('input', () => { updateProgress(); calcBMI(); });
+  f.addEventListener('change', () => { updateProgress(); calcBMI(); });
+});
+
+updateProgress();
+</script>
+</body>
+</html>
