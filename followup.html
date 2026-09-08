@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متابعة تغيير العلاج | Medication Transition Follow-Up | د. رندا رضا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fbf7f0; --sand:#f3ead9; --olive:#5c6b4a; --olive-deep:#3f4a33;
+    --blush:#d98a73; --blush-soft:#f2d7cd; --gold:#c8a35b; --ink:#33352e;
+    --muted:#8a8675; --white:#fff;
+    --shadow:0 18px 45px -20px rgba(63,74,51,.45); --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Cairo','Poppins',sans-serif;
+    background:
+      radial-gradient(circle at 12% 10%, #fff 0, transparent 38%),
+      radial-gradient(circle at 88% 0%, var(--blush-soft) 0, transparent 30%),
+      radial-gradient(circle at 50% 120%, var(--sand) 0, transparent 55%),
+      var(--cream);
+    color:var(--ink); line-height:1.9; padding:26px 14px 70px; min-height:100vh;
+  }
+  body.lang-en{font-family:'Poppins',sans-serif}
+  .wrap{max-width:680px;margin:0 auto}
+
+  /* Language switch */
+  .lang-switch{display:flex;justify-content:center;gap:8px;margin-bottom:14px}
+  .lang-switch button{
+    border:1.5px solid var(--olive);background:#fff;color:var(--olive-deep);
+    font-family:inherit;font-weight:700;font-size:13.5px;padding:8px 18px;
+    border-radius:99px;cursor:pointer;transition:.2s;
+  }
+  .lang-switch button.active{background:var(--olive);color:#fff;box-shadow:0 6px 14px -6px rgba(92,107,74,.7)}
+
+  .hero{
+    background:linear-gradient(150deg,var(--olive),var(--olive-deep));
+    color:#fff;border-radius:var(--radius);padding:42px 30px 38px;text-align:center;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .hero::before{content:"";position:absolute;inset:0;opacity:.13;
+    background:radial-gradient(circle at 20% 20%,#fff 1px,transparent 1px) 0 0/22px 22px;}
+  .hero .leaf{font-size:30px;display:block;margin-bottom:8px}
+  .hero h1{font-weight:800;font-size:29px;letter-spacing:.3px;position:relative}
+  .hero p{font-weight:300;font-size:16px;margin-top:10px;opacity:.92;position:relative;max-width:450px;margin-inline:auto}
+  .hero .by{margin-top:16px;font-size:13px;color:var(--gold);font-weight:600;letter-spacing:.5px;position:relative}
+
+  .progress-shell{position:sticky;top:10px;z-index:20;margin:18px 0 4px}
+  .progress-track{height:9px;background:var(--sand);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+  .progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--blush),var(--gold));transition:width .4s ease;border-radius:99px}
+  .progress-label{text-align:center;font-size:13px;color:var(--muted);margin-top:6px;font-weight:500}
+
+  .card{background:var(--white);border-radius:var(--radius);padding:26px 24px;margin-top:20px;box-shadow:var(--shadow);border:1px solid #efe7d8}
+  .card h2{font-weight:800;font-size:21px;color:var(--olive-deep);display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .card .num{background:var(--blush-soft);color:var(--blush);font-weight:800;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:18px;flex:none}
+  .card .sub{color:var(--muted);font-size:14px;margin:0 0 18px 50px}
+  body.lang-en .card .sub{margin:0 0 18px 0;margin-inline-start:50px}
+
+  .field{margin-bottom:16px}
+  .field > label{display:block;font-weight:600;margin-bottom:7px;font-size:15px}
+  .field .hint{color:var(--muted);font-size:12.5px;font-weight:400}
+  input[type=text],input[type=number],input[type=tel],textarea,select{
+    width:100%;padding:12px 15px;border:1.5px solid #e6ddcb;border-radius:14px;
+    background:#fdfbf6;font-family:inherit;font-size:15px;color:var(--ink);transition:border .2s,box-shadow .2s}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 4px rgba(92,107,74,.12);background:#fff}
+  textarea{resize:vertical;min-height:64px}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .row .field{flex:1;min-width:130px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chips input{position:absolute;opacity:0;width:0;height:0}
+  .chips label{cursor:pointer;padding:9px 16px;border-radius:99px;border:1.5px solid #e6ddcb;background:#fdfbf6;font-size:14px;font-weight:600;transition:.18s;user-select:none}
+  .chips input:checked + label{background:var(--olive);color:#fff;border-color:var(--olive);box-shadow:0 6px 14px -6px rgba(92,107,74,.7);transform:translateY(-1px)}
+  .chips.blush input:checked + label{background:var(--blush);border-color:var(--blush);box-shadow:0 6px 14px -6px rgba(217,138,115,.7)}
+
+  /* health accordion list */
+  .health-list{display:flex;flex-direction:column;gap:10px}
+  .health-item{border:1.5px solid #e6ddcb;border-radius:14px;background:#fdfbf6;overflow:hidden;transition:.2s}
+  .health-item.open{border-color:var(--blush);background:#fff;box-shadow:0 8px 18px -12px rgba(217,138,115,.5)}
+  .hi-head{display:flex;align-items:center;gap:12px;padding:12px 15px;cursor:pointer;user-select:none}
+  .hi-head input{width:20px;height:20px;accent-color:var(--blush);flex:none;cursor:pointer}
+  .hi-name{font-weight:600;font-size:15px;flex:1}
+  .hi-chev{color:var(--muted);font-size:18px;transition:.2s}
+  .health-item.open .hi-chev{transform:rotate(180deg);color:var(--blush)}
+  .hi-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 15px}
+  .health-item.open .hi-detail{max-height:160px;padding:0 15px 14px}
+  .hi-detail input,.hi-detail textarea{font-size:14px}
+
+  .bmi-box{margin-top:6px;background:linear-gradient(135deg,var(--sand),#fff);border:1.5px dashed var(--gold);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+  .bmi-num{font-weight:800;font-size:30px;color:var(--olive-deep);line-height:1}
+  .bmi-label{font-size:13px;color:var(--muted)}
+  .bmi-tag{padding:6px 14px;border-radius:99px;font-size:13px;font-weight:700;color:#fff;background:var(--muted)}
+
+  .actions{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+  .btn{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:16px;padding:15px;border-radius:16px;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn-wa{background:#25a366;box-shadow:0 10px 22px -10px #25a366}
+  .btn-mail{background:var(--blush);box-shadow:0 10px 22px -10px var(--blush)}
+  .btn-print{background:var(--olive);box-shadow:0 10px 22px -10px var(--olive)}
+  .note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:14px}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:30px;line-height:2}
+  footer b{color:var(--olive-deep)}
+
+  [data-en]{display:none}
+  body.lang-en [data-ar]{display:none}
+  body.lang-en [data-en]{display:inline}
+  body.lang-en [data-en].block{display:block}
+
+  @media print{body{background:#fff;padding:0}.progress-shell,.actions,.note,.lang-switch{display:none}.card,.hero{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="lang-switch">
+    <button id="btnAr" class="active" onclick="setLang('ar')">العربية</button>
+    <button id="btnEn" onclick="setLang('en')">English</button>
+  </div>
+
+  <div class="hero">
+    <span class="leaf">🔄</span>
+    <h1><span data-ar>متابعة تغيير علاجك</span><span data-en>Your Medication Transition Follow-Up</span></h1>
+    <p>
+      <span data-ar>بتنتقلي من أوزمبيك لمونجارو — عايزين نتابع معاكِ الرحلة دي خطوة بخطوة عشان الانتقال يكون آمن وسلس 💚</span>
+      <span data-en>You're transitioning from Ozempic to Mounjaro — let's follow this step together so the switch is safe and smooth 💚</span>
+    </p>
+    <div class="by">
+      <span data-ar>إعداد أ.د / رندا رضا — أستاذ بكلية الطب، جامعة عين شمس</span>
+      <span data-en>Prepared by Prof. Randa Reda — Professor, Faculty of Medicine, Ain Shams University</span>
+    </div>
+  </div>
+
+  <div class="progress-shell">
+    <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+    <div class="progress-label" id="prog">
+      <span data-ar>يلا نبدأ ✨</span><span data-en>Let's begin ✨</span>
+    </div>
+  </div>
+
+  <form id="form">
+
+  <!-- 1 -->
+  <div class="card">
+    <h2><span class="num">1</span> <span data-ar>بياناتك</span><span data-en>Your Details</span></h2>
+    <p class="sub"><span data-ar>تأكيد سريع لبياناتك — المعلومات دي بتفضل سرية تماماً بينك وبين دكتورك.</span><span data-en>A quick check of your details — this stays completely confidential between you and your doctor.</span></p>
+    <div class="field"><label><span data-ar>الاسم</span><span data-en>Name</span></label><input type="text" name="الاسم"></div>
+    <div class="row">
+      <div class="field"><label><span data-ar>السن</span><span data-en>Age</span></label><input type="number" name="السن" min="14" max="100"></div>
+      <div class="field"><label><span data-ar>رقم الموبايل / الواتس</span><span data-en>Mobile / WhatsApp Number</span></label><input type="tel" name="الموبايل"></div>
+    </div>
+    <div class="field">
+      <label><span data-ar>النوع</span><span data-en>Gender</span></label>
+      <div class="chips">
+        <input type="radio" id="g1" name="النوع" value="أنثى/Female"><label for="g1"><span data-ar>أنثى</span><span data-en>Female</span></label>
+        <input type="radio" id="g2" name="النوع" value="ذكر/Male"><label for="g2"><span data-ar>ذكر</span><span data-en>Male</span></label>
+      </div>
+    </div>
+    <div class="field"><label><span data-ar>طبيعة شغلك / يومك <span class="hint">(مكتبي، واقف، مجهود بدني…)</span></span><span data-en>Nature of your job / day <span class="hint">(desk job, standing, physical effort…)</span></span></label><input type="text" name="الوظيفة"></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <h2><span class="num">2</span> <span data-ar>قياساتك</span><span data-en>Your Measurements</span></h2>
+    <p class="sub"><span data-ar>عشان نتابع تقدمك بالظبط من أول ما بدأتِ العلاج لحد دلوقتي.</span><span data-en>So we can track your progress precisely from when you started treatment until now.</span></p>
+    <div class="row">
+      <div class="field"><label><span data-ar>وزنك وانتِ بادئة الأوزمبيك (كجم)</span><span data-en>Your Weight When Starting Ozempic (kg)</span></label><input type="number" step="0.1" name="الوزن_بداية_أوزمبيك"></div>
+      <div class="field"><label><span data-ar>الوزن الحالي (كجم)</span><span data-en>Current Weight (kg)</span></label><input type="number" step="0.1" id="w" name="الوزن"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label><span data-ar>الطول (سم)</span><span data-en>Height (cm)</span></label><input type="number" id="h" name="الطول"></div>
+      <div class="field"><label><span data-ar>الوزن اللي بتتمناه (كجم)</span><span data-en>Goal Weight (kg)</span></label><input type="number" step="0.1" name="الوزن_المستهدف"></div>
+    </div>
+    <div class="bmi-box">
+      <div><div class="bmi-num" id="bmiNum">—</div><div class="bmi-label"><span data-ar>مؤشر كتلة الجسم (BMI)</span><span data-en>Body Mass Index (BMI)</span></div></div>
+      <div class="bmi-tag" id="bmiTag"><span data-ar>في انتظار البيانات</span><span data-en>Waiting for data</span></div>
+    </div>
+  </div>
+
+  <!-- 3: Medication Transition -->
+  <div class="card">
+    <h2><span class="num">3</span> <span data-ar>الانتقال من أوزمبيك إلى مونجارو</span><span data-en>Transitioning from Ozempic to Mounjaro</span></h2>
+    <p class="sub"><span data-ar>هنراجع معاكِ آخر مرحلة على أوزمبيك، وإزاي هتبدئي مونجارو بأمان.</span><span data-en>Let's review your last phase on Ozempic, and how you'll safely start Mounjaro.</span></p>
+
+    <div class="bmi-box" style="flex-wrap:wrap">
+      <div><div class="bmi-num" style="font-size:20px"><span data-ar>أوزمبيك</span><span data-en>Ozempic</span></div><div class="bmi-label"><span data-ar>آخر جرعة: ١ ملغ</span><span data-en>Last dose: 1 mg</span></div></div>
+      <div style="font-size:22px;color:var(--gold)">→</div>
+      <div><div class="bmi-num" style="font-size:20px"><span data-ar>مونجارو</span><span data-en>Mounjaro</span></div><div class="bmi-label"><span data-ar>الجرعة الجديدة: ٧.٥ ملغ</span><span data-en>Starting dose: 7.5 mg</span></div></div>
+    </div>
+
+    <div class="row" style="margin-top:16px">
+      <div class="field"><label><span data-ar>مدة استخدامك للأوزمبيك</span><span data-en>How long were you on Ozempic?</span></label><input type="text" name="مدة_الأوزمبيك" data-ph-ar="مثلاً: ٦ شهور" data-ph-en="e.g. 6 months"></div>
+      <div class="field"><label><span data-ar>تاريخ آخر إبرة أوزمبيك</span><span data-en>Date of last Ozempic dose</span></label><input type="text" name="تاريخ_آخر_أوزمبيك" data-ph-ar="يوم/شهر/سنة" data-ph-en="dd/mm/yyyy"></div>
+    </div>
+    <div class="field">
+      <label><span data-ar>سبب الانتقال لمونجارو</span><span data-en>Reason for switching to Mounjaro</span></label>
+      <div class="chips">
+        <input type="radio" id="rs1" name="سبب_التحويل" value="وصلت لمرحلة ثابتة/Plateaued on Ozempic"><label for="rs1"><span data-ar>ثبات الوزن</span><span data-en>Weight plateau</span></label>
+        <input type="radio" id="rs2" name="سبب_التحويل" value="أعراض جانبية/Side effects on Ozempic"><label for="rs2"><span data-ar>أعراض جانبية</span><span data-en>Side effects</span></label>
+        <input type="radio" id="rs3" name="سبب_التحويل" value="التوافر/التأمين/Availability or insurance"><label for="rs3"><span data-ar>التوافر / التأمين</span><span data-en>Availability / insurance</span></label>
+        <input type="radio" id="rs4" name="سبب_التحويل" value="نصيحة الطبيب/Doctor's recommendation"><label for="rs4"><span data-ar>نصيحة الدكتورة</span><span data-en>Doctor's advice</span></label>
+        <input type="radio" id="rs5" name="سبب_التحويل" value="سبب آخر/Other reason"><label for="rs5"><span data-ar>سبب تاني</span><span data-en>Other</span></label>
+      </div>
+    </div>
+    <div class="field"><label><span data-ar>هل كنتِ حاسة بأعراض جانبية مع الأوزمبيك؟ <span class="hint">(غثيان، إمساك، إسهال، إرهاق…)</span></span><span data-en>Did you experience side effects on Ozempic? <span class="hint">(nausea, constipation, diarrhea, fatigue…)</span></span></label><textarea name="أعراض_الأوزمبيك"></textarea></div>
+    <div class="field">
+      <label><span data-ar>مستوى الشهية دلوقتي</span><span data-en>Your appetite level right now</span></label>
+      <div class="chips blush">
+        <input type="radio" id="ap1" name="الشهية_الحالية" value="ضعيفة جداً/Very low"><label for="ap1"><span data-ar>ضعيفة جداً</span><span data-en>Very low</span></label>
+        <input type="radio" id="ap2" name="الشهية_الحالية" value="طبيعية إلى حد ما/Somewhat normal"><label for="ap2"><span data-ar>طبيعية لحد ما</span><span data-en>Somewhat normal</span></label>
+        <input type="radio" id="ap3" name="الشهية_الحالية" value="عادت زي الأول/Back to normal"><label for="ap3"><span data-ar>عادت زي الأول</span><span data-en>Back to normal</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>بدأتِ مونجارو فعلاً ولا لسه؟</span><span data-en>Have you started Mounjaro yet?</span></label>
+      <div class="chips">
+        <input type="radio" id="ms1" name="بدء_مونجارو" value="لسه لأ/Not yet"><label for="ms1"><span data-ar>لسه لأ</span><span data-en>Not yet</span></label>
+        <input type="radio" id="ms2" name="بدء_مونجارو" value="أخدت أول جرعة/Took first dose"><label for="ms2"><span data-ar>أخدت أول جرعة</span><span data-en>Took first dose</span></label>
+        <input type="radio" id="ms3" name="بدء_مونجارو" value="على جرعتين أو أكتر/On 2+ doses"><label for="ms3"><span data-ar>على جرعتين أو أكتر</span><span data-en>On 2+ doses</span></label>
+      </div>
+    </div>
+    <div class="field"><label><span data-ar>لو بدأتِ مونجارو، حسيتي بأي أعراض جديدة؟</span><span data-en>If started, any new symptoms with Mounjaro?</span></label><textarea name="أعراض_مونجارو" data-ph-ar="غثيان، دوخة، ألم مكان الحقن، صداع…" data-ph-en="Nausea, dizziness, injection-site pain, headache…"></textarea></div>
+    <div class="field"><label><span data-ar>عندك أي استفسارات أو مخاوف قبل الجرعة الجديدة؟</span><span data-en>Any questions or concerns before the new dose?</span></label><textarea name="مخاوف_الانتقال"></textarea></div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <h2><span class="num">4</span> <span data-ar>صحتك</span><span data-en>Your Health</span></h2>
+    <p class="sub"><span data-ar>هل في حاجة اتغيرت في صحتك من آخر مرة؟ علّم/ي على اللي عندك، واكتب/ي أي تفاصيل تحت كل حالة.</span><span data-en>Has anything changed in your health since last time? Check anything that applies, and add details under each condition.</span></p>
+
+    <div class="health-list">
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_السكر" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>السكر</span><span data-en>Diabetes</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_السكر" data-ph-ar="من إمتى؟ بتاخد/ي علاج؟ متحكّم فيه؟" data-ph-en="Since when? On treatment? Controlled?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_الضغط" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>الضغط</span><span data-en>Hypertension</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_الضغط" data-ph-ar="من إمتى؟ بتاخد/ي علاج؟ متحكّم فيه؟" data-ph-en="Since when? On treatment? Controlled?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_الكوليسترول" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>الكوليسترول / الدهون</span><span data-en>Cholesterol / Lipids</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_الكوليسترول" data-ph-ar="من إمتى؟ بتاخد/ي علاج؟" data-ph-en="Since when? On treatment?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_الغدة" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>الغدة الدرقية</span><span data-en>Thyroid</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_الغدة" data-ph-ar="خمول ولا نشاط؟ بتاخد/ي علاج؟" data-ph-en="Underactive or overactive? On treatment?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_القولون" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>القولون / الهضم</span><span data-en>Digestive / IBS</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_القولون" data-ph-ar="إيه اللي بيتعبك بالظبط؟" data-ph-en="What exactly bothers you?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="مرض_تكيس" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>تكيّس المبايض</span><span data-en>PCOS</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><input type="text" name="تفاصيل_تكيس" data-ph-ar="من إمتى؟ بتاخد/ي علاج؟" data-ph-en="Since when? On treatment?"></div>
+      </div>
+      <div class="health-item">
+        <label class="hi-head"><input type="checkbox" name="حالات_أخرى" value="نعم/Yes" onchange="toggleDetail(this)"><span class="hi-name"><span data-ar>أمراض أو حالات تانية حابب/ة تتكلم عنها</span><span data-en>Other conditions you'd like to mention</span></span><span class="hi-chev">⌄</span></label>
+        <div class="hi-detail"><textarea name="تفاصيل_حالات_أخرى" data-ph-ar="اكتب/ي هنا أي حاجة تخص صحتك حابب/ة دكتورك يعرفها…" data-ph-en="Write here anything about your health you'd like your doctor to know…"></textarea></div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:18px">
+      <label><span data-ar>تاريخ العيلة المرضي <span class="hint">(حد في العيلة عنده؟)</span></span><span data-en>Family Medical History <span class="hint">(does anyone in the family have these?)</span></span></label>
+      <div class="chips blush">
+        <input type="checkbox" id="fh1" name="تاريخ_العائلة" value="سكر/Diabetes"><label for="fh1"><span data-ar>سكر</span><span data-en>Diabetes</span></label>
+        <input type="checkbox" id="fh2" name="تاريخ_العائلة" value="ضغط/Hypertension"><label for="fh2"><span data-ar>ضغط</span><span data-en>Hypertension</span></label>
+        <input type="checkbox" id="fh3" name="تاريخ_العائلة" value="سمنة/Obesity"><label for="fh3"><span data-ar>سمنة</span><span data-en>Obesity</span></label>
+        <input type="checkbox" id="fh4" name="تاريخ_العائلة" value="أمراض قلب/Heart Disease"><label for="fh4"><span data-ar>أمراض قلب</span><span data-en>Heart Disease</span></label>
+        <input type="checkbox" id="fh5" name="تاريخ_العائلة" value="غدة درقية/Thyroid"><label for="fh5"><span data-ar>غدة درقية</span><span data-en>Thyroid</span></label>
+        <input type="checkbox" id="fh6" name="تاريخ_العائلة" value="كوليسترول/Cholesterol"><label for="fh6"><span data-ar>كوليسترول</span><span data-en>Cholesterol</span></label>
+      </div>
+    </div>
+    <div class="field"><label><span data-ar>تفاصيل تانية عن تاريخ العيلة (لو في)</span><span data-en>Other family history details (if any)</span></label><input type="text" name="تفاصيل_العائلة" data-ph-ar="مثلاً: الوالدة عندها سكر من النوع التاني…" data-ph-en="e.g. Mother has type 2 diabetes…"></div>
+    <div class="field"><label><span data-ar>أي أدوية أو مكملات بتاخدها بانتظام؟</span><span data-en>Any medications or supplements you take regularly?</span></label><input type="text" name="الأدوية" data-ph-ar="مثلاً: حبوب ضغط، فيتامين د…" data-ph-en="e.g. Blood pressure pills, vitamin D…"></div>
+    <div class="field"><label><span data-ar>عندك حساسية أو أكل ممنوع عليك؟</span><span data-en>Any allergies or foods you must avoid?</span></label><input type="text" name="الحساسية" data-ph-ar="مثلاً: لاكتوز، مكسرات، جلوتين…" data-ph-en="e.g. Lactose, nuts, gluten…"></div>
+    <div class="field">
+      <label><span data-ar>هل أنتِ حامل أو مرضعة حالياً؟ <span class="hint">(للسيدات فقط)</span></span><span data-en>Are you currently pregnant or breastfeeding? <span class="hint">(women only)</span></span></label>
+      <div class="chips">
+        <input type="radio" id="p1" name="حمل" value="لا/No"><label for="p1"><span data-ar>لا</span><span data-en>No</span></label>
+        <input type="radio" id="p2" name="حمل" value="حامل/Pregnant"><label for="p2"><span data-ar>حامل</span><span data-en>Pregnant</span></label>
+        <input type="radio" id="p3" name="حمل" value="مرضعة/Breastfeeding"><label for="p3"><span data-ar>مرضعة</span><span data-en>Breastfeeding</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <h2><span class="num">5</span> <span data-ar>آخر تحاليلك</span><span data-en>Your Latest Lab Results</span></h2>
+    <p class="sub"><span data-ar>مهم نتابع التحاليل قبل بدء أي جرعة جديدة. لو عملت/ي تحاليل قريبة، اكتب/ي النتايج هنا. ولو معاك صورة التحاليل، ابعتها مع رسالتك على الواتساب أو الإيميل 📎</span><span data-en>It's important to track labs before starting a new dose. If you've done recent labs, write the results here. If you have images, send them with your message on WhatsApp or email 📎</span></p>
+    <div class="field"><label><span data-ar>صورة دم كاملة (CBC)</span><span data-en>Complete Blood Count (CBC)</span></label><input type="text" name="تحليل_CBC" data-ph-ar="النتيجة أو أهم القيم… ولو هتبعت صورة اكتب/ي: مرفقة" data-ph-en="Result or key values… if attaching an image, write: attached"></div>
+    <div class="field"><label><span data-ar>تحليل الدهون الكامل (Total Lipid Profile)</span><span data-en>Total Lipid Profile</span></label><input type="text" name="تحليل_الدهون" data-ph-ar="الكوليسترول / الدهون الثلاثية / LDL / HDL… أو: مرفقة" data-ph-en="Cholesterol / Triglycerides / LDL / HDL… or: attached"></div>
+    <div class="field"><label><span data-ar>فيتامين د (Vitamin D)</span><span data-en>Vitamin D</span></label><input type="text" name="تحليل_فيتامين_د" data-ph-ar="القيمة بالـ ng/ml… أو: مرفقة" data-ph-en="Value in ng/ml… or: attached"></div>
+    <div class="field"><label><span data-ar>تحاليل تانية مهمة (لو في)</span><span data-en>Other important labs (if any)</span></label><input type="text" name="تحاليل_أخرى" data-ph-ar="مثلاً: سكر صائم، وظائف غدة، وظائف كبد…" data-ph-en="e.g. Fasting glucose, thyroid function, liver function…"></div>
+    <div class="field"><label><span data-ar>تاريخ آخر تحاليل تقريباً</span><span data-en>Approximate date of last labs</span></label><input type="text" name="تاريخ_التحاليل" data-ph-ar="مثلاً: الشهر اللي فات" data-ph-en="e.g. Last month"></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <h2><span class="num">6</span> <span data-ar>عاداتك في الأكل دلوقتي</span><span data-en>Your Current Eating Habits</span></h2>
+    <p class="sub"><span data-ar>اكتب/ي اللي بتعمليه فعلاً دلوقتي مع العلاج — الصراحة هي اللي هتساعدنا 💚</span><span data-en>Write what you're actually doing now with the treatment — honesty is what helps us most 💚</span></p>
+    <div class="field">
+      <label><span data-ar>بتاكل/ي كام وجبة في اليوم؟</span><span data-en>How many meals do you eat per day?</span></label>
+      <div class="chips">
+        <input type="radio" id="m1" name="عدد_الوجبات" value="1/1 meal"><label for="m1"><span data-ar>وجبة</span><span data-en>1 meal</span></label>
+        <input type="radio" id="m2" name="عدد_الوجبات" value="2/2 meals"><label for="m2"><span data-ar>وجبتين</span><span data-en>2 meals</span></label>
+        <input type="radio" id="m3" name="عدد_الوجبات" value="3/3 meals"><label for="m3"><span data-ar>٣ وجبات</span><span data-en>3 meals</span></label>
+        <input type="radio" id="m4" name="عدد_الوجبات" value="+3/More than 3"><label for="m4"><span data-ar>أكتر من ٣</span><span data-en>More than 3</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>بتفطر/ي الصبح؟</span><span data-en>Do you eat breakfast?</span></label>
+      <div class="chips">
+        <input type="radio" id="b1" name="الفطار" value="دايماً/Always"><label for="b1"><span data-ar>دايماً</span><span data-en>Always</span></label>
+        <input type="radio" id="b2" name="الفطار" value="أحياناً/Sometimes"><label for="b2"><span data-ar>أحياناً</span><span data-en>Sometimes</span></label>
+        <input type="radio" id="b3" name="الفطار" value="نادراً/Rarely"><label for="b3"><span data-ar>نادراً</span><span data-en>Rarely</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>بتشرب/ي كام كوباية مياه في اليوم؟</span><span data-en>How many glasses of water do you drink daily?</span></label>
+      <div class="chips">
+        <input type="radio" id="wt1" name="المياه" value="أقل من 4/Less than 4"><label for="wt1"><span data-ar>أقل من ٤</span><span data-en>Less than 4</span></label>
+        <input type="radio" id="wt2" name="المياه" value="4 لـ 8/4 to 8"><label for="wt2"><span data-ar>من ٤ لـ ٨</span><span data-en>4 to 8</span></label>
+        <input type="radio" id="wt3" name="المياه" value="أكتر من 8/More than 8"><label for="wt3"><span data-ar>أكتر من ٨</span><span data-en>More than 8</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>الأكل الجاهز / التيك أواي بتاكل/ي قد إيه؟</span><span data-en>How often do you eat fast food / takeout?</span></label>
+      <div class="chips blush">
+        <input type="radio" id="f1" name="فاست_فود" value="نادراً/Rarely"><label for="f1"><span data-ar>نادراً</span><span data-en>Rarely</span></label>
+        <input type="radio" id="f2" name="فاست_فود" value="مرة بالأسبوع/Once a week"><label for="f2"><span data-ar>مرة بالأسبوع</span><span data-en>Once a week</span></label>
+        <input type="radio" id="f3" name="فاست_فود" value="2-3 بالأسبوع/2-3 per week"><label for="f3"><span data-ar>٢-٣ بالأسبوع</span><span data-en>2-3 per week</span></label>
+        <input type="radio" id="f4" name="فاست_فود" value="يومياً تقريباً/Almost daily"><label for="f4"><span data-ar>يومياً تقريباً</span><span data-en>Almost daily</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>المشروبات السكرية (عصاير معلبة، غازية، قهوة بسكر)</span><span data-en>Sugary drinks (packaged juices, soda, sweetened coffee)</span></label>
+      <div class="chips blush">
+        <input type="radio" id="s1" name="سكريات" value="نادراً/Rarely"><label for="s1"><span data-ar>نادراً</span><span data-en>Rarely</span></label>
+        <input type="radio" id="s2" name="سكريات" value="كوب باليوم/One cup a day"><label for="s2"><span data-ar>كوب باليوم</span><span data-en>One cup a day</span></label>
+        <input type="radio" id="s3" name="سكريات" value="أكتر من كوب/More than one cup"><label for="s3"><span data-ar>أكتر من كوب</span><span data-en>More than one cup</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>بتاكل/ي بالليل قبل النوم؟</span><span data-en>Do you eat at night before sleeping?</span></label>
+      <div class="chips">
+        <input type="radio" id="n1" name="أكل_بالليل" value="لا/No"><label for="n1"><span data-ar>لا</span><span data-en>No</span></label>
+        <input type="radio" id="n2" name="أكل_بالليل" value="أحياناً/Sometimes"><label for="n2"><span data-ar>أحياناً</span><span data-en>Sometimes</span></label>
+        <input type="radio" id="n3" name="أكل_بالليل" value="دايماً/Always"><label for="n3"><span data-ar>دايماً</span><span data-en>Always</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-ar>بتلاقي نفسك بتاكل/ي بسبب التوتر أو الزهق؟ <span class="hint">(أكل عاطفي)</span></span><span data-en>Do you find yourself eating due to stress or boredom? <span class="hint">(emotional eating)</span></span></label>
+      <div class="chips blush">
+        <input type="radio" id="e1" name="أكل_عاطفي" value="لا/No"><label for="e1"><span data-ar>لا</span><span data-en>No</span></label>
+        <input type="radio" id="e2" name="أكل_عاطفي" value="أحياناً/Sometimes"><label for="e2"><span data-ar>أحياناً</span><span data-en>Sometimes</span></label>
+        <input type="radio" id="e3" name="أكل_عاطفي" value="كتير/A lot"><label for="e3"><span data-ar>كتير</span><span data-en>A lot</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card">
+    <h2><span class="num">7</span> <span data-ar>يومك الغذائي</span><span data-en>Your Daily Diet</span></h2>
+    <p class="sub"><span data-ar>افتكر/ي أكلك امبارح بالظبط — ده بيساعدني أفهم نظامك الحالي مع العلاج الجديد.</span><span data-en>Recall exactly what you ate yesterday — this helps me understand your current routine with the new treatment.</span></p>
+    <div class="field"><label><span data-ar>🌅 الفطار + معاده تقريباً</span><span data-en>🌅 Breakfast + approximate time</span></label><textarea name="وجبة_الفطار"></textarea></div>
+    <div class="field"><label><span data-ar>🍽️ الغدا + معاده تقريباً</span><span data-en>🍽️ Lunch + approximate time</span></label><textarea name="وجبة_الغدا"></textarea></div>
+    <div class="field"><label><span data-ar>🌙 العشا + معاده تقريباً</span><span data-en>🌙 Dinner + approximate time</span></label><textarea name="وجبة_العشا"></textarea></div>
+    <div class="field"><label><span data-ar>🍎 السناكس بين الوجبات (لو في)</span><span data-en>🍎 Snacks between meals (if any)</span></label><textarea name="السناكس"></textarea></div>
+  </div>
+
+  <!-- 7 -->
+  <div class="card">
+    <h2><span class="num">8</span> <span data-ar>حركتك ونومك</span><span data-en>Your Activity & Sleep</span></h2>
+    <p class="sub"><span data-ar>النشاط والنوم جزء أساسي من خطة إنقاص الوزن.</span><span data-en>Activity and sleep are a key part of the weight loss plan.</span></p>
+    <div class="field">
+      <label><span data-ar>مستوى نشاطك اليومي</span><span data-en>Your daily activity level</span></label>
+      <div class="chips">
+        <input type="radio" id="a1" name="النشاط" value="قليل (قاعد معظم اليوم)/Low (sitting most of the day)"><label for="a1"><span data-ar>قليل</span><span data-en>Low</span></label>
+        <input type="radio" id="a2" name="النشاط" value="متوسط/Moderate"><label for="a2"><span data-ar>متوسط</span><span data-en>Moderate</span></label>
+        <input type="radio" id="a3" name="النشاط" value="عالي (حركة/تمارين كتير)/High (lots of movement/exercise)"><label for="a3"><span data-ar>عالي</span><span data-en>High</span></label>
+      </div>
+    </div>
+    <div class="field"><label><span data-ar>بتمارس/ي رياضة؟ إيه ونوبها قد إيه؟</span><span data-en>Do you exercise? What kind and how often?</span></label><input type="text" name="الرياضة" data-ph-ar="مثلاً: مشي ٣ مرات بالأسبوع" data-ph-en="e.g. Walking 3 times a week"></div>
+    <div class="field">
+      <label><span data-ar>بتنام/ي كام ساعة في الليلة؟</span><span data-en>How many hours do you sleep per night?</span></label>
+      <div class="chips">
+        <input type="radio" id="z1" name="النوم" value="أقل من 5/Less than 5"><label for="z1"><span data-ar>أقل من ٥</span><span data-en>Less than 5</span></label>
+        <input type="radio" id="z2" name="النوم" value="6-7/6-7"><label for="z2"><span data-ar>٦-٧</span><span data-en>6-7</span></label>
+        <input type="radio" id="z3" name="النوم" value="8 أو أكتر/8 or more"><label for="z3"><span data-ar>٨ أو أكتر</span><span data-en>8 or more</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="card">
+    <h2><span class="num">9</span> <span data-ar>هدفك ودوافعك</span><span data-en>Your Goal & Motivation</span></h2>
+    <p class="sub"><span data-ar>آخر حاجة وأهم حاجة — عشان نظبط الخطة على المرحلة الجديدة من رحلتك.</span><span data-en>Last and most important — so we can tailor the plan to this new stage of your journey.</span></p>
+    <div class="field"><label><span data-ar>إيه أكتر أكل بتحب/ي وصعب تستغني عنه؟</span><span data-en>What food do you love most and find hard to give up?</span></label><input type="text" name="أكل_محبب"></div>
+    <div class="field"><label><span data-ar>في أكل مش بتحب/ي خالص؟</span><span data-en>Is there any food you dislike completely?</span></label><input type="text" name="أكل_مكروه"></div>
+    <div class="field"><label><span data-ar>جرّبت/ي تخس/ي قبل كده؟ وإيه اللي حصل؟</span><span data-en>Have you tried to lose weight before? What happened?</span></label><textarea name="محاولات_سابقة"></textarea></div>
+    <div class="field"><label><span data-ar>ما هو دافعك الأساسي لنزول الوزن؟</span><span data-en>What is your main motivation for losing weight?</span></label><textarea name="الدافع"></textarea></div>
+  </div>
+
+  </form>
+
+  <div class="actions">
+    <button type="button" class="btn btn-wa" onclick="sendWhatsApp()">📲 <span data-ar>إرسال الإجابات على الواتساب</span><span data-en>Send Answers via WhatsApp</span></button>
+    <button type="button" class="btn btn-mail" onclick="sendEmail()">✉️ <span data-ar>إرسال الإجابات على الإيميل</span><span data-en>Send Answers via Email</span></button>
+    <button type="button" class="btn btn-print" onclick="window.print()">🖨️ <span data-ar>حفظ / طباعة PDF</span><span data-en>Save / Print PDF</span></button>
+    <p class="note"><span data-ar>بعد ما تخلص/ي، اضغط/ي على أي زر وهتتبعت الإجابات لدكتورك تلقائياً 💚</span><span data-en>When you're done, tap any button and your answers will be sent to your doctor automatically 💚</span></p>
+  </div>
+
+  <footer>
+    <span data-ar>أ.د / <b>رندا رضا</b><br>أستاذ بكلية الطب – جامعة عين شمس<br>عضو مؤسس بالمجلس العلمي للتغذية الإكلينيكية بطب عين شمس</span>
+    <span data-en>Prof. <b>Randa Reda</b><br>Professor, Faculty of Medicine – Ain Shams University<br>Founding Member, Scientific Council of Clinical Nutrition, Ain Shams Faculty of Medicine</span>
+  </footer>
+
+</div>
+
+<script>
+  const form = document.getElementById('form');
+  const fields = form.querySelectorAll('input, textarea, select');
+  let currentLang = 'ar';
+
+  function setLang(lang){
+    currentLang = lang;
+    document.body.classList.toggle('lang-en', lang==='en');
+    document.getElementById('htmlRoot').setAttribute('lang', lang);
+    document.getElementById('htmlRoot').setAttribute('dir', lang==='ar'?'rtl':'ltr');
+    document.getElementById('btnAr').classList.toggle('active', lang==='ar');
+    document.getElementById('btnEn').classList.toggle('active', lang==='en');
+    // update placeholders
+    document.querySelectorAll('[data-ph-ar]').forEach(el=>{
+      el.placeholder = lang==='ar' ? el.getAttribute('data-ph-ar') : el.getAttribute('data-ph-en');
+    });
+    updateProgress();
+  }
+
+  function toggleDetail(cb){
+    const item = cb.closest('.health-item');
+    if(cb.checked) item.classList.add('open'); else item.classList.remove('open');
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const groups = {};
+    fields.forEach(f=>{
+      if(f.type==='radio'||f.type==='checkbox'){ groups[f.name]=groups[f.name]||(form.querySelector('[name="'+CSS.escape(f.name)+'"]:checked')!=null);}
+      else { groups[f.name]= f.value.trim()!=='';}
+    });
+    const keys=Object.keys(groups), done=keys.filter(k=>groups[k]).length;
+    const pct=Math.round(done/keys.length*100);
+    document.getElementById('bar').style.width=pct+'%';
+    const lbl=document.getElementById('prog');
+    const msgs = currentLang==='ar' ? {
+      0:'يلا نبدأ ✨', mid:(p)=>'ماشيين تمام 💪 ('+p+'%)', near:(p)=>'قربنا نخلّص! ('+p+'%)', done:'تمام كده، كله جاهز للإرسال 🎉'
+    } : {
+      0:"Let's begin ✨", mid:(p)=>'Great progress 💪 ('+p+'%)', near:(p)=>'Almost done! ('+p+'%)', done:"All set, ready to send 🎉"
+    };
+    if(pct===0) lbl.textContent=msgs[0];
+    else if(pct<50) lbl.textContent=msgs.mid(pct);
+    else if(pct<100) lbl.textContent=msgs.near(pct);
+    else lbl.textContent=msgs.done;
+  }
+
+  function calcBMI(){
+    const w=parseFloat(document.getElementById('w').value);
+    const h=parseFloat(document.getElementById('h').value)/100;
+    const num=document.getElementById('bmiNum'), tag=document.getElementById('bmiTag');
+    if(w>0&&h>0){
+      const bmi=w/(h*h); num.textContent=bmi.toFixed(1);
+      let t,c;
+      if(bmi<18.5){t=currentLang==='ar'?'نقص في الوزن':'Underweight';c='#7aa6c2';}
+      else if(bmi<25){t=currentLang==='ar'?'وزن مثالي 🌿':'Healthy weight 🌿';c='#5c6b4a';}
+      else if(bmi<30){t=currentLang==='ar'?'زيادة في الوزن':'Overweight';c='#c8a35b';}
+      else {t=currentLang==='ar'?'سمنة':'Obesity';c='#d98a73';}
+      tag.textContent=t; tag.style.background=c;
+    } else {
+      num.textContent='—';
+      tag.textContent=currentLang==='ar'?'في انتظار البيانات':'Waiting for data';
+      tag.style.background='var(--muted)';
+    }
+  }
+
+  fields.forEach(f=>{f.addEventListener('input',()=>{updateProgress();calcBMI();});f.addEventListener('change',()=>{updateProgress();calcBMI();});});
+
+  function buildText(){
+    const data={};
+    fields.forEach(f=>{
+      if(f.type==='radio'){ if(f.checked) data[f.name]=f.value; }
+      else if(f.type==='checkbox'){ if(f.checked){ data[f.name]=(data[f.name]?data[f.name]+'، ':'')+f.value; } }
+      else if(f.value.trim()!==''){ data[f.name]=f.value.trim(); }
+    });
+    const bmi=document.getElementById('bmiNum').textContent;
+    const title = currentLang==='ar' ? '📋 متابعة تغيير العلاج (أوزمبيك ← مونجارو)' : '📋 Medication Transition Follow-Up (Ozempic → Mounjaro)';
+    let txt=title+'\n— — — — — — — — —\n';
+    for(const k in data){ txt+='• '+k.replace(/_/g,' ')+': '+data[k]+'\n'; }
+    if(bmi!=='—') txt+='• BMI: '+bmi+'\n';
+    return txt;
+  }
+
+  function sendWhatsApp(){
+    const txt=encodeURIComponent(buildText());
+    /* عشان يروح لرقمك مباشرة: غيّري wa.me/?text=  لـ  wa.me/2010XXXXXXXX?text= */
+    window.open('https://wa.me/?text='+txt,'_blank');
+  }
+  function sendEmail(){
+    const body=encodeURIComponent(buildText());
+    const subject = currentLang==='ar' ? 'متابعة تغيير العلاج - أوزمبيك لمونجارو' : 'Medication Transition Follow-Up - Ozempic to Mounjaro';
+    window.location.href='mailto:randareda@gmail.com?subject='+encodeURIComponent(subject)+'&body='+body;
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
