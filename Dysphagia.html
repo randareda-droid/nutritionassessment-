@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caregiver Feeding Questionnaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500..700&family=Noto+Naskh+Arabic:wght@600;700&display=swap">
+<style>
+/* Layout: one question group per step, large type for a caregiver on a phone; a separate English clinician view opens with #clinician. */
+:root{
+  --bg:#F1F5F1; --surface:#FFFFFF; --surface2:#F5F8F5; --ink:#1D2A25; --muted:#586861; --line:#D3DDD6;
+  --accent:#2C6A50; --accent-ink:#FFFFFF; --accent-soft:#DDEBE2;
+  --warn:#8A5A00; --warn-soft:#FAEBC9; --bad:#B3261E; --bad-soft:#FBE0DC; --good:#23704A; --good-soft:#DCF0E4;
+  --wa:#1E8E57;
+  --hero-a:#2F7355; --hero-b:#163C2C; --hero-ink:#FFFFFF; --hero-gold:#E6CB85;
+  --f-display:'Literata','Noto Naskh Arabic',Georgia,serif; --f-body:'IBM Plex Sans Arabic','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1713; --surface:#15221C; --surface2:#1A2B23; --ink:#E4EEE8; --muted:#92A89C; --line:#29403A;
+  --accent:#6CC39A; --accent-ink:#06261A; --accent-soft:#183A2C;
+  --warn:#EDB95A; --warn-soft:#3B2E10; --bad:#FF8E80; --bad-soft:#431F1B; --good:#62CB91; --good-soft:#173A29; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1713; --surface:#15221C; --surface2:#1A2B23; --ink:#E4EEE8; --muted:#92A89C; --line:#29403A;
+  --accent:#6CC39A; --accent-ink:#06261A; --accent-soft:#183A2C;
+  --warn:#EDB95A; --warn-soft:#3B2E10; --bad:#FF8E80; --bad-soft:#431F1B; --good:#62CB91; --good-soft:#173A29; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font:400 16px/1.6 var(--f-body);-webkit-text-size-adjust:100%}
+.shell{max-width:860px;margin-inline:auto;padding-inline:16px;padding-block:20px 56px}
+.shell.clin{max-width:1040px;font-size:15px;line-height:1.5}
+h1{font:600 clamp(24px,5vw,32px)/1.25 var(--f-display);margin:0;text-wrap:balance}
+h2{font:600 22px/1.3 var(--f-display);margin:0;text-wrap:balance}
+h3{font:600 17px/1.35 var(--f-display);margin:0 0 12px;text-wrap:balance}
+p{margin:0}
+.sub{color:var(--muted);margin-top:6px;max-width:62ch}
+.credit{margin-top:10px;font-size:13px;color:var(--muted);max-width:70ch}.credit b{color:var(--ink);font-weight:600}
+.top{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.hero{position:relative;overflow:hidden;text-align:center;color:var(--hero-ink);border-radius:16px;padding:54px 22px 30px;margin-bottom:16px;
+  background:radial-gradient(circle at 15% 0%,rgba(255,255,255,.16) 0,transparent 42%),radial-gradient(circle at 100% 110%,rgba(230,203,133,.22) 0,transparent 45%),linear-gradient(150deg,var(--hero-a),var(--hero-b));
+  box-shadow:0 18px 40px -22px rgba(16,50,36,.7)}
+.hero::before{content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;background:radial-gradient(circle at 20% 20%,#fff 1px,transparent 1px) 0 0/22px 22px}
+.hero>*{position:relative}
+.hero h1{color:var(--hero-ink);font-size:clamp(25px,5.4vw,34px)}
+.hero .sub{color:rgba(255,255,255,.9);margin-inline:auto;margin-top:10px}
+.hero .credit{color:var(--hero-gold);margin:14px auto 0;font-size:13.5px}.hero .credit b{color:inherit}
+.hero .btn.ghost{position:absolute;top:14px;inset-inline-end:14px;color:#fff;border-color:rgba(255,255,255,.75);background:rgba(255,255,255,.1)}
+
+.btn{font:600 14px var(--f-body);padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:6px 12px;font-size:13px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.alert{background:var(--warn-soft);border:1px solid var(--warn);border-radius:8px;padding:12px 14px;font-size:14.5px;margin-bottom:12px}
+.alert.urgent{background:var(--bad-soft);border-color:var(--bad);font-weight:500}
+.steps{display:flex;gap:6px;overflow-x:auto;padding-block:6px 10px;margin-bottom:10px;scrollbar-width:thin}
+.st{flex:none;display:flex;align-items:center;gap:6px;font:500 13px var(--f-body);color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer}
+.st b{font-weight:600;font-variant-numeric:tabular-nums}
+.st.done b::after{content:" ✓";color:var(--good)}
+.st[aria-current=step]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.st[aria-current=step] b::after{color:var(--accent-ink)}
+.panel{display:flex;flex-direction:column;gap:14px}
+.grp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.intro{color:var(--muted);margin-top:4px}
+.q{padding-block:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-width:0}
+.q:first-child{border-top:0;padding-top:0}.q:last-child{padding-bottom:0}
+.ql{font-weight:500}
+.hint{font-size:13px;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative;display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 13px;cursor:pointer;background:var(--surface);font-size:14.5px;min-height:42px}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;font:400 15px var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-height:42px}
+textarea{resize:vertical;line-height:1.5}
+.inp{display:flex;align-items:center;gap:8px;max-width:300px}.inp i{font-style:normal;color:var(--muted);font-size:13px;white-space:nowrap}
+.cks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 16px}
+.ck{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}.ck input{margin-top:6px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+.note{background:var(--accent-soft);border-radius:8px;padding:11px 13px;font-size:14.5px}
+.note.warn{background:var(--warn-soft)}.note.bad{background:var(--bad-soft)}
+.pager{display:flex;justify-content:space-between;gap:8px;margin-top:4px}
+.mrow{display:grid;grid-template-columns:130px 1fr 150px 90px;gap:8px;align-items:center;padding-block:8px;border-top:1px solid var(--line)}
+.mrow:first-of-type{border-top:0}
+.mrow>b{font-weight:600;font-size:14px}
+@media (max-width:640px){.mrow{grid-template-columns:1fr 1fr}.mrow>b,.mrow .mf{grid-column:1/-1}}
+.med{border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px;background:var(--surface2)}
+.medh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.medh b{font:600 17px var(--f-display)}
+.medgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+.f>span{font-size:13.5px;font-weight:600}
+.x{border:0;background:none;color:var(--muted);font:500 13px var(--f-body);text-decoration:underline;cursor:pointer;padding:4px}
+.prog{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font:500 15px var(--f-body);text-align:start;width:100%;color:var(--ink)}
+.prow span:last-child{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13.5px}
+.prow.ok span:last-child{color:var(--good)}
+.advice{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.code{font:400 12px/1.4 ui-monospace,monospace;direction:ltr;text-align:left;min-height:140px}
+.msg{font-size:13.5px;color:var(--muted)}
+.foot{margin-top:24px;font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+/* clinician */
+.kvs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kv{background:var(--surface2);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kv span{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.kv b{font:600 19px var(--f-body);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kv small{font-size:12px;color:var(--muted)}
+[data-sev=high]{color:var(--bad)}[data-sev=mod]{color:var(--warn)}[data-sev=ok]{color:var(--good)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.chips{display:flex;flex-direction:column;gap:6px}
+.chip{display:flex;gap:10px;align-items:baseline;font-size:14px;padding:7px 10px;border-radius:6px;background:var(--surface2)}
+.chip::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.chip[data-sev=high]{background:var(--bad-soft);color:var(--ink)}.chip[data-sev=high]::before{background:var(--bad)}
+.chip[data-sev=mod]{background:var(--warn-soft);color:var(--ink)}.chip[data-sev=mod]::before{background:var(--warn)}
+.chip[data-sev=ok]{color:var(--ink)}.chip[data-sev=ok]::before{background:var(--good)}
+.tier{padding:12px 14px;border-radius:8px;font-weight:600}
+.tier[data-sev=high]{background:var(--bad-soft);color:var(--ink)}.tier[data-sev=mod]{background:var(--warn-soft);color:var(--ink)}.tier[data-sev=ok]{background:var(--good-soft);color:var(--ink)}
+.medrow{border-top:1px solid var(--line);padding-block:10px}.medrow:first-child{border-top:0}
+.medrow b{font-weight:600}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+[hidden]{display:none!important}
+
+.actions{display:flex;flex-direction:column;gap:10px}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.big{font-size:16px;padding:14px;width:100%}
+details.manual{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+details.manual>summary{cursor:pointer;font-weight:600;color:var(--accent)}
+@media print{
+ html,body{background:#fff!important}body{color:#000!important}
+ .steps,.pager,.actions,#urgent,#btnLang,details.manual,.alert{display:none!important}
+ .hero{background:#fff!important;box-shadow:none;border:1px solid #999}.hero,.hero *{color:#000!important}.hero::before{display:none}
+ .panel[hidden]{display:flex!important}
+ .shell{max-width:none;padding-inline:0}
+ .grp,.med{background:#fff!important;color:#000!important;break-inside:avoid;box-shadow:none}
+ input,textarea,select{background:#fff!important;color:#000!important;border-color:#999!important}
+ .opt{background:#fff!important;color:#000!important}.opt:has(input:checked){background:#ddd!important;font-weight:700}
+ .note,.credit,.hint,.intro,.sub{color:#000!important}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="shell" id="shell"><div id="app"></div></div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEY='rm-cg-v1';
+let S={},MODE='care',D={};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const lang=()=>S._lang==='en'?'en':'ar';
+const L=x=>Array.isArray(x)?(lang()==='en'?x[1]:x[0]):x;
+const EN=x=>Array.isArray(x)?x[1]:x;
+function base(){return{_lang:'ar',_step:0,pt_age:'28',pt_sex:'f',fill_date:today(),
+  md_dx:"مرض هنتنغتون (Huntington's disease) مؤكد بالفحص الجيني",md_allergy:'none',md_dbs:'y',
+  meds:[{name:'Haloperidol',ar:'هالوبيريدول',pre:'hal',fx:{}},{name:'Clonazepam',ar:'كلونازيبام',pre:'clo',fx:{}}],mr:{}};}
+function load(){let t=null;try{t=localStorage.getItem(KEY);}catch(e){}
+  try{S=t?Object.assign(base(),JSON.parse(t)):base();}catch(e){S=base();}
+  if(!Array.isArray(S.meds))S.meds=base().meds;if(!S.mr||typeof S.mr!=='object')S.mr={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const num=k=>{const v=S[k];if(v===undefined||v===null||v==='')return null;const n=parseFloat(v);return isFinite(n)?n:null;};
+const fx=(n,d=1)=>(n==null||!isFinite(n))?'—':n.toFixed(d);
+const pct=n=>n==null?'—':(n>0?'+':n<0?'−':'')+Math.abs(n).toFixed(1)+' %';
+const n0=n=>n==null||!isFinite(n)?'—':Math.round(n).toLocaleString('en-US');
+
+/* ---------- option sets ---------- */
+const O={
+ f4:[['n',['لا','No']],['s',['أحياناً','Sometimes']],['y',['نعم، كثيراً','Yes, often']],['u',['لا أعرف','Not sure']]],
+ yn:[['y',['نعم','Yes']],['n',['لا','No']]],
+ ynu:[['y',['نعم','Yes']],['n',['لا','No']],['u',['لا أعرف','Not sure']]],
+ yns:[['y',['نعم','Yes']],['s',['أحياناً','Sometimes']],['n',['لا','No']]],
+ abil:[['y',['نعم، بأمان','Yes, safely']],['d',['بصعوبة (يقع منها أو تسكب)','With difficulty (drops or spills)']],['n',['لا تستطيع','No']]],
+ tol:[['w',['تتناولها جيداً','Manages well']],['d',['بصعوبة','With difficulty']],['c',['لا تستطيع أو نتجنبها','Cannot, or we avoid it']],['x',['لم نجربها','Not tried']]],
+ hot:[['y',['نعم','Yes']],['s',['أحياناً','Sometimes']],['n',['لا','No']]]
+};
+const RF=['rf1','rf2','rf3','rf4','rf5'];
+/* ---------- sections ---------- */
+const SECS=[
+{id:'about',s:['البيانات','About'],t:['بيانات أساسية','Basic details'],intro:['نحتاج هذه البيانات لنعرف من يملأ الاستمارة وكيف نتواصل معكم.','So we know who is filling the form and how to reach you.'],items:[
+ {k:'pt_name',type:'text',t:['اسم المريضة','Patient name']},
+ {k:'pt_age',type:'num',t:['العمر','Age'],u:['سنة','years'],step:1},
+ {k:'pt_sex',type:'seg',o:[['f',['أنثى','Female']],['m',['ذكر','Male']]],t:['النوع','Sex']},
+ {k:'fill_name',type:'text',t:['اسمك (من يملأ الاستمارة)','Your name (person filling the form)']},
+ {k:'fill_rel',type:'seg',o:[['mom',['الأم','Mother']],['dad',['الأب','Father']],['sib',['أخ أو أخت','Sibling']],['carer',['مرافق/ة','Paid carer']],['oth',['آخر','Other']]],t:['صلتك بالمريضة','Your relation to her']},
+ {k:'fill_phone',type:'text',t:['رقم هاتف للتواصل','Phone number for follow-up']},
+ {k:'fill_date',type:'date',t:['تاريخ التعبئة','Date']},
+ {k:'fill_hrs',type:'num',t:['كم ساعة في اليوم تقضونها معها؟','Hours a day you are with her'],u:['ساعة','hours']},
+ {type:'note',t:['تم تعبئة بعض البيانات من التقرير الطبي (العمر، التشخيص، الأدوية). يُرجى تصحيح أي بيان غير دقيق.','Some details are filled in from the medical report (age, diagnosis, medicines). Please correct anything that is not right.']}
+]},
+{id:'swallow',s:['البلع','Swallowing'],t:['أمان البلع','Swallowing safety'],intro:['هذه أهم الأسئلة. تساعد الطبيب على معرفة هل الأكل عن طريق الفم آمن.','These are the most important questions. They tell the clinician whether eating by mouth is safe.'],items:[
+ {type:'chk',tone:'bad',t:['هل حدث أي مما يلي؟ (علامات خطر)','Has any of this happened? (warning signs)'],h:['إذا اخترتم أي بند: أوقفوا الإطعام الروتيني عن طريق الفم واطلبوا تقييماً طبياً عاجلاً.','If you tick any item: stop routine feeding by mouth and get urgent medical assessment.'],c:[
+  ['rf1',['اختناق أو سعال متكرر أثناء الأكل أو الشرب','Repeated choking or coughing while eating or drinking']],
+  ['rf2',['صعوبة في التنفس أثناء الأكل أو بعده','Difficulty breathing during or after meals']],
+  ['rf3',['لا تستطيع بلع لعابها','Cannot swallow her own saliva']],
+  ['rf4',['ازرقاق الشفاه','Blue lips']],
+  ['rf5',['يُشتبه أن الطعام أو السائل دخل إلى الرئة','Suspected food or liquid went into the lungs']]]},
+ {k:'sw_cough',type:'seg',o:'f4',t:['هل تسعل أو تختنق أثناء الأكل أو الشرب؟','Does she cough or choke while eating or drinking?']},
+ {k:'sw_thin',type:'seg',o:'f4',t:['هل يزيد السعال مع السوائل الرفيعة (ماء، عصير، لبن) أكثر من الطعام؟','Does she cough more with thin liquids (water, juice, milk) than with food?']},
+ {k:'sw_wet',type:'seg',o:'f4',t:['هل يصبح صوتها مبحوحاً أو مخرخراً (كأن فيه سائلاً) بعد البلع؟','Does her voice become wet, gurgly or hoarse after swallowing?']},
+ {k:'sw_pocket',type:'seg',o:'f4',t:['هل يبقى الطعام في خدّيها أو فمها بعد البلع؟','Does food stay in her cheeks or mouth after swallowing?']},
+ {k:'sw_drool',type:'seg',o:'f4',t:['هل يسيل لعابها أو تجد صعوبة في التحكم فيه؟','Does she drool or have trouble managing saliva?']},
+ {k:'sw_multi',type:'seg',o:'f4',t:['هل تحتاج إلى عدة بلعات للقمة الواحدة؟','Does she need several swallows for one bite?']},
+ {k:'sw_nasal',type:'seg',o:'f4',t:['هل يرجع الطعام أو السائل من الأنف؟','Does food or liquid come back through the nose?']},
+ {k:'sw_long',type:'seg',o:'f4',t:['هل تستغرق الوجبة أكثر من 30 إلى 45 دقيقة؟','Do meals take longer than 30 to 45 minutes?']},
+ {k:'sw_chest',type:'seg',o:'f4',t:['هل أُصيبت بالتهابات صدرية متكررة أو حرارة أو مشاكل تنفس غير مفسرة؟','Has she had repeated chest infections, fever or unexplained breathing problems?']},
+ {k:'sw_chestn',type:'num',if:'sw_chest=s|y',t:['كم التهاباً صدرياً في آخر سنة؟','How many chest infections in the last year?'],step:1},
+ {k:'sw_study',type:'seg',o:[['none',['لا','No']],['bed',['فحص بلع عند أخصائي','Bedside swallow check']],['vfss',['أشعة بلع بالصبغة (VFSS)','X-ray swallow study (VFSS)']],['fees',['منظار بلع (FEES)','Endoscopic swallow study (FEES)']],['u',['لا أعرف','Not sure']]],t:['هل أُجري لها تقييم للبلع من قبل؟','Has she ever had a swallowing assessment?']},
+ {k:'sw_studyd',type:'area',if:'sw_study=bed|vfss|fees',t:['التاريخ والنتيجة إن عُرفت','Date and result, if known']},
+ {k:'sw_rx',type:'seg',o:'ynu',t:['هل وصف طبيب قواماً معيناً للطعام أو سُمك السوائل؟','Has a clinician prescribed a food texture or liquid thickness?']},
+ {k:'sw_rxt',type:'area',if:'sw_rx=y',t:['ما الذي وُصف؟','What was prescribed?']},
+ {type:'note',tone:'warn',t:['لا تغيّروا قوام الطعام، ولا تضيفوا مثخّناً أو نشا للسوائل من تلقاء أنفسكم دون استشارة مختص.','Please do not change food textures or thicken liquids on your own without professional advice.']}
+]},
+{id:'move',s:['الحركة','Movement'],t:['الحركات اللاإرادية والقدرة على الأكل','Movements and ability to eat'],intro:['نريد أن نفهم كيف تؤثر الحركات على الجلوس والأكل والشرب.','We want to understand how the movements affect sitting, eating and drinking.'],items:[
+ {k:'ch_sev',type:'seg',o:[['m',['خفيفة','Mild']],['d',['متوسطة','Moderate']],['s',['شديدة','Severe']],['v',['شديدة جداً','Very severe']]],t:['ما شدة الحركات اللاإرادية؟','How severe are the involuntary movements?']},
+ {type:'chk',t:['متى تزداد الحركات؟','When are the movements worse?'],c:[['ch_t1',['في الصباح','Morning']],['ch_t2',['بعد الظهر','Afternoon']],['ch_t3',['في المساء','Evening']],['ch_t4',['عند التعب أو التوتر','When tired or stressed']],['ch_t5',['أثناء الوجبات','During meals']],['ch_t6',['لا يوجد نمط','No pattern']]]},
+ {k:'ch_sit',type:'seg',o:[['y',['نعم بمفردها','Yes, on her own']],['s',['بدعم (وسائد أو شخص)','With support (cushions or a person)']],['n',['لا','No']]],t:['هل تستطيع الجلوس منتصبة بأمان؟','Can she sit upright safely?']},
+ {k:'ch_cup',type:'seg',o:'abil',t:['هل تستطيع الإمساك بكوب أو ملعقة؟','Can she hold a cup or utensil?']},
+ {k:'ch_mouth',type:'seg',o:'abil',t:['هل تستطيع إيصال الطعام إلى فمها بأمان؟','Can she bring food to her mouth safely?']},
+ {k:'ch_assist',type:'seg',o:[['none',['لا تحتاج مساعدة','No help needed']],['setup',['تجهيز فقط (تقطيع الطعام، فتح العبوات)','Setup only (cutting food, opening packs)']],['part',['إطعام جزئي','Partial feeding']],['full',['إطعام كامل','Fully fed']]],t:['هل تحتاج مساعدة في الأكل؟','Does she need help with feeding?']},
+ {k:'ch_tire',type:'seg',o:'f4',t:['هل تتعب أثناء الوجبة؟','Does she get tired during meals?']},
+ {k:'ch_alert',type:'seg',o:[['a',['دائماً منتبهة ومتعاونة','Always alert and cooperative']],['u',['غالباً','Usually']],['s',['تنعس أحياناً','Sometimes drowsy']],['o',['تنعس أو ترفض كثيراً','Often drowsy or refuses']]],t:['هل هي منتبهة ومتعاونة وقت الأكل؟','Is she alert and cooperative at mealtimes?']},
+ {k:'ch_follow',type:'seg',o:'yns',t:['هل تفهم وتنفذ تعليمات مثل: لقمة صغيرة، ابلعي؟','Can she understand and follow instructions such as "small bite" and "swallow"?']},
+ {k:'ch_note',type:'area',t:['ملاحظات أخرى عن الحركة أو الأكل','Anything else about movement or eating']}
+]},
+{id:'foods',s:['الأطعمة','Foods'],t:['ما تتناوله الآن','What she can manage now'],intro:['اختاروا الأقرب لحالتها لكل نوع.','Choose the closest answer for each type.'],items:[
+ {k:'tl_thin',type:'seg',o:'tol',t:['سوائل رفيعة (ماء، عصير، شاي)','Thin liquids (water, juice, tea)']},
+ {k:'tl_thick',type:'seg',o:'tol',t:['سوائل مُثخّنة','Thickened liquids']},
+ {k:'tl_puree',type:'seg',o:'tol',t:['أطعمة ناعمة مهروسة (زبادي، بطاطس مهروسة، شوربة مصفاة)','Smooth puréed foods (yogurt, mashed potato, strained soup)']},
+ {k:'tl_soft',type:'seg',o:'tol',t:['أطعمة طرية (بيض، أرز طري، خضار مسلوقة)','Soft foods (eggs, soft rice, boiled vegetables)']},
+ {k:'tl_mince',type:'seg',o:'tol',t:['أطعمة مفرومة ورطبة','Minced and moist foods']},
+ {k:'tl_reg',type:'seg',o:'tol',t:['أطعمة عادية أو صلبة (خبز مقرمش، لحم، خضار نيئة)','Regular or hard foods (crusty bread, meat, raw vegetables)']},
+ {k:'tl_safe',type:'area',t:['ما الأطعمة التي تبلعها بأمان؟','Which foods does she swallow safely?']},
+ {k:'tl_hard',type:'area',t:['ما الأطعمة أو المشروبات التي تسبب صعوبة؟','Which foods or drinks cause difficulty?']},
+ {k:'tl_portion',type:'seg',o:[['t',['كمية صغيرة جداً','Very small']],['s',['صغيرة','Small']],['h',['نصف طبق','Half a plate']],['f',['طبق كامل','Full plate']]],t:['ما حجم الوجبة التي تستطيع تناولها؟','What portion size can she manage?']},
+ {k:'tl_refuse',type:'area',t:['أطعمة ترفضها أو لا تحبها','Foods she refuses or dislikes']},
+ {k:'tl_chew',type:'seg',o:'f4',t:['هل تعاني من مشاكل في المضغ؟','Does she have chewing problems?']},
+ {k:'tl_dpain',type:'seg',o:'ynu',t:['هل تشتكي من ألم في الأسنان؟','Does she have dental pain?']},
+ {k:'tl_dent',type:'seg',o:[['own',['أسنانها سليمة','Own teeth, in good repair']],['dok',['طقم أسنان مناسب','Dentures that fit well']],['dbad',['طقم غير مناسب أو لا تلبسه','Dentures fit poorly or not worn']],['miss',['أسنان ناقصة بدون تركيبة','Missing teeth, no dentures']]],t:['حالة الأسنان','Teeth']}
+]},
+{id:'weight',s:['الوزن','Weight'],t:['الوزن والشهية وأكل اليوم','Weight, appetite and a typical day'],intro:['إذا لم تعرفوا رقماً اتركوه فارغاً. لا تخمنوا.','If you do not know a number, leave it empty. Please do not guess.'],items:[
+ {k:'nu_wt',type:'num',t:['الوزن الحالي','Current weight'],u:['كجم','kg']},
+ {k:'nu_ht',type:'num',t:['الطول','Height'],u:['سم','cm']},
+ {k:'nu_how',type:'seg',o:[['h',['ميزان منزلي','Home scale']],['c',['عيادة أو مستشفى','Clinic or hospital']],['e',['تقدير','Estimate']]],t:['كيف عُرف الوزن؟','How was the weight measured?']},
+ {k:'nu_wusual',type:'num',t:['الوزن المعتاد قبل المرض أو قبل النقصان','Usual weight before the loss'],u:['كجم','kg']},
+ {k:'nu_w1',type:'num',t:['الوزن قبل شهر','Weight 1 month ago'],u:['كجم','kg']},
+ {k:'nu_w3',type:'num',t:['الوزن قبل 3 أشهر','Weight 3 months ago'],u:['كجم','kg']},
+ {k:'nu_w6',type:'num',t:['الوزن قبل 6 أشهر','Weight 6 months ago'],u:['كجم','kg']},
+ {k:'nu_lossn',type:'area',t:['إذا فقدت وزناً: كم استغرق ذلك؟ وهل كان مقصوداً؟','If she lost weight: how quickly, and was it intended?']},
+ {k:'nu_app',type:'seg',o:[['1',['ضعيفة جداً','Very poor']],['2',['ضعيفة','Poor']],['3',['متوسطة','Fair']],['4',['جيدة','Good']],['5',['جيدة جداً','Very good']]],t:['كيف شهيتها؟','How is her appetite?']},
+ {k:'nu_eaten',type:'seg',o:[['q1',['أقل من ربع','Under a quarter']],['q2',['ربع إلى نصف','A quarter to a half']],['q3',['نصف إلى ثلاثة أرباع','Half to three quarters']],['q4',['معظمها','Most or all']]],t:['كم تأكل عادة من الوجبة؟','How much of a meal does she usually eat?']},
+ {k:'nu_meals',type:'num',t:['عدد الوجبات والوجبات الخفيفة في اليوم','Meals and snacks per day'],step:1},
+ {k:'nu_mealmin',type:'num',t:['مدة الوجبة المعتادة','Usual time for one meal'],u:['دقيقة','min'],step:1},
+ {k:'nu_dec',type:'seg',o:[['n',['لا','No decrease']],['m',['نقص متوسط','Moderate decrease']],['s',['نقص شديد','Severe decrease']]],t:['هل قلّ أكلها في آخر 3 أشهر؟','Has her food intake fallen in the last 3 months?']},
+ {type:'chk',t:['هل لاحظتم؟','Have you noticed?'],c:[['nu_m1',['نحافة واضحة في الذراعين أو الساقين','Visibly thinner arms or legs']],['nu_m2',['ضعف في العضلات','Weakness']],['nu_m3',['نشاط أقل من قبل','Less activity than before']]]},
+ {k:'nu_mal',type:'seg',o:'ynu',t:['هل شُخّص لديها سوء تغذية من قبل؟','Has she ever been diagnosed with malnutrition?']},
+ {type:'meals'}
+]},
+{id:'fluids',s:['السوائل','Fluids'],t:['شرب السوائل','Fluids'],intro:['كل ما تشربه على مدار اليوم، حتى لو كان مُثخّناً.','Everything she drinks across the day, including thickened drinks.'],items:[
+ {k:'hy_cups',type:'num',t:['كم كوباً تشرب في اليوم (كل السوائل)؟','How many cups does she drink in 24 hours (all fluids)?'],step:.5},
+ {k:'hy_ml',type:'seg',o:[['150',['كوب صغير','Small cup (about 150 mL)']],['200',['متوسط','Medium (about 200 mL)']],['250',['كبير','Large (about 250 mL)']],['300',['مج','Mug (about 300 mL)']]],t:['حجم الكوب المعتاد','Usual cup size']},
+ {type:'chk',t:['ما أنواع السوائل؟','Which fluids?'],c:[['hy_t1',['ماء','Water']],['hy_t2',['شاي أو قهوة','Tea or coffee']],['hy_t3',['عصير','Juice']],['hy_t4',['لبن','Milk']],['hy_t5',['شوربة','Soup']],['hy_t6',['مكملات غذائية سائلة','Liquid nutrition supplements']]]},
+ {k:'hy_thick',type:'text',t:['نوع وقوام السوائل (كما وصفه المختص إن وُجد)','Type and thickness of liquids (as prescribed, if any)']},
+ {k:'hy_urine',type:'seg',o:[['a',['4 مرات أو أكثر','4 or more times']],['b',['مرتان إلى ثلاث','2 to 3 times']],['c',['مرة أو أقل','Once or less']]],t:['كم مرة تتبول في اليوم؟','How often does she pass urine in a day?']},
+ {k:'hy_dark',type:'seg',o:'f4',t:['هل لون البول غامق؟','Is her urine dark?']},
+ {type:'chk',t:['هل تعاني من؟','Does she have?'],c:[['hy_s1',['دوخة','Dizziness']],['hy_s2',['جفاف الفم','Dry mouth']],['hy_s3',['إمساك','Constipation']],['hy_s4',['إرهاق غير معتاد','Unusual tiredness']]]},
+ {k:'hy_rest',type:'seg',o:[['n',['لا','No']],['y',['نعم','Yes']],['u',['لا أعرف','Not sure']]],t:['هل منع الطبيب السوائل أو حدّدها بسبب القلب أو الكلى؟','Has a doctor restricted fluids because of heart or kidney disease?']},
+ {k:'hy_restt',type:'text',if:'hy_rest=y',t:['ما هو الحد المسموح؟','What is the limit?']},
+ {type:'note',t:['الطبيب أو أخصائي التغذية هو من يحدد كمية السوائل المناسبة لها.','The doctor or dietitian will set the right fluid amount for her.']}
+]},
+{id:'health',s:['الصحة','Health'],t:['التاريخ الصحي','Medical history'],intro:['','' ],items:[
+ {k:'md_dx',type:'text',t:['التشخيص كما قاله الأطباء','Diagnosis as told by the doctors']},
+ {k:'md_neuro',type:'area',t:['حالتها العصبية الآن (المشي، الكلام، الحركة)','Her neurological state now (walking, speech, movement)']},
+ {k:'md_asp',type:'seg',o:'ynu',t:['هل أُصيبت من قبل بالتهاب رئوي أو دخلت المستشفى بسبب التهاب صدري؟','Has she had pneumonia or a hospital stay for a chest infection?']},
+ {type:'chk',t:['أعراض هضمية','Digestive symptoms'],c:[['gi1',['حموضة أو ارتجاع','Reflux or heartburn']],['gi2',['غثيان','Nausea']],['gi3',['قيء','Vomiting']],['gi4',['إسهال','Diarrhea']],['gi5',['إمساك','Constipation']],['gi6',['انتفاخ أو ألم في البطن','Bloating or belly pain']]]},
+ {type:'chk',t:['هل لديها؟','Does she also have?'],c:[['dc1',['سكري','Diabetes']],['dc2',['أمراض كلى','Kidney disease']],['dc3',['أمراض قلب','Heart disease']],['dc4',['ضغط مرتفع','High blood pressure']],['dc5',['أنيميا','Anemia']],['dc6',['مشكلة بالغدة الدرقية','Thyroid problem']],['dc7',['صرع أو تشنجات','Seizures']],['dc8',['اكتئاب أو قلق','Depression or anxiety']]]},
+ {k:'md_allergy',type:'seg',o:[['none',['لا توجد حساسية','No known allergy']],['y',['توجد','Yes']],['u',['لا أعرف','Not sure']]],t:['الحساسية الغذائية أو الدوائية','Allergies']},
+ {k:'md_allt',type:'text',if:'md_allergy=y',t:['اكتبوا نوع الحساسية','What is she allergic to?']},
+ {k:'md_intol',type:'text',t:['أطعمة لا تتحملها (مثل اللاكتوز)','Foods she does not tolerate (for example lactose)']},
+ {k:'md_dbs',type:'seg',o:'ynu',t:['هل لديها جهاز تحفيز عميق للمخ (DBS)؟','Does she have a deep brain stimulation (DBS) device?']},
+ {k:'md_dbsc',type:'area',if:'md_dbs=y',t:['هل تغيّر البلع أو الكلام أو الحركة بعد برمجة الجهاز أو تعديله؟','Did swallowing, speech or movement change after the device was programmed or adjusted?']},
+ {k:'md_oth',type:'area',t:['أي معلومات صحية أخرى تودون ذكرها','Anything else about her health']}
+]},
+{id:'meds',s:['الأدوية','Medicines'],t:['الأدوية','Medicines'],intro:['اكتبوا كل ما تتناوله: أدوية، فيتامينات، أعشاب، ملينات. أحضروا العلب أو الروشتة معكم.','List everything she takes: medicines, vitamins, herbs, laxatives. Please bring the boxes or prescription.'],items:[{type:'meds'}]},
+{id:'home',s:['البيت','At home'],t:['البيئة والمساعدة','Feeding environment and help'],intro:['','' ],items:[
+ {type:'chk',t:['من يُعدّ الوجبات؟','Who prepares meals?'],c:[['ep1',['الأم','Mother']],['ep2',['الأب','Father']],['ep3',['أخ أو أخت','Sibling']],['ep4',['مرافق/ة','Paid carer']],['ep5',['هي بنفسها','She does']]]},
+ {type:'chk',t:['من يشرف عليها أو يساعدها وقت الأكل؟','Who supervises or helps at mealtimes?'],c:[['es1',['الأم','Mother']],['es2',['الأب','Father']],['es3',['أخ أو أخت','Sibling']],['es4',['مرافق/ة','Paid carer']],['es5',['لا أحد، تأكل وحدها','No one, she eats alone']]]},
+ {k:'en_seat',type:'seg',o:[['t',['تجلس منتصبة على طاولة','Sits upright at a table']],['s',['بدعم أو وسائد','With cushions or support']],['n',['على السرير أو كرسي مريح فقط','In bed or an armchair only']]],t:['أين وكيف تجلس وقت الأكل؟','Where and how does she sit to eat?']},
+ {k:'en_quiet',type:'seg',o:'yns',t:['هل المكان هادئ وقت الأكل؟','Is mealtime quiet and calm?']},
+ {type:'chk',t:['هل تستخدمون أدوات مساعدة؟','Do you use adaptive equipment?'],c:[['eq1',['أدوات أكل مساعدة','Adapted utensils']],['eq2',['حصيرة لا تنزلق','Non-slip mat']],['eq3',['طبق بحافة','Plate guard']],['eq4',['كوب بغطاء أو مقبض','Lidded or handled cup']],['eq5',['كرسي خاص','Special chair']],['eq6',['لا شيء','None']]]},
+ {k:'en_know',type:'seg',o:'yns',t:['هل تعرفون علامات الاختناق أو دخول الطعام إلى الرئة؟','Can you recognise the warning signs of choking or aspiration?']},
+ {k:'en_aid',type:'seg',o:'yns',t:['هل تعرفون ماذا تفعلون إذا اختنقت؟','Do you know what to do if she chokes?']},
+ {k:'en_train',type:'seg',o:'yn',t:['هل ترغبون في تدريب على الإطعام الآمن؟','Would you like training in safe feeding?']},
+ {k:'en_ppl',type:'area',t:['كم شخصاً يساعد، وما أوقات توفرهم؟','How many people help, and when are they available?']}
+]},
+{id:'prefs',s:['التفضيلات','Preferences'],t:['التفضيلات والظروف العملية','Preferences and practical matters'],intro:['','' ],items:[
+ {k:'pf_cult',type:'area',t:['احتياجات دينية أو ثقافية في الطعام (مثل الصيام)','Cultural or religious food needs (for example fasting)']},
+ {k:'pf_fav',type:'area',t:['أطعمتها المفضلة','Favorite foods']},
+ {k:'pf_dis',type:'area',t:['أطعمة لا تحبها أو ترفضها','Foods she dislikes or refuses']},
+ {k:'pf_diet',type:'seg',o:[['n',['لا قيود','No restriction']],['v',['نباتي','Vegetarian']],['vg',['نباتي صرف','Vegan']],['p',['سمك بدون لحوم','Pescatarian']],['o',['آخر','Other']]],t:['النمط الغذائي','Dietary pattern']},
+ {k:'pf_bud',type:'seg',o:[['t',['ميزانية محدودة','Tight budget']],['m',['متوسطة','Moderate']],['g',['مريحة','Comfortable']]],t:['ميزانية الطعام','Food budget']},
+ {type:'chk',t:['ما المتاح في المطبخ؟','What is available in the kitchen?'],c:[['ck1',['موقد','Stove']],['ck2',['فرن','Oven']],['ck3',['خلاط أو محضر طعام','Blender or food processor']],['ck4',['ثلاجة','Refrigerator']],['ck5',['ميكروويف','Microwave']]]},
+ {k:'pf_sched',type:'area',t:['جدول اليوم وأوقات توفر من يرعاها','Daily schedule and when carers are available']},
+ {k:'pf_goal',type:'area',t:['ما الذي تفضله هي، وما أهدافها؟','What does she prefer, and what are her goals?']},
+ {k:'pf_worry',type:'area',t:['ما أكثر ما يقلقكم بخصوص تغذيتها؟','What worries you most about her feeding?']}
+]},
+{id:'review',s:['الإرسال','Send'],t:['المراجعة والإرسال','Review and send'],custom:'review'}
+];
+const ITEM={},KEYS=[];
+SECS.forEach(s=>(s.items||[]).forEach(it=>{if(it.k){ITEM[it.k]=it;it.sec=s.id;}if(it.type==='chk')it.c.forEach(c=>{ITEM[c[0]]={k:c[0],type:'ck',t:c[1],sec:s.id};});if(it.k&&(it.type==='seg'||it.type==='num')&&!it.if)KEYS.push(it.k);}));
+const SLOTS=[['bf',['الفطار','Breakfast']],['s1',['وجبة خفيفة صباحاً','Morning snack']],['ln',['الغداء','Lunch']],['s2',['وجبة خفيفة بعد الظهر','Afternoon snack']],['dn',['العشاء','Dinner']],['s3',['قبل النوم','Before bed']]];
+const EATEN=[['a',['كل الكمية','All']],['m',['معظمها','Most']],['h',['نصفها','Half']],['l',['القليل','A little']],['n',['لم تأكل','None']]];
+const FORMS=[['tab',['قرص','Tablet']],['cap',['كبسولة','Capsule']],['syr',['شراب','Syrup']],['drp',['نقط','Drops']],['inj',['حقن','Injection']],['oth',['آخر','Other']]];
+const MEALR=[['b',['قبل الأكل','Before meals']],['w',['مع الأكل','With meals']],['a',['بعد الأكل','After meals']],['u',['لا أعرف','Not sure']]];
+const SWAL=[['y',['تبلعه بسهولة','Swallows it easily']],['d',['بصعوبة','With difficulty']],['n',['لا تستطيع بلعه','Cannot swallow it']]];
+const CRUSH=[['n',['لا، يُبلع كما هو','No, swallowed whole']],['c',['يُسحق','Crushed']],['m',['يُخلط بالطعام أو الشراب','Mixed into food or drink']],['o',['تُفتح الكبسولة','Capsule opened']]];
+const FX=[['sleepy',['نعاس','Sleepiness']],['dry',['جفاف الفم','Dry mouth']],['drool',['زيادة سيلان اللعاب','More drooling']],['nausea',['غثيان','Nausea']],['appetite',['قلة الشهية','Poor appetite']],['constip',['إمساك','Constipation']],['stiff',['تيبس أو بطء الحركة','Stiffness or slowness']],['restless',['عدم استقرار أو تململ','Restlessness']],['dizzy',['دوخة','Dizziness']],['swallow',['صعوبة البلع بعد الجرعة','Harder to swallow after the dose']]];
+const MEDINFO={
+ hal:['قد يسبب هذا الدواء عند بعض المرضى: نعاساً، جفاف الفم، إمساكاً، تيبساً أو بطئاً في الحركة، وصعوبة أو بطئاً في البلع. يُرجى ملاحظة أي تغيّر بعد الجرعة وإخبار الطبيب.','In some people this medicine can cause sleepiness, dry mouth, constipation, stiffness or slowness, and slowed or harder swallowing. Please watch for changes after each dose and tell the doctor.'],
+ clo:['قد يسبب هذا الدواء عند بعض المرضى: نعاساً، عدم اتزان، وزيادة سيلان اللعاب أو بطئاً في البلع. يُرجى ملاحظة أي تغيّر بعد الجرعة وإخبار الطبيب.','In some people this medicine can cause sleepiness, unsteadiness, more drooling or slowed swallowing. Please watch for changes after each dose and tell the doctor.']
+};
+
+/* ---------- caregiver rendering ---------- */
+const optsOf=it=>typeof it.o==='string'?O[it.o]:it.o;
+function itemHTML(it){
+  const cond=it.if?` data-if="${it.if}"`:'';
+  if(it.type==='note')return `<div class="note ${it.tone||''}"${cond}>${L(it.t)}</div>`;
+  if(it.type==='meals')return mealsHTML();
+  if(it.type==='meds')return medsHTML();
+  if(it.type==='chk')return `<div class="q"${cond}><div class="ql">${L(it.t)}</div>${it.h?`<p class="hint">${L(it.h)}</p>`:''}<div class="${it.tone==='bad'?'note bad':''}"><div class="cks">${it.c.map(c=>`<label class="ck"><input type="checkbox" data-k="${c[0]}" id="f_${c[0]}"><span>${L(c[1])}</span></label>`).join('')}</div></div></div>`;
+  const lab=`<div class="ql" id="l_${it.k}">${L(it.t)}</div>`;
+  let body='';
+  if(it.type==='seg')body=`<div class="seg" role="radiogroup" aria-labelledby="l_${it.k}">${optsOf(it).map(a=>`<label class="opt"><input type="radio" name="r_${it.k}" data-k="${it.k}" value="${a[0]}"><span>${L(a[1])}</span></label>`).join('')}</div>`;
+  else if(it.type==='num')body=`<div class="inp"><input type="number" inputmode="decimal" min="0" step="${it.step||'any'}" data-k="${it.k}" id="f_${it.k}" aria-labelledby="l_${it.k}">${it.u?`<i>${L(it.u)}</i>`:''}</div>`;
+  else if(it.type==='text')body=`<input type="${'text'}" data-k="${it.k}" id="f_${it.k}" aria-labelledby="l_${it.k}">`;
+  else if(it.type==='date')body=`<div class="inp"><input type="date" data-k="${it.k}" id="f_${it.k}" aria-labelledby="l_${it.k}"></div>`;
+  else body=`<textarea rows="3" data-k="${it.k}" id="f_${it.k}" aria-labelledby="l_${it.k}"></textarea>`;
+  return `<div class="q"${cond}>${lab}${body}</div>`;
+}
+function mealsHTML(){
+  const r=S.mr||{};
+  return `<div class="q"><div class="ql">${L(['ماذا أكلت وشربت في يوم عادي؟','What did she eat and drink on a typical day?'])}</div><p class="hint">${L(['اكتبوا نوع الطعام والكمية بمقاييس البيت (ملعقة، كوب، رغيف). اتركوا الخانة فارغة إن لم تتناول شيئاً.','Write the food and amount in household measures (spoon, cup, loaf). Leave a row empty if she ate nothing.'])}</p>
+  <div>${SLOTS.map(s=>{const v=r[s[0]]||{};return `<div class="mrow"><b>${L(s[1])}</b>
+  <input class="mf" type="text" data-mr="${s[0]}" data-f="food" aria-label="${esc(L(s[1]))}" value="${esc(v.food||'')}" placeholder="${esc(L(['الطعام والكمية','Food and amount']))}">
+  <select data-mr="${s[0]}" data-f="eat" aria-label="${esc(L(['الكمية المأكولة','Amount eaten']))}"><option value="">${L(['كم أكلت؟','Amount eaten?'])}</option>${EATEN.map(e=>`<option value="${e[0]}"${v.eat===e[0]?' selected':''}>${L(e[1])}</option>`).join('')}</select>
+  <input type="number" min="0" inputmode="numeric" data-mr="${s[0]}" data-f="min" aria-label="${esc(L(['الدقائق','Minutes']))}" placeholder="${esc(L(['دقيقة','min']))}" value="${esc(v.min||'')}"></div>`;}).join('')}</div>
+  <div style="margin-top:10px" class="seg" role="radiogroup" aria-label="${esc(L(['هل كان اليوم عادياً؟','Was it typical?']))}">${[['y',['كان يوماً عادياً','A typical day']],['n',['لم يكن عادياً','Not typical']]].map(a=>`<label class="opt"><input type="radio" name="r_mr_typ" data-k="mr_typ" value="${a[0]}"><span>${L(a[1])}</span></label>`).join('')}</div></div>`;
+}
+function medsHTML(){
+  const info=`<div class="note warn">${L(['لا توقفوا أي دواء ولا تغيّروا الجرعة ولا تسحقوه أو تخلطوه بالطعام قبل سؤال الطبيب أو الصيدلي.','Do not stop any medicine, change the dose, or crush it or mix it into food before asking the doctor or pharmacist.'])}</div>
+  <div class="note">${L(['ذُكر في التقرير أن دواء تيترابينازين (Tetrabenazine) غير متوفر في مصر وقت كتابته. إذا كانت تتناول أي دواء آخر للحركات اللاإرادية فأضيفوه.','The report notes that tetrabenazine was not available in Egypt at the time. If she takes any other medicine for the movements, please add it.'])}</div>`;
+  const cards=S.meds.map((m,i)=>{
+    const ex=m.pre&&MEDINFO[m.pre];
+    const sel=(f,arr)=>`<select data-med="${i}" data-f="${f}"><option value=""></option>${arr.map(a=>`<option value="${a[0]}"${m[f]===a[0]?' selected':''}>${L(a[1])}</option>`).join('')}</select>`;
+    return `<div class="med"><div class="medh"><b>${m.pre?esc(m.name)+' ('+esc(m.ar)+')':esc(m.name)||L(['دواء آخر','Another medicine'])}</b><button class="x" type="button" data-delmed="${i}">${L(['إزالة','Remove'])}</button></div>
+    ${m.pre?'':`<label class="f"><span>${L(['اسم الدواء','Medicine name'])}</span><input type="text" data-med="${i}" data-f="name" value="${esc(m.name||'')}"></label>`}
+    ${ex?`<div class="note">${L(ex)}</div>`:''}
+    <div class="medgrid">
+     <label class="f"><span>${L(['الشكل','Form'])}</span>${sel('form',FORMS)}</label>
+     <label class="f"><span>${L(['الجرعة كما هي مكتوبة','Dose as written on the box'])}</span><input type="text" data-med="${i}" data-f="dose" value="${esc(m.dose||'')}"></label>
+     <label class="f"><span>${L(['كم مرة ومتى تُعطى؟','How many times, and when?'])}</span><input type="text" data-med="${i}" data-f="times" value="${esc(m.times||'')}"></label>
+     <label class="f"><span>${L(['التوقيت مع الأكل','Timing with meals'])}</span>${sel('meal',MEALR)}</label>
+     <label class="f"><span>${L(['هل تبلعه بأمان؟','Can she swallow it safely?'])}</span>${sel('swallow',SWAL)}</label>
+     <label class="f"><span>${L(['هل يُسحق أو يُخلط؟','Is it crushed or mixed?'])}</span>${sel('crush',CRUSH)}</label>
+    </div>
+    <div class="f"><span>${L(['هل لاحظتم بعد الجرعة؟','Have you noticed after the dose?'])}</span><div class="cks">${FX.map(f=>`<label class="ck"><input type="checkbox" data-med="${i}" data-fx="${f[0]}"${m.fx&&m.fx[f[0]]?' checked':''}><span>${L(f[1])}</span></label>`).join('')}</div></div></div>`;}).join('');
+  return `<div class="q">${info}</div><div class="q" style="gap:14px">${cards}<div><button class="btn ghost" type="button" id="addMed">${L(['إضافة دواء أو مكمل','Add a medicine or supplement'])}</button></div></div>`;
+}
+function reviewHTML(){return `
+ <div class="grp"><h3>${L(['ما تمت تعبئته','What you have completed'])}</h3><div class="prog" id="prog"></div></div>
+ <div class="grp"><h3>${L(['إلى أن توضع الخطة','Until the plan is ready'])}</h3><ul class="advice">${[
+  ['استمروا على نفس قوام الطعام والسوائل الذي كانت تتناوله بأمان.','Keep giving the same food and drink textures she has been managing safely.'],
+  ['أجلسوها منتصبة أثناء الأكل وبعده بنصف ساعة.','Sit her upright for meals and for half an hour afterward.'],
+  ['لقمات صغيرة وبدون استعجال. لا تُطعموها وهي نعسانة أو مشتتة.','Small bites, no rushing. Do not feed her when she is drowsy or distracted.'],
+  ['توقفوا عن الإطعام إذا سعلت أو تغيّر صوتها بعد البلع.','Pause feeding if she coughs or her voice sounds wet after swallowing.'],
+  ['لا تسحقوا الأدوية ولا تخلطوها بالطعام دون سؤال الصيدلي أو الطبيب.','Do not crush medicines or mix them into food without asking the pharmacist or doctor.'],
+  ['عند أي علامة خطر (اختناق متكرر، صعوبة تنفس، ازرقاق الشفاه) اطلبوا الطبيب فوراً.','For any warning sign (repeated choking, breathing difficulty, blue lips) get medical help straight away.']
+ ].map(a=>`<li>${L(a)}</li>`).join('')}</ul></div>
+ <div class="grp"><h3>${L(['إرسال الإجابات إلى Dr Randa','Send your answers to Dr Randa'])}</h3>
+ <p class="hint" style="margin-bottom:12px">${L(['اضغطوا على أحد الأزرار وستفتح رسالة جاهزة فيها إجاباتكم. بعدها اضغطوا إرسال داخل التطبيق. لا تُرسل الإجابات قبل ذلك.','Press one of the buttons and a ready message with your answers opens. Then press send inside the app. Nothing is sent before that.'])}</p>
+ <div class="actions">
+  <button class="btn wa big" type="button" id="btnWa">${L(['إرسال الإجابات عبر واتساب','Send answers via WhatsApp'])}</button>
+  <button class="btn big" type="button" id="btnMail">${L(['إرسال الإجابات عبر البريد الإلكتروني','Send answers via email'])}</button>
+  <button class="btn ghost big" type="button" id="btnPrint">${L(['حفظ أو طباعة PDF','Save or print as PDF'])}</button>
+ </div>
+ <p class="msg" id="sendMsg" role="status" style="margin-top:10px"></p>
+ <details class="manual"><summary>${L(['إن لم تعمل الأزرار: انسخوا النص وأرسلوه بأنفسكم','If the buttons do not work: copy the text and send it yourself'])}</summary>
+ <p class="hint" style="margin:8px 0">${L(['انسخوا النص كاملاً كما هو، بما فيه السطر الأخير، وأرسلوه في واتساب إلى Dr Randa. لا تعدلوا فيه.','Copy the whole text as it is, including the last line, and send it to Dr Randa on WhatsApp. Do not edit it.'])}</p>
+ <textarea class="code" id="codeBox" readonly rows="8" aria-label="${esc(L(['نص الإجابات','Answer text']))}"></textarea>
+ <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn ghost" type="button" id="btnCopy">${L(['نسخ الإجابات','Copy answers'])}</button><span class="msg" id="copyMsg" role="status"></span></div></details></div>`;}
+function buildCare(){
+  const app=$('#app');
+  app.innerHTML=`<header class="hero"><div><h1>${L(['استمارة التغذية والبلع','Feeding and swallowing questionnaire'])}</h1><p class="sub">${L(['تملؤها الأم أو من يرعى المريضة، قبل أن تضع Dr Randa خطة التغذية. تستغرق نحو 20 دقيقة ويمكن إكمالها على مراحل.','Filled in by her mother or carer before Dr Randa arranges her feeding. It takes about 20 minutes and you can finish it in stages.'])}</p><p class="credit"><b>${L(['أعدّت هذه الاستمارة أ.د. رانده عبد الوهاب رضا مبروك لتقييم الحالة التغذوية للمريضة.','Created by Professor Randa Reda Mabrouk for the nutritional assessment of the patient.'])}</b><br>${L(['أستاذ ورئيس سابق ومؤسس وحدة التغذية الإكلينيكية — كلية الطب جامعة عين شمس','Professor, Founder and Former Head of the Clinical Nutrition Unit, Faculty of Medicine, Ain Shams University'])}</p></div>
+  <button class="btn ghost sm" type="button" id="btnLang">${lang()==='ar'?'English':'العربية'}</button></header>
+  <div class="alert urgent" id="urgent" hidden>${L(['تنبيه عاجل: ذكرتم علامة خطر. أوقفوا الإطعام الروتيني عن طريق الفم واطلبوا تقييماً طبياً عاجلاً (الإسعاف 123).','Urgent: you reported a warning sign. Stop routine feeding by mouth and get urgent medical assessment (ambulance 123 in Egypt).'])}</div>
+  <div class="steps" id="steps" role="tablist">${SECS.map((s,i)=>`<button class="st" type="button" data-step="${i}" id="st_${s.id}"><b>${i+1}</b><span>${L(s.s)}</span></button>`).join('')}</div>
+  <main>${SECS.map((s,i)=>`<section class="panel" id="p_${s.id}" hidden><div class="grp"><h2>${L(s.t)}</h2>${L(s.intro||['',''])?`<p class="intro">${L(s.intro)}</p>`:''}</div>
+  ${s.custom==='review'?reviewHTML():`<div class="grp">${s.items.map(itemHTML).join('')}</div>`}
+  <div class="pager">${i>0?`<button class="btn ghost" type="button" data-go="${i-1}">${L(['السابق','Back'])}</button>`:'<span></span>'}${i<SECS.length-1?`<button class="btn" type="button" data-go="${i+1}">${L(['التالي','Next'])}</button>`:''}</div></section>`).join('')}</main>
+  <footer class="foot"><p>${L(['أعدّت هذه الاستمارة أ.د. رانده عبد الوهاب رضا مبروك لتقييم الحالة التغذوية للمريضة. أستاذ ورئيس سابق ومؤسس وحدة التغذية الإكلينيكية — كلية الطب جامعة عين شمس.','Created by Professor Randa Reda Mabrouk for the nutritional assessment of the patient. Professor, Founder and Former Head of the Clinical Nutrition Unit, Faculty of Medicine, Ain Shams University.'])}</p><p>${L(['إجاباتكم محفوظة على هذا الجهاز ولا تُرسل لأي جهة إلا بعد أن تضغطوا أحد أزرار الإرسال وتؤكدوا الإرسال داخل التطبيق.','Your answers are saved on this device. They are sent only after you press a send button and confirm inside the app.'])}</p>
+  <p>${L(['هذه الاستمارة تجمع معلومات ولا تغني عن تقييم الطبيب أو الأخصائي.','This form collects information. It does not replace assessment by a doctor or specialist.'])}</p></footer>`;
+  $('#shell').className='shell';$('#shell').dir=lang()==='ar'?'rtl':'ltr';$('#shell').lang=lang();
+}
+function showStep(i){
+  i=Math.max(0,Math.min(SECS.length-1,i));S._step=i;
+  SECS.forEach((s,j)=>{const p=$('#p_'+s.id);if(p)p.hidden=j!==i;const b=$('#st_'+s.id);if(b){if(j===i)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');}});
+  save();updCare();
+  const st=$('#st_'+SECS[i].id);if(st&&st.scrollIntoView)st.scrollIntoView({block:'nearest',inline:'center'});
+}
+function secStat(s){const ks=KEYS.filter(k=>ITEM[k].sec===s.id);const a=ks.filter(k=>S[k]!==undefined&&S[k]!=='').length;return{a,t:ks.length};}
+function medsDone(){return S.meds.some(m=>m.name&&(m.dose||m.times));}
+const MAIL='randareda@gmail.com';
+const WA_NUMBER=''; /* To send straight to one WhatsApp number, set this to the number with country code, for example '2010XXXXXXXX'. Empty lets the sender pick the contact. */
+function answersObj(){const o={};Object.keys(S).forEach(k=>{if(k[0]!=='_'&&k.slice(0,3)!=='cl_')o[k]=S[k];});return o;}
+const b64=bytes=>{let t='';for(let i=0;i<bytes.length;i+=8192)t+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192));return btoa(t);};
+const unb64=t=>Uint8Array.from(atob(t),c=>c.charCodeAt(0));
+async function pipe(bytes,stream){const w=stream.writable.getWriter();w.write(bytes);w.close();return new Uint8Array(await new Response(stream.readable).arrayBuffer());}
+let CODE='',codeTimer=null,codeSeq=0;
+function codeSync(){return 'RDA1:'+b64(new TextEncoder().encode(JSON.stringify(answersObj())))+':END';}
+function refreshCode(){
+  CODE=codeSync();
+  if(typeof CompressionStream==='undefined'||typeof Response==='undefined')return;
+  clearTimeout(codeTimer);const seq=++codeSeq;
+  codeTimer=setTimeout(async()=>{try{
+    const z=await pipe(new TextEncoder().encode(JSON.stringify(answersObj())),new CompressionStream('deflate-raw'));
+    const c='RDA2:'+b64(z).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')+':END';
+    if(seq===codeSeq&&c.length<CODE.length){CODE=c;const cb=$('#codeBox');if(cb)cb.value=buildMessage();}
+  }catch(e){}},300);
+}
+function visible(it){if(!it.if)return true;const q=it.if.split('=');return q[1].split('|').includes(String(S[q[0]]||''));}
+function readable(){
+  const o=['استمارة تغذية وبلع / Feeding and swallowing questionnaire',
+   'Patient: '+(S.pt_name||'-')+(S.pt_age?', '+S.pt_age+' y':'')+' | Date: '+(S.fill_date||'-'),
+   'Filled by: '+(S.fill_name||'-')+(S.fill_rel?' ('+optEn('fill_rel',S.fill_rel)+')':'')+(S.fill_phone?' | '+S.fill_phone:'')];
+  const rf=RF.filter(k=>S[k]).map(k=>RFL[k]);
+  if(rf.length)o.push('','WARNING SIGNS REPORTED: '+rf.join(', '));
+  SECS.forEach(sec=>{
+    if(sec.custom||sec.id==='about')return;const lines=[];
+    sec.items.forEach(it=>{
+      if(it.type==='note'||!visible(it))return;
+      if(it.type==='chk'){const on=it.c.filter(c=>S[c[0]]).map(c=>EN(c[1]));if(on.length)lines.push('• '+EN(it.t)+': '+on.join(', '));return;}
+      if(it.type==='meals'){SLOTS.forEach(sl=>{const v=S.mr[sl[0]];if(v&&(v.food||v.eat||v.min))lines.push('• '+EN(sl[1])+': '+(v.food||'-')+(v.eat?' ('+EN(EATEN.find(e=>e[0]===v.eat)[1]).toLowerCase()+')':'')+(v.min?', '+v.min+' min':''));});if(S.mr_typ)lines.push('• Typical day: '+(S.mr_typ==='y'?'Yes':'No'));return;}
+      if(it.type==='meds'){S.meds.filter(m=>m.name).forEach(m=>{const fxs=FX.filter(f=>m.fx&&m.fx[f[0]]).map(f=>EN(f[1]).toLowerCase());
+        const dt=[m.dose,m.times,m.meal?EN(MEALR.find(x=>x[0]===m.meal)[1]).toLowerCase():'',m.swallow?'swallowing: '+EN(SWAL.find(x=>x[0]===m.swallow)[1]).toLowerCase():'',m.crush?EN(CRUSH.find(x=>x[0]===m.crush)[1]).toLowerCase():'',fxs.length?'noticed: '+fxs.join(', '):''].filter(Boolean).join(' | ');lines.push('• '+m.name+(dt?': '+dt:''));});return;}
+      const v=S[it.k];if(v===undefined||v==='')return;
+      lines.push('• '+EN(it.t)+': '+(it.type==='seg'?optEn(it.k,v):v+(it.u?' '+EN(it.u):'')));
+    });
+    if(lines.length)o.push('',EN(sec.t).toUpperCase(),lines.join('\n'));
+  });
+  return o.join('\n');
+}
+function buildMessage(){return readable()+'\n\n— — —\nلا تعدلوا السطر التالي / Do not edit the line below\n'+(CODE||codeSync());}
+function shortHeader(){return 'استمارة تغذية وبلع / Feeding questionnaire\nPatient: '+(S.pt_name||'-')+' | Date: '+(S.fill_date||'-')+' | Filled by: '+(S.fill_name||'-');}
+function sendMsg(t){const m=$('#sendMsg');if(m)m.textContent=t;}
+function copyQuiet(txt){try{navigator.clipboard.writeText(txt).catch(()=>{});}catch(e){}}
+function sendWhatsApp(){
+  const txt=buildMessage();let url='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(txt);
+  if(url.length>6000){copyQuiet(txt);
+    url='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(shortHeader()+'\n'+L(['(الإجابات الكاملة منسوخة، الصقوها هنا)','(full answers copied: paste them here)']));
+    sendMsg(L(['الإجابات طويلة، فتم نسخها كاملة. الصقوها في رسالة واتساب قبل الإرسال.','Your answers are long, so they were copied in full. Paste them into the WhatsApp message before sending.']));
+  }else sendMsg(L(['تم فتح رسالة واتساب جاهزة. اضغطوا إرسال داخل واتساب.','A ready WhatsApp message opened. Press send inside WhatsApp.']));
+  window.open(url,'_blank');
+}
+function sendEmail(){
+  const txt=buildMessage();const subj=encodeURIComponent(L(['استمارة تغذية وبلع جديدة','New feeding and swallowing questionnaire'])+(S.pt_name?' - '+S.pt_name:''));
+  let body=encodeURIComponent(txt);
+  if(body.length>1800){copyQuiet(txt);body=encodeURIComponent(shortHeader()+'\n'+L(['(الإجابات الكاملة منسوخة، الصقوها هنا)','(full answers copied: paste them here)']));
+    sendMsg(L(['الإجابات طويلة، فتم نسخها كاملة. الصقوها في نص البريد قبل الإرسال.','Your answers are long, so they were copied in full. Paste them into the email before sending.']));
+  }else sendMsg(L(['تم فتح رسالة بريد جاهزة. اضغطوا إرسال داخل تطبيق البريد.','A ready email opened. Press send inside your email app.']));
+  window.location.href='mailto:'+MAIL+'?subject='+subj+'&body='+body;
+}
+function updCare(){
+  $$('[data-if]').forEach(e=>{const p=e.dataset.if.split('=');e.hidden=!p[1].split('|').includes(String(S[p[0]]||''));});
+  $('#urgent').hidden=!RF.some(k=>S[k]);
+  SECS.forEach(s=>{const b=$('#st_'+s.id);if(!b||s.custom)return;const st=secStat(s);b.classList.toggle('done',st.t>0&&st.a===st.t||(s.id==='meds'&&medsDone())||(!st.t&&s.id!=='meds'&&false));});
+  const pr=$('#prog');
+  if(pr){pr.innerHTML=SECS.filter(s=>!s.custom).map((s,i)=>{const st=secStat(s);const txt=s.id==='meds'?(medsDone()?L(['تم','Done']):L(['لم يكتمل','Not done'])):st.t?st.a+' / '+st.t:'';const ok=s.id==='meds'?medsDone():st.t>0&&st.a===st.t;return `<button type="button" class="prow${ok?' ok':''}" data-go="${SECS.indexOf(s)}"><span>${i+1}. ${L(s.t)}</span><span>${txt}</span></button>`;}).join('');}
+  refreshCode();const cb=$('#codeBox');if(cb)cb.value=buildMessage();
+}
+
+/* ---------- clinician analysis ---------- */
+const sv=v=>v==='n'?0:v==='s'?1:v==='y'?2:null;
+const SW=[['sw_cough','coughing or choking with eating or drinking'],['sw_thin','more coughing with thin liquids'],['sw_wet','wet or gurgly voice after swallowing'],['sw_pocket','food pocketing in the mouth'],['sw_drool','drooling or poor saliva control'],['sw_multi','multiple swallows per bite'],['sw_nasal','nasal regurgitation'],['sw_chest','repeated chest infections or breathing problems']];
+const RFL={rf1:'repeated choking or coughing',rf2:'difficulty breathing around meals',rf3:'cannot swallow saliva',rf4:'blue lips',rf5:'suspected aspiration'};
+const MLML={'150':150,'200':200,'250':250,'300':300};
+const EATP={a:100,m:75,h:50,l:25,n:0};
+function optEn(k,code){const it=ITEM[k];if(!it||!it.o)return code;const a=optsOf(it).find(x=>x[0]===code);return a?EN(a[1]):code;}
+function derive(){
+  const d={};const wt=num('nu_wt'),h=num('nu_ht'),age=num('pt_age');
+  d.wt=wt;d.bmi=(wt&&h)?wt/Math.pow(h/100,2):null;
+  const pc=k=>{const w=num(k);return(wt&&w)?(wt-w)/w*100:null;};
+  d.c1=pc('nu_w1');d.c3=pc('nu_w3');d.c6=pc('nu_w6');d.cU=pc('nu_wusual');
+  d.rf=RF.filter(k=>S[k]);
+  d.swPos=SW.filter(a=>sv(S[a[0]])>0);
+  d.swScore=SW.reduce((s,a)=>s+(sv(S[a[0]])||0),0);
+  d.swAns=SW.filter(a=>sv(S[a[0]])!=null).length;
+  d.swU=SW.filter(a=>S[a[0]]==='u').length;
+  d.swKey=['sw_wet','sw_nasal','sw_chest','sw_thin'].filter(k=>sv(S[k])>0);
+  if(d.rf.length)d.tier={sev:'high',lv:3,tx:'Urgent: warning signs reported ('+d.rf.map(k=>RFL[k]).join(', ')+'). Stop routine oral feeding and arrange urgent medical assessment.'};
+  else if(d.swScore>=6||(d.swKey.length>=2&&d.swScore>=3))d.tier={sev:'high',lv:2,tx:'High reported risk (score '+d.swScore+' of 16). Instrumental swallowing assessment before finalizing texture and fluids.'};
+  else if(d.swScore>=2||d.swKey.length)d.tier={sev:'mod',lv:1,tx:'Moderate reported risk (score '+d.swScore+' of 16). Speech-language swallowing assessment advised.'};
+  else if(d.swAns>=6)d.tier={sev:'ok',lv:0,tx:'Low reported risk (score '+d.swScore+' of 16). Confirm with a mealtime observation.'};
+  else d.tier={sev:'',lv:-1,tx:'Swallowing screen incomplete ('+d.swAns+' of 8 answered).'};
+  d.assist=S.ch_assist;
+  d.dep=S.ch_assist==='full'?'Fully dependent for feeding':S.ch_assist==='part'?'Needs partial feeding help':S.ch_assist==='setup'?'Needs setup only':S.ch_assist==='none'?'Independent':null;
+  d.fn=[S.ch_cup,S.ch_mouth].filter(v=>v==='d'||v==='n').length+(S.ch_sit==='n'?1:0);
+  const cups=num('hy_cups'),ml=MLML[S.hy_ml];
+  d.fluid=(cups!=null&&ml)?cups*ml:null;
+  d.fLo=wt?wt*30:null;d.fHi=wt?wt*35:null;
+  d.fPct=(d.fluid!=null&&d.fLo)?d.fluid/d.fLo*100:null;
+  const sex=S.pt_sex;
+  d.bee=(wt&&h&&age!=null&&sex)?10*wt+6.25*h-5*age+(sex==='m'?5:-161):null;
+  const fct=num('cl_factor')||1.5;d.tee=d.bee?d.bee*fct:null;
+  const pp=num('cl_prot')||1.2;d.prot=wt?wt*pp:null;
+  const slots=SLOTS.map(s=>S.mr[s[0]]||{});
+  d.eatOcc=slots.filter(v=>v.food&&v.food.trim()).length;
+  const ep=slots.filter(v=>v.eat).map(v=>EATP[v.eat]);d.eatAvg=ep.length?ep.reduce((a,b)=>a+b,0)/ep.length:null;
+  d.maxMin=Math.max.apply(null,[0].concat(slots.map(v=>parseFloat(v.min)||0)));
+  d.meds=S.meds.filter(m=>m.name);
+  d.sedat=d.meds.filter(m=>m.fx&&(m.fx.sleepy||m.fx.drool||m.fx.dry||m.fx.swallow));
+  d.ans=KEYS.filter(k=>S[k]!==undefined&&S[k]!=='').length;d.tot=KEYS.length;
+  return d;
+}
+function must(d){
+  if(d.bmi==null)return null;const s1=d.bmi>20?0:d.bmi>=18.5?1:2;
+  const L2=Math.max(d.c3!=null?-d.c3:-Infinity,d.c6!=null?-d.c6:-Infinity);if(!isFinite(L2))return null;
+  const s2=L2<5?0:L2<=10?1:2;const t=s1+s2;return{t,tx:t===0?'low risk':t===1?'medium risk':'high risk'};
+}
+function glim(d){
+  const ph=[];const L2=Math.max(d.c3!=null?-d.c3:-Infinity,d.c6!=null?-d.c6:-Infinity);
+  if(L2>=5)ph.push('weight loss '+fx(L2)+'%');if(d.bmi!=null&&d.bmi<20)ph.push('BMI '+fx(d.bmi));
+  if(S.nu_m1||S.nu_m2)ph.push('reported muscle loss or weakness');
+  const et=[];if(S.nu_eaten==='q1'||S.nu_eaten==='q2'||S.nu_dec==='m'||S.nu_dec==='s')et.push('reduced intake');
+  if(d.tier.lv>=1)et.push('swallowing difficulty');if(S.cl_gliminf)et.push('chronic disease burden');
+  return{ph,et};
+}
+const chip=(sev,t)=>`<div class="chip" data-sev="${sev}">${esc(t)}</div>`;
+const kv=(l,v,s,h)=>`<div class="kv"><span>${l}</span><b${s?` data-sev="${s}"`:''}>${v}</b>${h?`<small>${h}</small>`:''}</div>`;
+function flagsList(d){
+  const F=[];const add=(s,t)=>F.push([s,t]);
+  d.rf.forEach(k=>add('high','Warning sign reported: '+RFL[k]));
+  if(d.tier.lv>=1&&!d.rf.length)add(d.tier.sev,d.tier.tx);
+  if(num('sw_chestn')>=2)add('high',num('sw_chestn')+' chest infections in the last year');
+  if(S.md_asp==='y')add('high','Previous pneumonia or hospital admission for chest infection');
+  if(S.sw_study==='none'&&d.tier.lv>=1)add('mod','No swallowing assessment on record');
+  if(d.c3!=null&&d.c3<=-5)add('high','Weight down '+fx(-d.c3)+'% in 3 months');
+  if(d.c6!=null&&d.c6<=-10)add('high','Weight down '+fx(-d.c6)+'% in 6 months');else if(d.c6!=null&&d.c6<=-5)add('mod','Weight down '+fx(-d.c6)+'% in 6 months');
+  if(d.bmi!=null&&d.bmi<18.5)add('high','BMI '+fx(d.bmi)+', underweight');else if(d.bmi!=null&&d.bmi<20)add('mod','BMI '+fx(d.bmi)+', low');
+  if(d.assist==='full'||d.assist==='part')add('mod',d.dep);
+  if(S.ch_alert==='o'||S.ch_alert==='s')add('mod','Drowsy at mealtimes');
+  if(d.maxMin>=45||S.sw_long==='y')add('mod','Meals take 45 minutes or longer');
+  if(d.fPct!=null&&d.fPct<70)add('high','Reported fluid intake is '+n0(d.fPct)+'% of 30 mL/kg');else if(d.fPct!=null&&d.fPct<90)add('mod','Reported fluid intake is '+n0(d.fPct)+'% of 30 mL/kg');
+  if(S.hy_urine==='c'||S.hy_dark==='y')add('mod','Signs of low hydration (infrequent or dark urine)');
+  if(S.hy_rest==='y')add('mod','Medical fluid restriction reported'+(S.hy_restt?': '+S.hy_restt:''));
+  if(d.sedat.length)add('mod','Possible medicine effects on feeding: '+d.sedat.map(m=>m.name).join(', '));
+  if(d.meds.some(m=>m.crush&&m.crush!=='n'))add('mod','Medicine crushed or mixed with food or drink: pharmacist check needed');
+  if(S.gi5||S.hy_s3)add('mod','Constipation reported');
+  if(S.gi1)add('mod','Reflux or heartburn reported');
+  if(S.en_know!=='y'||S.en_aid!=='y')add(S.en_know===undefined&&S.en_aid===undefined?'':'mod','Caregiver may need training in choking recognition and response');
+  if(S.es5)add('mod','No one supervises her at meals');
+  if(S.en_seat==='n')add('mod','No upright seating for meals');
+  if(S.md_dbs==='y'&&S.md_dbsc&&S.md_dbsc.trim())add('mod','Change after DBS adjustment reported: '+S.md_dbsc.trim());
+  if(S.pf_bud==='t')add('mod','Tight food budget');
+  return F.filter(f=>f[0]);
+}
+function clarify(d){
+  const out=[];
+  KEYS.forEach(k=>{const it=ITEM[k];if(S[k]===undefined||S[k]===''){if(it.type==='num'||['sw_study','sw_rx','ch_assist','nu_eaten','nu_dec','hy_ml'].includes(k))out.push('Not answered: '+EN(it.t));}else if(S[k]==='u')out.push('Answered "not sure": '+EN(it.t));});
+  d.meds.forEach(m=>{if(!m.dose)out.push(m.name+': dose missing');if(!m.times)out.push(m.name+': schedule missing');if(!m.meal||m.meal==='u')out.push(m.name+': timing relative to meals unknown');});
+  if(!d.meds.length)out.push('No medicines listed');
+  return out;
+}
+const PLANL=[
+ ['cl_p1','Refer for speech-language swallowing assessment, with instrumental study (VFSS or FEES) if indicated, before setting texture and fluid thickness',d=>d.tier.lv>=1||S.sw_study==='none'],
+ ['cl_p2','Interim: keep current prescribed textures and fluids unchanged until assessed',d=>d.tier.lv>=0],
+ ['cl_p3','Mealtime set-up: upright seating, calm setting, small bites, slow pace, supervision, adapted utensils',d=>d.dep&&d.dep!=='Independent'||S.en_seat!=='t'],
+ ['cl_p4','Caregiver training: recognizing and responding to choking and aspiration',d=>S.en_know!=='y'||S.en_aid!=='y'||S.en_train==='y'],
+ ['cl_p5','Medicine review with the neurologist and pharmacist: timing, formulation, sedation, swallowing effects',d=>d.sedat.length>0||d.meds.some(m=>m.crush&&m.crush!=='n'||m.swallow==='d'||m.swallow==='n')],
+ ['cl_p6','Energy and protein fortification plan; small frequent meals; oral nutrition supplement if needed',d=>(d.c3!=null&&d.c3<0)||(d.bmi!=null&&d.bmi<20)||S.nu_eaten==='q1'||S.nu_eaten==='q2'],
+ ['cl_p7','Hydration plan with an individual fluid target',d=>d.fPct!=null&&d.fPct<90||S.hy_urine==='c'||S.hy_dark==='y'],
+ ['cl_p8','Weigh every 1 to 2 weeks on the same scale and chart the trend',()=>true],
+ ['cl_p9','Dental and oral review',()=>['dbad','miss'].includes(S.tl_dent)||S.tl_dpain==='y'||S.tl_chew==='y'],
+ ['cl_p10','Bowel and reflux management',()=>!!(S.gi1||S.gi5||S.hy_s3)],
+ ['cl_p11','Discuss enteral feeding with the medical team if oral intake stays unsafe or inadequate',d=>d.tier.lv>=3||(d.tier.lv>=2&&d.c3!=null&&d.c3<=-5)],
+ ['cl_p12','Build the meal plan around her preferences, budget and kitchen facilities',()=>true]
+];
+function pesDraft(d){
+  const out=[];const g=glim(d);
+  if(d.tier.lv>=1)out.push('Swallowing difficulty related to neuromuscular impairment from Huntington\'s disease as evidenced by '+(d.swPos.map(a=>a[1]).slice(0,5).join(', ')||'reported swallowing signs')+'.');
+  const intake=[];if(S.nu_eaten==='q1'||S.nu_eaten==='q2')intake.push('usually eats under half of each meal');if(S.nu_dec==='m'||S.nu_dec==='s')intake.push('intake reduced over 3 months');if(d.maxMin>=45)intake.push('meals taking '+n0(d.maxMin)+' minutes');
+  if(intake.length)out.push('Inadequate oral intake related to dysphagia, fatigue and difficulty self-feeding as evidenced by '+intake.join(', ')+'.');
+  const wl=[];if(d.c3!=null&&d.c3<=-5)wl.push(fx(-d.c3)+'% loss in 3 months');if(d.c6!=null&&d.c6<=-5)wl.push(fx(-d.c6)+'% loss in 6 months');if(d.bmi!=null&&d.bmi<20)wl.push('BMI '+fx(d.bmi));
+  if(wl.length)out.push('Unintended weight loss related to increased energy expenditure from involuntary movements and inadequate intake as evidenced by '+wl.join(', ')+'.');
+  if(d.assist&&d.assist!=='none'||d.fn>0)out.push('Self-feeding difficulty related to chorea as evidenced by '+(d.dep?d.dep.toLowerCase():'difficulty holding utensils or bringing food to the mouth')+'.');
+  if(d.fPct!=null&&d.fPct<90)out.push('Inadequate fluid intake related to swallowing difficulty as evidenced by reported intake of about '+n0(d.fluid)+' mL a day against a target of '+n0(d.fLo)+' to '+n0(d.fHi)+' mL.');
+  if(S.en_know!=='y'||S.en_aid!=='y')out.push('Food- and nutrition-related knowledge deficit (caregiver) related to no prior training as evidenced by uncertainty about recognizing or managing choking.');
+  if(d.sedat.length)out.push('Possible medicine effect on feeding related to '+d.sedat.map(m=>m.name).join(' and ')+' as evidenced by reported '+[...new Set(d.sedat.reduce((a,m)=>a.concat(Object.keys(m.fx).filter(k=>m.fx[k]&&['sleepy','drool','dry','swallow'].includes(k))),[]))].join(', ')+'.');
+  if(g.ph.length&&g.et.length)out.push('Malnutrition (GLIM criteria met on history): '+g.ph.join(', ')+'; cause: '+g.et.join(', ')+'. Confirm with examination.');
+  return out.length?out.join('\n'):'Not enough data yet to draft a diagnosis.';
+}
+
+/* ---------- clinician view ---------- */
+function buildClin(){
+  $('#shell').className='shell clin';$('#shell').dir='ltr';$('#shell').lang='en';
+  const cl=(k,l,o={})=>o.area?`<label class="f" style="grid-column:1/-1"><span>${l}</span><textarea data-k="${k}" id="f_${k}" rows="${o.rows||3}"></textarea></label>`:`<label class="f"><span>${l}</span><input type="${o.type||'number'}" data-k="${k}" id="f_${k}" ${o.type?'':'min="0" step="any"'} placeholder="${o.ph||''}"></label>`;
+  $('#app').innerHTML=`<header class="hero"><div><h1>Clinician analysis</h1><p class="sub">Feeding and swallowing questionnaire for a patient with Huntington’s disease. Load the caregiver’s answers, review the findings, then complete the diagnosis and plan.</p><p class="credit"><b>Created by Professor Randa Reda Mabrouk for the nutritional assessment of the patient.</b><br>Professor, Founder and Former Head of the Clinical Nutrition Unit, Faculty of Medicine, Ain Shams University</p></div></header>
+  <div class="panel">
+  <div class="grp"><h3>Load caregiver answers</h3>
+   <p class="hint" style="margin-bottom:8px">Paste the WhatsApp message the caregiver sent. It contains a line that starts with RDA1.</p>
+   <textarea class="code" id="impBox" rows="4" placeholder="Paste here" aria-label="Pasted answers"></textarea>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px"><button class="btn" type="button" id="btnImp">Load answers</button><button class="btn ghost" type="button" id="btnClr">Clear loaded data</button><span class="msg" id="impMsg" role="status"></span></div>
+   <div id="loaded" class="hint" style="margin-top:10px"></div></div>
+  <div class="grp"><div class="kvs" id="tiles"></div></div>
+  <div class="grp"><h3>Swallowing</h3><div id="a_sw"></div></div>
+  <div class="grp"><h3>Findings to act on</h3><div class="chips" id="a_flags"></div></div>
+  <div class="grid2">
+   <div class="grp"><h3>Function and feeding</h3><div id="a_fn"></div></div>
+   <div class="grp"><h3>Nutrition status</h3><div id="a_nu"></div></div>
+   <div class="grp"><h3>Needs and hydration</h3><div class="cgrid" style="margin-bottom:12px">${cl('cl_factor','Energy factor (default 1.5)',{ph:'1.5'})}${cl('cl_prot','Protein g/kg (default 1.2)',{ph:'1.2'})}</div><div id="a_need"></div></div>
+   <div class="grp"><h3>Medicines</h3><div id="a_med"></div></div>
+  </div>
+  <div class="grp"><h3>Mealtime observation by the clinician</h3><div class="cgrid">${cl('cl_obs','Observed meal: findings, utensils tried, positioning, textures that were easier or harder',{area:true,rows:3})}</div></div>
+  <div class="grp"><h3>To clarify with the caregiver</h3><div class="chips" id="a_clar"></div></div>
+  <div class="grp"><h3>Nutrition diagnosis</h3><label class="ck" style="margin-bottom:10px"><input type="checkbox" data-k="cl_gliminf" id="f_cl_gliminf"><span>Count chronic disease burden as a GLIM cause</span></label><div class="cgrid">${cl('cl_pes','Problem, cause and evidence',{area:true,rows:7})}</div><button class="btn ghost sm" type="button" id="btnPes" style="margin-top:10px">Draft from findings</button></div>
+  <div class="grp"><h3>Plan</h3><div class="chips" id="a_plan"></div><div class="cgrid" style="margin-top:12px">${cl('cl_review','Review in',{type:'text',ph:'for example 2 weeks'})}${cl('cl_notes','Plan notes',{area:true,rows:3})}</div></div>
+  <div class="grp"><h3>Report</h3><textarea id="reportText" class="code" rows="18" readonly aria-label="Report text" style="direction:ltr"></textarea>
+   <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn" type="button" id="btnCopy">Copy report</button><span class="msg" id="copyMsg" role="status"></span></div></div>
+  </div>
+  <footer class="foot"><p>Screening prompts for the clinician. They support clinical judgment and do not replace it. Swallowing signs are caregiver reports, not a swallowing assessment. Serum albumin is not used as a nutritional marker.</p></footer>`;
+}
+function fillClin(){
+  D=derive();const d=D;
+  $('#loaded').textContent=(S.pt_name||S.fill_name)?'Loaded: '+(S.pt_name||'patient')+' · filled by '+(S.fill_name||'unknown')+(S.fill_rel?' ('+optEn('fill_rel',S.fill_rel)+')':'')+' · '+(S.fill_date||'no date')+(S.fill_phone?' · '+S.fill_phone:''):'No answers loaded on this device yet.';
+  const mu=must(d),g=glim(d);
+  $('#tiles').innerHTML=kv('Completed',d.tot?Math.round(d.ans/d.tot*100)+' %':'—',null,d.ans+' of '+d.tot+' key items')+kv('Swallow risk',d.tier.lv>=3?'Urgent':d.tier.lv===2?'High':d.tier.lv===1?'Moderate':d.tier.lv===0?'Low':'Incomplete',d.tier.sev,'caregiver report')+kv('BMI',fx(d.bmi),d.bmi!=null&&d.bmi<18.5?'high':d.bmi!=null&&d.bmi<20?'mod':null,'kg/m²')+kv('Weight change, 3 months',pct(d.c3),d.c3!=null&&d.c3<=-5?'high':null)+kv('Feeding help',d.dep||'—',d.assist==='full'||d.assist==='part'?'mod':null)+kv('MUST',mu?mu.t+' · '+mu.tx:'—',mu&&mu.t>=2?'high':mu&&mu.t===1?'mod':null,'height, weight, earlier weight');
+  let sw=`<div class="tier" data-sev="${d.tier.sev}">${esc(d.tier.tx)}</div><div class="chips" style="margin-top:10px">`;
+  SW.forEach(a=>{const v=S[a[0]];if(v)sw+=chip(v==='y'?'high':v==='s'?'mod':v==='u'?'mod':'ok',a[1].charAt(0).toUpperCase()+a[1].slice(1)+': '+optEn(a[0],v));});
+  if(S.sw_long)sw+=chip(S.sw_long==='y'?'mod':'ok','Meals over 30 to 45 minutes: '+optEn('sw_long',S.sw_long));
+  if(num('sw_chestn')!=null)sw+=chip('mod','Chest infections in the last year: '+num('sw_chestn'));
+  sw+=chip('','Swallowing study: '+(S.sw_study?optEn('sw_study',S.sw_study)+(S.sw_studyd?' ('+S.sw_studyd.trim()+')':''):'not answered'));
+  sw+=chip('','Prescribed texture or thickness: '+(S.sw_rx?optEn('sw_rx',S.sw_rx)+(S.sw_rxt?' ('+S.sw_rxt.trim()+')':''):'not answered'));
+  ['tl_thin','tl_thick','tl_puree','tl_soft','tl_mince','tl_reg'].forEach(k=>{if(S[k])sw+=chip(S[k]==='c'||S[k]==='d'?'mod':'','Tolerance, '+EN(ITEM[k].t).split(' (')[0].toLowerCase()+': '+optEn(k,S[k]));});
+  sw+='</div><p class="hint" style="margin-top:8px">Texture and liquid thickness are not set here. They need a swallowing assessment.</p>';
+  $('#a_sw').innerHTML=sw;
+  const F=flagsList(d);const ord={high:0,mod:1,ok:2};
+  $('#a_flags').innerHTML=F.length?F.sort((a,b)=>ord[a[0]]-ord[b[0]]).map(f=>chip(f[0],f[1])).join(''):'<p class="muted">No flags yet.</p>';
+  let fn='<div class="chips">';
+  [['ch_sev','Chorea severity'],['ch_sit','Sits upright'],['ch_cup','Holds cup or utensil'],['ch_mouth','Brings food to mouth'],['ch_assist','Help needed'],['ch_tire','Tires at meals'],['ch_alert','Alert at meals'],['ch_follow','Follows instructions']].forEach(a=>{if(S[a[0]])fn+=chip('',a[1]+': '+optEn(a[0],S[a[0]]));});
+  const tm=['ch_t1','ch_t2','ch_t3','ch_t4','ch_t5','ch_t6'].filter(k=>S[k]).map(k=>EN(ITEM[k].t));if(tm.length)fn+=chip('','Worse: '+tm.join(', '));
+  fn+='</div>'+(S.ch_note?`<p class="hint" style="margin-top:8px">Caregiver note: ${esc(S.ch_note)}</p>`:'');
+  $('#a_fn').innerHTML=fn;
+  let nu='<div class="kvs" style="margin-bottom:10px">'+kv('Weight',d.wt?fx(d.wt)+' kg':'—')+kv('Change vs usual',pct(d.cU))+kv('1 month',pct(d.c1))+kv('3 months',pct(d.c3),d.c3!=null&&d.c3<=-5?'high':null)+kv('6 months',pct(d.c6),d.c6!=null&&d.c6<=-10?'high':d.c6!=null&&d.c6<=-5?'mod':null)+'</div><div class="chips">';
+  if(S.nu_app)nu+=chip(Number(S.nu_app)<=2?'mod':'','Appetite: '+optEn('nu_app',S.nu_app));
+  if(S.nu_eaten)nu+=chip(S.nu_eaten==='q1'||S.nu_eaten==='q2'?'mod':'','Usually eats: '+optEn('nu_eaten',S.nu_eaten));
+  if(S.nu_dec)nu+=chip(S.nu_dec==='n'?'ok':'mod','Intake change, 3 months: '+optEn('nu_dec',S.nu_dec));
+  if(num('nu_meals')!=null)nu+=chip('','Meals and snacks per day: '+num('nu_meals')+(num('nu_mealmin')?'; usual meal '+num('nu_mealmin')+' min':''));
+  if(d.eatOcc)nu+=chip('','Typical day: '+d.eatOcc+' eating occasions'+(d.eatAvg!=null?'; average amount eaten about '+n0(d.eatAvg)+'%':'')+(S.mr_typ==='n'?' (not a typical day)':''));
+  ['nu_m1','nu_m2','nu_m3'].forEach(k=>{if(S[k])nu+=chip('mod',EN(ITEM[k].t));});
+  if(S.nu_mal==='y')nu+=chip('mod','Previous diagnosis of malnutrition');
+  if(g.ph.length||g.et.length)nu+=chip(g.ph.length&&g.et.length?'high':'mod','GLIM prompt: phenotype '+(g.ph.join(', ')||'none')+'; cause '+(g.et.join(', ')||'none'));
+  nu+='</div>';$('#a_nu').innerHTML=nu;
+  let nd='<div class="kvs">'+kv('Resting energy',d.bee?n0(d.bee)+' kcal':'—',null,'Mifflin-St Jeor')+kv('Energy estimate',d.tee?n0(d.tee)+' kcal':'—',null,'adjust by weight response; chorea raises needs')+kv('Protein target',d.prot?n0(d.prot)+' g':'—')+kv('Fluid target',d.fLo?n0(d.fLo)+' to '+n0(d.fHi)+' mL':'—',null,'30 to 35 mL/kg')+kv('Reported fluid',d.fluid!=null?n0(d.fluid)+' mL':'—',d.fPct!=null&&d.fPct<70?'high':d.fPct!=null&&d.fPct<90?'mod':null,d.fPct!=null?n0(d.fPct)+'% of 30 mL/kg':'cups and cup size')+'</div>';
+  const hy=[];if(S.hy_urine)hy.push('Urine: '+optEn('hy_urine',S.hy_urine));if(S.hy_dark)hy.push('Dark urine: '+optEn('hy_dark',S.hy_dark));['hy_s1','hy_s2','hy_s3','hy_s4'].forEach(k=>{if(S[k])hy.push(EN(ITEM[k].t));});if(S.hy_thick)hy.push('Liquids: '+S.hy_thick);
+  if(hy.length)nd+='<div class="chips" style="margin-top:10px">'+hy.map(t=>chip('',t)).join('')+'</div>';
+  $('#a_need').innerHTML=nd;
+  let md='';
+  d.meds.forEach(m=>{const fxs=FX.filter(f=>m.fx&&m.fx[f[0]]).map(f=>EN(f[1]));
+    md+=`<div class="medrow"><b>${esc(m.name)}</b>${m.form?' · '+EN(FORMS.find(f=>f[0]===m.form)[1]):''}<div class="hint">Dose ${esc(m.dose||'not given')} · ${esc(m.times||'schedule not given')} · ${m.meal?EN(MEALR.find(x=>x[0]===m.meal)[1]).toLowerCase():'meal timing not given'}</div>
+    <div class="hint">Swallowing it: ${m.swallow?EN(SWAL.find(x=>x[0]===m.swallow)[1]).toLowerCase():'not answered'} · ${m.crush?EN(CRUSH.find(x=>x[0]===m.crush)[1]).toLowerCase():'crushing not answered'}</div>
+    ${fxs.length?`<div class="chip" data-sev="mod" style="margin-top:6px">Reported after dose: ${esc(fxs.join(', '))}</div>`:''}</div>`;});
+  if(!d.meds.length)md='<p class="muted">No medicines listed.</p>';
+  md+=`<p class="hint" style="margin-top:8px">${d.meds.length} medicine${d.meds.length===1?'':'s'} listed. Verify names and doses against the boxes or prescription, and confirm formulation with a pharmacist before any crushing.</p>`;
+  $('#a_med').innerHTML=md;
+  const cl=clarify(d);$('#a_clar').innerHTML=cl.length?cl.map(t=>chip('mod',t)).join(''):'<p class="muted">Nothing outstanding.</p>';
+  $('#a_plan').innerHTML=PLANL.map(p=>`<label class="ck"><input type="checkbox" data-k="${p[0]}" id="f_${p[0]}"><span>${p[1]}${p[2](d)?' <em style="font-style:normal;font-size:11.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:0 6px">suggested</em>':''}</span></label>`).join('');
+  $$('#a_plan [data-k]').forEach(e=>{e.checked=!!S[e.dataset.k];});
+  $('#reportText').value=report(d,mu,g,F);
+}
+function report(d,mu,g,F){
+  const L2=[];const add=(k,v)=>{if(v!==''&&v!=null&&v!=='—')L2.push(k+': '+v);};
+  L2.push('FEEDING AND SWALLOWING ASSESSMENT, HUNTINGTON\'S DISEASE');L2.push('Created by Professor Randa Reda Mabrouk for the nutritional assessment of the patient.');
+  add('Patient',[S.pt_name,S.pt_age?S.pt_age+' y':'',S.pt_sex==='f'?'female':S.pt_sex==='m'?'male':''].filter(Boolean).join(', '));
+  add('Questionnaire filled by',(S.fill_name||'')+(S.fill_rel?' ('+optEn('fill_rel',S.fill_rel)+')':'')+(S.fill_date?', '+S.fill_date:''));
+  add('Diagnosis',S.md_dx);add('Neurological status',S.md_neuro);
+  add('Allergies',S.md_allergy==='none'?'none known':S.md_allergy==='y'?S.md_allt||'yes':'');add('DBS',S.md_dbs==='y'?'in place'+(S.md_dbsc?'; '+S.md_dbsc:''):'');
+  L2.push('');L2.push('SWALLOWING (caregiver report)');L2.push(d.tier.tx);
+  d.swPos.forEach(a=>L2.push('- '+a[1]+': '+optEn(a[0],S[a[0]])));
+  add('Swallowing study',S.sw_study?optEn('sw_study',S.sw_study):'');add('Prescribed texture or thickness',S.sw_rx==='y'?S.sw_rxt||'yes':S.sw_rx?optEn('sw_rx',S.sw_rx):'');
+  L2.push('');L2.push('FUNCTION');add('Feeding help',d.dep);add('Chorea',S.ch_sev?optEn('ch_sev',S.ch_sev):'');add('Alertness at meals',S.ch_alert?optEn('ch_alert',S.ch_alert):'');
+  L2.push('');L2.push('NUTRITION');
+  add('Weight',d.wt?fx(d.wt)+' kg':'');add('Height',S.nu_ht?S.nu_ht+' cm':'');add('BMI',d.bmi!=null?fx(d.bmi):'');
+  add('Weight change 1 / 3 / 6 months',[d.c1,d.c3,d.c6].some(x=>x!=null)?[d.c1,d.c3,d.c6].map(pct).join(' / '):'');
+  add('MUST',mu?mu.t+', '+mu.tx:'');add('Usually eats',S.nu_eaten?optEn('nu_eaten',S.nu_eaten):'');add('Appetite',S.nu_app?optEn('nu_app',S.nu_app):'');
+  add('Estimated energy',d.tee?n0(d.tee)+' kcal':'');add('Protein target',d.prot?n0(d.prot)+' g':'');
+  add('Fluid target',d.fLo?n0(d.fLo)+' to '+n0(d.fHi)+' mL':'');add('Reported fluid',d.fluid!=null?n0(d.fluid)+' mL':'');
+  L2.push('');L2.push('MEDICINES');d.meds.forEach(m=>L2.push('- '+m.name+(m.dose?', '+m.dose:'')+(m.times?', '+m.times:'')+(m.fx&&Object.keys(m.fx).some(k=>m.fx[k])?' (reported: '+FX.filter(f=>m.fx[f[0]]).map(f=>EN(f[1]).toLowerCase()).join(', ')+')':'')));
+  L2.push('');L2.push('FINDINGS');if(F.length)F.forEach(f=>L2.push('- '+f[1]));else L2.push('- None flagged');
+  add('Clinician mealtime observation',S.cl_obs);
+  if(S.cl_pes){L2.push('');L2.push('NUTRITION DIAGNOSIS');L2.push(S.cl_pes);}
+  const pl=PLANL.filter(p=>S[p[0]]);if(pl.length){L2.push('');L2.push('PLAN');pl.forEach(p=>L2.push('- '+p[1]));}
+  add('Review in',S.cl_review);add('Plan notes',S.cl_notes);
+  L2.push('');L2.push('Free-text answers from the caregiver');
+  ['tl_safe','tl_hard','tl_refuse','pf_cult','pf_fav','pf_dis','pf_sched','pf_goal','pf_worry','md_oth','en_ppl','nu_lossn'].forEach(k=>{if(S[k]&&S[k].trim)add(EN(ITEM[k].t),S[k].trim());});
+  SLOTS.forEach(s=>{const v=S.mr[s[0]];if(v&&v.food)add('Typical day, '+EN(s[1]).toLowerCase(),v.food+(v.eat?' ('+EN(EATEN.find(e=>e[0]===v.eat)[1]).toLowerCase()+')':'')+(v.min?', '+v.min+' min':''));});
+  L2.push('');L2.push('Serum albumin is not used as a nutritional marker.');
+  return L2.join('\n');
+}
+
+/* ---------- events ---------- */
+function handler(e){
+  const el=e.target;if(!el||!el.dataset)return;
+  if(el.dataset.mr){const r=S.mr[el.dataset.mr]=S.mr[el.dataset.mr]||{};r[el.dataset.f]=el.value;save();return upd();}
+  if(el.dataset.med!==undefined&&el.dataset.med!==''){const m=S.meds[Number(el.dataset.med)];if(!m)return;
+    if(el.dataset.fx){m.fx=m.fx||{};m.fx[el.dataset.fx]=el.checked;}else m[el.dataset.f]=el.value;save();return upd();}
+  const k=el.dataset.k;if(!k)return;
+  if(el.type==='checkbox')S[k]=el.checked;else if(el.type==='radio'){if(el.checked)S[k]=el.value;}else S[k]=el.value;
+  save();upd();
+}
+function upd(){if(MODE==='care')updCare();else fillClin();}
+function applyState(){
+  $$('[data-k]').forEach(el=>{const v=S[el.dataset.k];
+    if(el.type==='checkbox')el.checked=!!v;else if(el.type==='radio')el.checked=(v!==undefined&&String(v)===el.value);else el.value=(v==null?'':v);});
+}
+document.addEventListener('input',handler);document.addEventListener('change',handler);
+async function copyText(txt,msgEl,box,okTxt,failTxt){
+  const fb=()=>{box.focus();box.select();msgEl.textContent=failTxt;};
+  try{await navigator.clipboard.writeText(txt);msgEl.textContent=okTxt;}catch(err){fb();}
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest?e.target.closest('button'):null;if(!t)return;
+  if(t.dataset.step!==undefined)return showStep(Number(t.dataset.step));
+  if(t.dataset.go!==undefined){showStep(Number(t.dataset.go));window.scrollTo&&window.scrollTo(0,0);return;}
+  if(t.id==='btnLang'){S._lang=lang()==='ar'?'en':'ar';save();render();return;}
+  if(t.id==='addMed'){S.meds.push({name:'',fx:{}});save();buildMedsPanel();return;}
+  if(t.dataset.delmed!==undefined){S.meds.splice(Number(t.dataset.delmed),1);save();buildMedsPanel();return;}
+  if(t.id==='btnWa')return sendWhatsApp();
+  if(t.id==='btnMail')return sendEmail();
+  if(t.id==='btnPrint'){window.print();return;}
+  if(t.id==='btnCopy'){
+    if(MODE==='care'){const box=$('#codeBox');return copyText(box.value,$('#copyMsg'),box,L(['تم النسخ. الصقوه في رسالة واتساب.','Copied. Paste it into a WhatsApp message.']),L(['حدّدوا النص وانسخوه يدوياً.','Select the text and copy it by hand.']));}
+    const box=$('#reportText');return copyText(box.value,$('#copyMsg'),box,'Copied.','Select the text and copy it by hand.');
+  }
+  if(t.id==='btnImp'){importCode($('#impBox').value).then(r=>{$('#impMsg').textContent=r.msg;if(r.ok){applyState();fillClin();}});return;}
+  if(t.id==='btnClr'){const keep={cl_factor:S.cl_factor,cl_prot:S.cl_prot};S=base();S._lang='en';save();render();return;}
+  if(t.id==='btnPes'){S.cl_pes=pesDraft(D);save();fillClin();$('#f_cl_pes').value=S.cl_pes;return;}
+});
+function buildMedsPanel(){
+  const p=$('#p_meds');const box=p.querySelectorAll('.grp')[1];box.innerHTML=medsHTML();updCare();
+}
+async function importCode(txt){
+  const m=txt.match(/RDA([12]):/);if(!m)return{ok:false,msg:'No answer code found. Paste the whole message.'};
+  const rest=txt.slice(m.index+5).replace(/\s+/g,'');
+  try{let bytes;
+    if(m[1]==='2'){let t=(rest.match(/^[A-Za-z0-9_\-]+/)||[''])[0].replace(/-/g,'+').replace(/_/g,'/');t+='='.repeat((4-t.length%4)%4);bytes=await pipe(unb64(t),new DecompressionStream('deflate-raw'));}
+    else bytes=unb64((rest.match(/^[A-Za-z0-9+\/=]+/)||[''])[0]);
+    const o=JSON.parse(new TextDecoder().decode(bytes));
+    if(!o||typeof o!=='object')throw new Error('bad');
+    const keep={cl_factor:S.cl_factor,cl_prot:S.cl_prot};
+    S=Object.assign(base(),o,keep);S._lang='en';if(!Array.isArray(S.meds))S.meds=[];if(!S.mr)S.mr={};save();
+    return{ok:true,msg:'Answers loaded.'};
+  }catch(err){return{ok:false,msg:'The code could not be read. Ask the caregiver to copy the message again without editing it.'};}
+}
+function render(){
+  MODE=(location.hash==='#clinician')?'clin':'care';
+  if(MODE==='clin'){buildClin();applyState();fillClin();}
+  else{buildCare();applyState();showStep(S._step||0);}
+}
+window.addEventListener('hashchange',render);
+load();render();
+})();
+</script>
+</body>
+</html>
