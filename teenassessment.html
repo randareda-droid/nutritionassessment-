@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akram · Teen Athlete Nutrition Assessment · تقييم تغذية الرياضي المراهق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F2F8F6;--surface:#FFFFFF;--ink:#0C2B2A;--muted:#5A7A78;
+    --teal:#0E7C7B;--teal-deep:#0B4F4E;--teal-soft:#E3F1EE;
+    --accent:#F49A3C;--accent-deep:#D97E1F;--line:#D7E6E3;--error:#C0392B;
+    --good:#2E9E6B;--warn:#E0A526;--radius:16px;--maxw:700px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-text-size-adjust:100%;}
+  body[dir="rtl"]{font-family:'Tajawal',sans-serif;}
+  .ar{display:none;}
+  body[data-lang="ar"] .en{display:none;}
+  body[data-lang="ar"] .ar{display:inline;}
+  body[data-lang="ar"] .ar.block{display:block;}
+
+  header{background:linear-gradient(135deg,var(--teal-deep) 0%,var(--teal) 100%);color:#fff;padding:30px 20px 34px;position:relative;overflow:hidden;}
+  header::after{content:"";position:absolute;right:-60px;bottom:-80px;width:220px;height:220px;border:3px solid rgba(255,255,255,.10);border-radius:50%;}
+  body[dir="rtl"] header::after{right:auto;left:-60px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;}
+  .langbar{display:flex;justify-content:flex-end;gap:6px;margin-bottom:18px;position:relative;z-index:2;}
+  .langbtn{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:inherit;font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;cursor:pointer;transition:.15s;}
+  .langbtn[aria-pressed="true"]{background:#fff;color:var(--teal-deep);border-color:#fff;}
+  .badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:5px 12px;border-radius:999px;margin-bottom:14px;}
+  h1{font-size:27px;font-weight:900;margin:0 0 8px;line-height:1.2;}
+  .lede{font-size:15px;color:rgba(255,255,255,.92);margin:0;max-width:52ch;}
+  .meta{font-size:13px;color:rgba(255,255,255,.8);margin-top:14px;}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:22px 16px 60px;}
+
+  /* progress */
+  .progress{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;margin-bottom:6px;}
+  .pbar{height:8px;background:var(--line);border-radius:999px;overflow:hidden;}
+  .pfill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--ring,#2DD4BF));transition:width .25s;}
+  .ptext{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:5px;display:flex;justify-content:space-between;}
+
+  /* InBody summary */
+  .inbody{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+  .inbody h2{margin:0 0 4px;font-size:18px;font-weight:800;color:var(--teal-deep);}
+  .inbody .sub{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+  .tile{background:var(--teal-soft);border-radius:12px;padding:11px 12px;}
+  .tile .k{font-size:12px;color:var(--muted);font-weight:700;}
+  .tile .v{font-size:21px;font-weight:900;color:var(--teal-deep);line-height:1.2;}
+  .tile .u{font-size:12px;font-weight:700;color:var(--muted);}
+  .tile .s{font-size:11.5px;font-weight:800;margin-top:2px;}
+  .s.ok{color:var(--good);} .s.mid{color:var(--accent-deep);}
+  .inbody .note{margin-top:14px;font-size:13.5px;background:#FFF6E9;border-inline-start:4px solid var(--accent);padding:10px 12px;border-radius:8px;}
+
+  .section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-bottom:16px;}
+  .section-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .num{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;}
+  .section-head h2{font-size:18px;font-weight:800;margin:0;color:var(--teal-deep);}
+  .field{margin-bottom:15px;}
+  .field:last-child{margin-bottom:0;}
+  label.q,.qlabel{display:block;font-weight:700;font-size:14.5px;margin-bottom:6px;}
+  .req{color:var(--accent-deep);font-weight:900;margin-inline-start:3px;}
+  .hint{display:block;font-weight:400;font-size:12.5px;color:var(--muted);margin-top:2px;}
+  input[type=text],input[type=number],input[type=tel],textarea{width:100%;font-family:inherit;font-size:15px;color:var(--ink);background:#FBFEFD;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;transition:.15s;}
+  textarea{min-height:70px;resize:vertical;}
+  input:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(45,212,191,.28);}
+  input.prefilled{background:#F0FAF7;border-color:#9CD6CB;}
+  .field.invalid input,.field.invalid textarea{border-color:var(--error);background:#FDF3F2;}
+  .field.invalid .opts{outline:2px solid var(--error);outline-offset:4px;border-radius:10px;}
+
+  .opts{display:flex;flex-wrap:wrap;gap:8px;}
+  .opt{position:relative;}
+  .opt input{position:absolute;opacity:0;width:0;height:0;}
+  .opt label{display:block;cursor:pointer;font-size:14px;font-weight:600;border:1.5px solid var(--line);border-radius:10px;padding:9px 14px;background:#FBFEFD;color:var(--ink);transition:.12s;user-select:none;}
+  .opt input:checked + label{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt input:focus-visible + label{box-shadow:0 0 0 3px rgba(45,212,191,.4);}
+
+  .tip{background:var(--teal-soft);border-radius:12px;padding:11px 14px;font-size:13.5px;margin-bottom:15px;}
+  .consent{display:flex;gap:11px;align-items:flex-start;background:var(--teal-soft);border-radius:12px;padding:13px 14px;margin-bottom:10px;}
+  .consent input{margin-top:3px;width:19px;height:19px;flex:0 0 auto;accent-color:var(--teal);}
+  .consent label{font-size:14px;font-weight:600;}
+  .field.invalid.consent{outline:2px solid var(--error);}
+
+  .submit-wrap{margin-top:22px;}
+  .btn-send{width:100%;border:none;cursor:pointer;font-family:inherit;font-size:17px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-deep) 100%);padding:16px;border-radius:14px;box-shadow:0 6px 18px rgba(217,126,31,.32);transition:.15s;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .btn-send:hover{transform:translateY(-1px);}
+  .formnote{text-align:center;font-size:12.5px;color:var(--muted);margin-top:12px;}
+  .errsummary{display:none;background:#FDF3F2;border:1.5px solid var(--error);color:var(--error);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:700;margin-top:16px;}
+  .errsummary.show{display:block;}
+
+  #success{display:none;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px 22px;}
+  #success.show{display:block;}
+  .tick{width:58px;height:58px;border-radius:50%;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  #success h2{font-size:21px;color:var(--teal-deep);margin:0 0 8px;}
+  #success p{font-size:15px;color:var(--muted);margin:0 auto 22px;max-width:40ch;}
+  .wa-send{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:900;font-size:17px;color:#fff;background:#25D366;padding:15px;border-radius:14px;box-shadow:0 6px 18px rgba(37,211,102,.32);}
+  .btn-copy{margin-top:12px;width:100%;background:#fff;border:1.5px solid var(--line);color:var(--ink);font-family:inherit;font-weight:700;font-size:15px;padding:13px;border-radius:13px;cursor:pointer;}
+
+  footer{text-align:center;padding:8px 16px 34px;color:var(--muted);font-size:13px;}
+  footer b{color:var(--teal-deep);}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  @media (min-width:560px){h1{font-size:31px;}.section{padding:24px 22px;}}
+</style>
+</head>
+<body data-lang="en" dir="ltr">
+
+<header>
+  <div class="wrap">
+    <div class="langbar">
+      <button class="langbtn" id="btn-en" aria-pressed="true" onclick="setLang('en')">English</button>
+      <button class="langbtn" id="btn-ar" aria-pressed="false" onclick="setLang('ar')">العربية</button>
+    </div>
+    <span class="badge"><span class="en">Teen Athlete Intake</span><span class="ar">تقييم الرياضي المراهق</span></span>
+    <h1><span class="en">Nutrition Assessment for Akram</span><span class="ar">تقييم التغذية لـ أكرم</span></h1>
+    <p class="lede">
+      <span class="en">Football and gym take a lot of energy, and at 16 your body is still growing too. This form helps us build a plan that fuels your training, supports healthy growth, and builds strong lean muscle. It takes about 10–15 minutes — a parent can help you.</span>
+      <span class="ar">كرة القدم والجيم يحتاجان طاقة كبيرة، وفي عمر ١٦ سنة جسمك ما زال ينمو أيضاً. يساعدنا هذا النموذج على تصميم خطة تدعم تدريبك ونموك الصحي وبناء عضلات قوية. يستغرق حوالي ١٠–١٥ دقيقة — يمكن لأحد والديك مساعدتك.</span>
+    </p>
+    <p class="meta">
+      <span class="en">All answers are confidential. Please answer honestly — there are no wrong answers.</span>
+      <span class="ar">جميع الإجابات سرية. من فضلك أجب بصدق — لا توجد إجابات خاطئة.</span>
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="progress" aria-hidden="true">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="ptext"><span id="ptxt"></span><span id="ppct"></span></div>
+  </div>
+
+  <!-- InBody summary -->
+  <section class="inbody">
+    <h2><span class="en">Akram's body scan (InBody)</span><span class="ar">تحليل الجسم لأكرم (InBody)</span></h2>
+    <p class="sub"><span class="en">27 Sept 2026 · Height 181 cm · Age 16 · Male</span><span class="ar">٢٧ سبتمبر ٢٠٢٦ · الطول ١٨١ سم · العمر ١٦ سنة · ذكر</span></p>
+    <div class="tiles">
+      <div class="tile"><div class="k"><span class="en">Weight</span><span class="ar">الوزن</span></div><div class="v">70.9 <span class="u">kg</span></div><div class="s ok"><span class="en">Normal range</span><span class="ar">ضمن الطبيعي</span></div></div>
+      <div class="tile"><div class="k"><span class="en">Muscle (SMM)</span><span class="ar">العضلات الهيكلية</span></div><div class="v">31.8 <span class="u">kg</span></div><div class="s ok"><span class="en">Good base</span><span class="ar">أساس جيد</span></div></div>
+      <div class="tile"><div class="k"><span class="en">Body fat</span><span class="ar">الدهون</span></div><div class="v">14.3 <span class="u">kg</span></div><div class="s mid"><span class="en">20.2% — a bit high</span><span class="ar">٢٠٫٢٪ — أعلى قليلاً</span></div></div>
+      <div class="tile"><div class="k">BMI</div><div class="v">21.6</div><div class="s ok"><span class="en">Normal</span><span class="ar">طبيعي</span></div></div>
+      <div class="tile"><div class="k"><span class="en">Visceral fat</span><span class="ar">الدهون الحشوية</span></div><div class="v">7</div><div class="s ok"><span class="en">Balanced</span><span class="ar">متوازن</span></div></div>
+      <div class="tile"><div class="k"><span class="en">Body water</span><span class="ar">ماء الجسم</span></div><div class="v">41.3 <span class="u">L</span></div><div class="s ok"><span class="en">Normal</span><span class="ar">طبيعي</span></div></div>
+    </div>
+    <div class="note">
+      <span class="en"><b>What this tells us:</b> a healthy weight with a good muscle base. The InBody suggests slightly less fat and slightly more muscle over time — a "body recomposition" (getting leaner and stronger), <b>not</b> crash dieting. Because you are still growing, we will not cut calories hard.</span>
+      <span class="ar"><b>ماذا يعني هذا:</b> وزن صحي مع أساس عضلي جيد. يقترح التحليل دهوناً أقل وعضلات أكثر قليلاً مع الوقت — أي "إعادة تشكيل الجسم" (أن تصبح أنحف وأقوى)، <b>وليس</b> حمية قاسية. ولأنك ما زلت تنمو فلن نخفّض السعرات بشدة.</span>
+    </div>
+  </section>
+
+  <form id="form" novalidate></form>
+
+  <div id="success">
+    <div class="tick"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B4F4E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h2><span class="en">One last step</span><span class="ar">خطوة أخيرة</span></h2>
+    <p><span class="en">Tap the button to open WhatsApp with your answers, then press send.</span><span class="ar">اضغط على الزر لفتح واتساب مع إجاباتك، ثم اضغط إرسال.</span></p>
+    <a class="wa-send" id="waLink" href="#" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.039zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+      <span class="en">Open WhatsApp &amp; send</span><span class="ar">فتح واتساب والإرسال</span>
+    </a>
+    <button class="btn-copy" id="copyBtn"><span class="en">Copy answers instead</span><span class="ar">نسخ الإجابات بدلاً من ذلك</span></button>
+  </div>
+</main>
+
+<footer>
+  <span class="en">Prepared by <b>Prof. Randa Reda</b></span>
+  <span class="ar">إعداد <b>أ.د. رانده رضا</b></span>
+</footer>
+
+<script>
+  const WHATSAPP_NUMBER = "201227341620";
+  const SHEET_ENDPOINT = "";
+
+  /* ------------------------------------------------------------------
+     Field types: text | number | tel | area | radio | check | tip
+     pre  = pre-filled from InBody (value shown, editable)
+     req  = required
+  ------------------------------------------------------------------ */
+  const S = [
+   { t:["Personal details","البيانات الشخصية"], f:[
+    {k:"Name",en:"Full name",ar:"الاسم الكامل",type:"text",req:1,pre:"Akram Ayman"},
+    {k:"Age",en:"Age",ar:"العمر",type:"number",req:1,pre:16},
+    {k:"Date of birth",en:"Date of birth",ar:"تاريخ الميلاد",type:"text"},
+    {k:"Sex",en:"Sex",ar:"النوع",type:"radio",o:[["Male","ذكر"],["Female","أنثى"]],def:0},
+    {k:"City/Country",en:"City / Country",ar:"المدينة / الدولة",type:"text"},
+    {k:"School grade",en:"School year / grade",ar:"السنة الدراسية",type:"text"},
+    {k:"Parent/guardian name",en:"Parent / guardian name",ar:"اسم ولي الأمر",type:"text",req:1},
+    {k:"Parent WhatsApp",en:"Parent / guardian WhatsApp number",ar:"رقم واتساب ولي الأمر",type:"tel",req:1}
+   ]},
+   { t:["Body measurements","القياسات الجسمية"], f:[
+    {type:"tip",en:"Pre-filled from the InBody scan of 27 Sept 2026. Edit if anything has changed.",ar:"تمت تعبئتها من تحليل InBody بتاريخ ٢٧ سبتمبر ٢٠٢٦. عدّلها إذا تغير شيء."},
+    {k:"Height (cm)",en:"Height (cm)",ar:"الطول (سم)",type:"number",req:1,pre:181},
+    {k:"Current weight (kg)",en:"Current weight (kg)",ar:"الوزن الحالي (كجم)",type:"number",req:1,pre:70.9},
+    {k:"Body fat % (InBody)",en:"Body fat %",ar:"نسبة الدهون ٪",type:"text",pre:"20.2"},
+    {k:"Skeletal muscle mass (kg)",en:"Skeletal muscle mass (kg)",ar:"كتلة العضلات الهيكلية (كجم)",type:"text",pre:"31.8"},
+    {k:"Weight a year ago (kg)",en:"Your weight about 1 year ago (kg)",ar:"وزنك قبل سنة تقريباً (كجم)",type:"number"},
+    {k:"Height a year ago (cm)",en:"Your height about 1 year ago (cm)",ar:"طولك قبل سنة تقريباً (سم)",type:"number",hint:["Helps us see how fast you are growing","يساعدنا على معرفة سرعة نموك"]},
+    {k:"Father's height (cm)",en:"Father's height (cm)",ar:"طول الأب (سم)",type:"number"},
+    {k:"Mother's height (cm)",en:"Mother's height (cm)",ar:"طول الأم (سم)",type:"number"}
+   ]},
+   { t:["Growth &amp; development","النمو والتطور"], f:[
+    {k:"Growth spurt",en:"Have you grown noticeably in the last 6–12 months?",ar:"هل زاد طولك بشكل ملحوظ في آخر ٦–١٢ شهراً؟",type:"radio",o:[["Yes, a lot","نعم، كثيراً"],["A little","قليلاً"],["No","لا"]]},
+    {k:"Voice/shaving changes",en:"Puberty stage",ar:"مرحلة البلوغ",type:"radio",o:[["Just starting","بدأت للتو"],["Well under way","في منتصفها"],["Almost complete","اكتملت تقريباً"],["Prefer to discuss privately","أفضل مناقشتها بشكل خاص"]]},
+    {k:"Tiredness/dizziness",en:"Do you often feel very tired, dizzy, or weak during the day?",ar:"هل تشعر كثيراً بالتعب أو الدوخة أو الضعف خلال اليوم؟",type:"radio",o:[["Yes","نعم"],["Sometimes","أحياناً"],["No","لا"]]}
+   ]},
+   { t:["Football &amp; gym","كرة القدم والجيم"], f:[
+    {k:"Football team/academy",en:"Football team / academy",ar:"فريق / أكاديمية كرة القدم",type:"text"},
+    {k:"Football position",en:"Position you play",ar:"مركزك في الملعب",type:"text"},
+    {k:"Football sessions/week",en:"Football training sessions per week",ar:"عدد حصص كرة القدم أسبوعياً",type:"number",req:1},
+    {k:"Matches/week",en:"Matches per week",ar:"عدد المباريات أسبوعياً",type:"text"},
+    {k:"Gym days/week",en:"Gym days per week",ar:"أيام الجيم أسبوعياً",type:"number",req:1},
+    {k:"Session length (hours)",en:"Typical session length (hours)",ar:"مدة الحصة المعتادة (ساعات)",type:"text"},
+    {k:"Gym program type",en:"What do you do in the gym?",ar:"ماذا تفعل في الجيم؟",type:"check",o:[["Weights / resistance","أوزان / مقاومة"],["Bodyweight / calisthenics","تمارين بوزن الجسم"],["Cardio","كارديو"],["Mixed","مختلط"]]},
+    {k:"Gym supervision",en:"Who guides your gym training?",ar:"من يشرف على تدريبك في الجيم؟",type:"radio",o:[["Qualified coach","مدرب مؤهل"],["Friends","أصدقاء"],["Online videos","فيديوهات على الإنترنت"],["Myself","أنا بنفسي"]]},
+    {k:"Usual training time",en:"Usual training time",ar:"وقت التدريب المعتاد",type:"radio",o:[["Morning","صباحاً"],["Afternoon","ظهراً / بعد المدرسة"],["Evening","مساءً"],["Varies","متغير"]]},
+    {k:"Other sports/PE",en:"Other sports or school PE",ar:"رياضات أخرى أو حصة الرياضة بالمدرسة",type:"text"},
+    {k:"Season phase",en:"Current phase",ar:"المرحلة الحالية",type:"radio",o:[["Off-season","خارج الموسم"],["Pre-season","ما قبل الموسم"],["In-season","داخل الموسم"],["Tournament prep","تجهيز لبطولة"]]}
+   ]},
+   { t:["Goals","الأهداف"], f:[
+    {k:"Main goal",en:"Main goal",ar:"الهدف الأساسي",type:"radio",req:1,o:[["Build lean muscle","بناء عضلات نظيفة"],["Improve football performance","تحسين الأداء في كرة القدم"],["Get leaner gradually","تقليل الدهون تدريجياً"],["Healthy growth &amp; maintenance","نمو صحي ومحافظة"]]},
+    {k:"Target event/date",en:"Target tournament or date",ar:"البطولة أو التاريخ المستهدف",type:"text"},
+    {k:"Main result wanted",en:"What result do you most want from this plan?",ar:"ما النتيجة التي تريد تحقيقها من هذه الخطة؟",type:"area"},
+    {k:"Who wants change",en:"Whose idea was it to see a nutritionist?",ar:"من صاحب فكرة زيارة أخصائي التغذية؟",type:"radio",o:[["Mine","فكرتي"],["My parents","والديّ"],["My coach","مدربي"],["Together","معاً"]]}
+   ]},
+   { t:["Medical history","التاريخ الطبي"], f:[
+    {k:"Chronic conditions",en:"Health conditions (e.g. asthma, diabetes, anaemia)",ar:"حالات صحية (مثل الربو، السكري، الأنيميا)",type:"area"},
+    {k:"Medications",en:"Current medications",ar:"الأدوية الحالية",type:"text"},
+    {k:"Injuries",en:"Injuries (current or recent)",ar:"إصابات حالية أو حديثة",type:"text"},
+    {k:"Food allergies",en:"Food allergies",ar:"حساسية تجاه أطعمة",type:"text"},
+    {k:"Digestive issues",en:"Digestive issues (bloating, acidity, constipation…)",ar:"مشاكل في الهضم (انتفاخ، حموضة، إمساك…)",type:"text"},
+    {k:"Family history",en:"Family history (diabetes, high cholesterol, heart disease)",ar:"تاريخ عائلي (سكري، كوليسترول، أمراض القلب)",type:"text"},
+    {k:"Recent blood tests",en:"Recent blood tests (iron, vitamin D, etc.)",ar:"تحاليل دم حديثة (حديد، فيتامين د، إلخ)",type:"text"}
+   ]},
+   { t:["Diet preferences","تفضيلات الطعام"], f:[
+    {k:"Diet type",en:"Diet type",ar:"نمط الطعام",type:"radio",o:[["Omnivore","متنوع"],["Vegetarian","نباتي"],["Other","أخرى"]]},
+    {k:"Foods liked",en:"Foods you love",ar:"أطعمة تحبها",type:"text"},
+    {k:"Foods avoided",en:"Foods you avoid or dislike",ar:"أطعمة تتجنبها أو لا تحبها",type:"text"},
+    {k:"Fasting",en:"Do you fast (Ramadan / other)?",ar:"هل تصوم (رمضان / غيره)؟",type:"radio",o:[["No","لا"],["Ramadan","رمضان"],["Other","أخرى"]]},
+    {k:"Who prepares food",en:"Who prepares your food?",ar:"من يجهّز طعامك؟",type:"radio",o:[["Family","العائلة"],["I cook sometimes","أطبخ أحياناً"],["Mostly eat out","أكل خارجي غالباً"]]}
+   ]},
+   { t:["A typical school day","يوم دراسي معتاد"], f:[
+    {k:"Wake/school times",en:"Wake-up time and school hours",ar:"وقت الاستيقاظ وساعات المدرسة",type:"text"},
+    {k:"Meals per day",en:"Meals per day",ar:"عدد الوجبات يومياً",type:"text"},
+    {k:"Breakfast",en:"Breakfast (do you always eat it?)",ar:"الفطار (هل تتناوله دائماً؟)",type:"area"},
+    {k:"School food",en:"What do you eat / buy at school?",ar:"ماذا تأكل / تشتري في المدرسة؟",type:"area"},
+    {k:"Lunch",en:"Lunch",ar:"الغداء",type:"area"},
+    {k:"Dinner",en:"Dinner",ar:"العشاء",type:"area"},
+    {k:"Snacks",en:"Snacks &amp; sweets",ar:"الوجبات الخفيفة والحلويات",type:"text"},
+    {k:"Pre/post-training meals",en:"What do you eat before and after football / gym?",ar:"ماذا تأكل قبل وبعد كرة القدم / الجيم؟",type:"area"},
+    {k:"Fast food/soft drinks",en:"Fast food, soft drinks or chips — how often per week?",ar:"وجبات سريعة أو مشروبات غازية أو شيبسي — كم مرة أسبوعياً؟",type:"text"},
+    {k:"Protein foods",en:"How often do you eat eggs, chicken, fish, meat, dairy or legumes?",ar:"كم مرة تأكل بيضاً أو دجاجاً أو سمكاً أو لحماً أو ألباناً أو بقوليات؟",type:"text"},
+    {k:"Fruit/veg",en:"Fruit and vegetables per day",ar:"الفواكه والخضروات يومياً",type:"text"}
+   ]},
+   { t:["Hydration","الترطيب"], f:[
+    {k:"Daily fluids (L)",en:"Daily fluid intake (litres)",ar:"السوائل اليومية (لتر)",type:"text"},
+    {k:"Drinks during training",en:"Do you drink water during training?",ar:"هل تشرب أثناء التمرين؟",type:"radio",o:[["Yes","نعم"],["No","لا"],["Sometimes","أحياناً"]]},
+    {k:"Sweat/cramps",en:"Heavy sweating, cramps or headaches after training?",ar:"تعرق شديد أو تشنجات أو صداع بعد التمرين؟",type:"radio",o:[["Yes","نعم"],["No","لا"],["Sometimes","أحياناً"]]},
+    {k:"Urine colour",en:"Urine colour most of the day",ar:"لون البول معظم اليوم",type:"radio",o:[["Pale yellow","أصفر فاتح"],["Dark yellow","أصفر داكن"],["Not sure","لست متأكداً"]]}
+   ]},
+   { t:["Supplements &amp; energy drinks","المكملات ومشروبات الطاقة"], f:[
+    {type:"tip",en:"Teen athletes usually do not need supplements — good food comes first. Please tell us honestly what you use so we can keep you safe.",ar:"الرياضيون المراهقون لا يحتاجون عادةً إلى مكملات — الأكل الجيد أولاً. من فضلك أخبرنا بصدق بما تستخدمه لنبقيك آمناً."},
+    {k:"Supplements used",en:"Supplements you use now",ar:"المكملات التي تستخدمها حالياً",type:"check",o:[["None","لا شيء"],["Protein powder","بروتين بودرة"],["Creatine","كرياتين"],["Pre-workout","بري ووركاوت"],["Vitamins / minerals","فيتامينات / معادن"],["Other","أخرى"]]},
+    {k:"Supplement details",en:"Brand &amp; dose (if any)",ar:"الماركة والجرعة (إن وُجدت)",type:"area"},
+    {k:"Who advised supplements",en:"Who suggested them to you?",ar:"من نصحك بها؟",type:"radio",o:[["Doctor / dietitian","طبيب / أخصائي تغذية"],["Coach","المدرب"],["Friends","أصدقاء"],["Social media","السوشيال ميديا"],["Not applicable","لا ينطبق"]]},
+    {k:"Energy drinks/caffeine",en:"Energy drinks, coffee or tea per day",ar:"مشروبات الطاقة أو القهوة أو الشاي يومياً",type:"text"},
+    {k:"Tempted by other products",en:"Has anyone offered or suggested muscle-building pills, injections or 'fat burners'?",ar:"هل عرض عليك أحد حبوباً أو حقناً لبناء العضلات أو 'حارقات دهون'؟",type:"radio",o:[["No","لا"],["Yes","نعم"],["Prefer to discuss privately","أفضل مناقشة ذلك بشكل خاص"]]}
+   ]},
+   { t:["Sleep, stress &amp; screens","النوم والتوتر والشاشات"], f:[
+    {k:"Bedtime/wake",en:"Usual bedtime and wake-up time",ar:"موعد النوم والاستيقاظ المعتاد",type:"text"},
+    {k:"Sleep hours",en:"Sleep hours per night",ar:"ساعات النوم في الليلة",type:"text"},
+    {k:"Sleep quality",en:"Sleep quality",ar:"جودة النوم",type:"radio",o:[["Poor","ضعيفة"],["Fair","متوسطة"],["Good","جيدة"]]},
+    {k:"Screen time",en:"Daily screen time (phone, games, TV)",ar:"وقت الشاشات يومياً (هاتف، ألعاب، تلفاز)",type:"text"},
+    {k:"Exam stress",en:"Stress from school / exams",ar:"التوتر من المدرسة / الامتحانات",type:"radio",o:[["Low","منخفض"],["Medium","متوسط"],["High","مرتفع"]]},
+    {k:"Energy levels",en:"Energy through the day",ar:"مستوى الطاقة خلال اليوم",type:"text"}
+   ]},
+   { t:["Your relationship with food &amp; body","علاقتك بالطعام وجسمك"], f:[
+    {type:"tip",en:"These questions are asked to every teen athlete. They help us support you well.",ar:"نطرح هذه الأسئلة على كل رياضي مراهق. فهي تساعدنا على دعمك بشكل أفضل."},
+    {k:"Body satisfaction",en:"How do you feel about your body right now?",ar:"ما شعورك تجاه جسمك حالياً؟",type:"radio",o:[["Happy","راضٍ"],["Mixed feelings","مشاعر مختلطة"],["Unhappy","غير راضٍ"]]},
+    {k:"Skip meals to change weight",en:"Do you skip meals or eat very little to change your weight or shape?",ar:"هل تتخطى وجبات أو تأكل قليلاً جداً لتغيير وزنك أو شكلك؟",type:"radio",o:[["Never","أبداً"],["Sometimes","أحياناً"],["Often","كثيراً"]]},
+    {k:"Worry about food",en:"Do you often feel guilty or anxious after eating?",ar:"هل تشعر كثيراً بالذنب أو القلق بعد الأكل؟",type:"radio",o:[["Never","أبداً"],["Sometimes","أحياناً"],["Often","كثيراً"]]},
+    {k:"Social media influence",en:"Do fitness accounts or social media influence how you eat or train?",ar:"هل تؤثر حسابات اللياقة أو السوشيال ميديا على طريقة أكلك أو تدريبك؟",type:"radio",o:[["Not much","ليس كثيراً"],["Somewhat","إلى حد ما"],["A lot","كثيراً"]]}
+   ]},
+   { t:["Anything else","أي شيء آخر"], f:[
+    {k:"Previous nutrition support",en:"Worked with a nutritionist before?",ar:"هل تعاملت مع أخصائي تغذية من قبل؟",type:"text"},
+    {k:"Biggest challenge",en:"Your biggest nutrition challenge",ar:"أكبر تحدٍ غذائي تواجهه",type:"area"},
+    {k:"Notes to coach",en:"Anything else you or your parents want us to know",ar:"أي شيء آخر تود أنت أو والداك أن نعرفه",type:"area"}
+   ]}
+  ];
+
+  const form = document.getElementById('form');
+  let idn = 0;
+  const esc = s => String(s).replace(/"/g,'&quot;');
+
+  S.forEach(function(sec,si){
+    var h = '<section class="section"><div class="section-head"><div class="num">'+String(si+1).padStart(2,'0')+'</div><h2><span class="en">'+sec.t[0]+'</span><span class="ar">'+sec.t[1]+'</span></h2></div>';
+    sec.f.forEach(function(f){
+      if(f.type==='tip'){ h+='<div class="tip"><span class="en">'+f.en+'</span><span class="ar">'+f.ar+'</span></div>'; return; }
+      var r = f.req ? '<span class="req">*</span>' : '';
+      var hint = f.hint ? '<span class="hint"><span class="en">'+f.hint[0]+'</span><span class="ar">'+f.hint[1]+'</span></span>' : '';
+      h+='<div class="field" data-k="'+esc(f.k)+'" data-req="'+(f.req?1:0)+'" data-type="'+f.type+'">';
+      var lab = '<span class="en">'+f.en+'</span><span class="ar">'+f.ar+'</span>'+r+hint;
+      if(f.type==='radio' || f.type==='check'){
+        h+='<div class="qlabel">'+lab+'</div><div class="opts">';
+        f.o.forEach(function(o,i){
+          var id='o'+(idn++);
+          var chk = (f.def===i) ? ' checked' : '';
+          h+='<div class="opt"><input type="'+(f.type==='radio'?'radio':'checkbox')+'" name="'+esc(f.k)+'" id="'+id+'" value="'+esc(o[0])+'" data-ar="'+esc(o[1])+'"'+chk+'><label for="'+id+'"><span class="en">'+o[0]+'</span><span class="ar">'+o[1]+'</span></label></div>';
+        });
+        h+='</div>';
+      } else {
+        var id='o'+(idn++);
+        var pre = (f.pre!==undefined) ? ' value="'+esc(f.pre)+'" class="prefilled"' : '';
+        h+='<label class="q" for="'+id+'">'+lab+'</label>';
+        if(f.type==='area') h+='<textarea id="'+id+'" name="'+esc(f.k)+'"></textarea>';
+        else h+='<input id="'+id+'" type="'+f.type+'" name="'+esc(f.k)+'"'+(f.type==='number'?' step="any" inputmode="decimal"':'')+pre+'>';
+      }
+      h+='</div>';
+    });
+    h+='</section>';
+    form.insertAdjacentHTML('beforeend',h);
+  });
+
+  form.insertAdjacentHTML('beforeend',
+   '<section class="section"><div class="section-head"><div class="num">✓</div><h2><span class="en">Confirmation</span><span class="ar">التأكيد</span></h2></div>'+
+   '<div class="field consent" data-consent="1"><input type="checkbox" id="consent"><label for="consent"><span class="en">I confirm the information above is accurate to the best of my knowledge.</span><span class="ar">أؤكد أن المعلومات أعلاه صحيحة حسب علمي.</span></label></div>'+
+   '<div class="field consent" data-consent="1"><input type="checkbox" id="consent2"><label for="consent2"><span class="en">A parent / guardian is aware of this assessment and agrees to it.</span><span class="ar">ولي الأمر على علم بهذا التقييم وموافق عليه.</span></label></div></section>'+
+   '<div class="submit-wrap"><button type="submit" class="btn-send"><span class="en">Send my answers on WhatsApp</span><span class="ar">إرسال إجاباتي عبر واتساب</span></button>'+
+   '<div class="errsummary" id="errsummary"><span class="en">Please fill the required fields highlighted above.</span><span class="ar">من فضلك أكمل الحقول المطلوبة المظللة بالأعلى.</span></div>'+
+   '<p class="formnote"><span class="en">Your answers open in WhatsApp ready to send — nothing is stored on this page.</span><span class="ar">تُفتح إجاباتك في واتساب جاهزة للإرسال — لا يتم تخزين أي شيء على هذه الصفحة.</span></p></div>');
+
+  function setLang(l){
+    document.body.dataset.lang=l;
+    document.body.dir=(l==='ar')?'rtl':'ltr';
+    document.documentElement.lang=l;
+    document.getElementById('btn-en').setAttribute('aria-pressed',l==='en');
+    document.getElementById('btn-ar').setAttribute('aria-pressed',l==='ar');
+    updateProgress();
+  }
+
+  /* progress */
+  function isFilled(f){
+    var t=f.dataset.type;
+    if(t==='radio'||t==='check') return !!f.querySelector('input:checked');
+    var el=f.querySelector('input,textarea'); return el && el.value.trim()!=='';
+  }
+  function updateProgress(){
+    var fs=[].slice.call(document.querySelectorAll('.field[data-k]'));
+    var done=fs.filter(isFilled).length, pct=Math.round(done/fs.length*100);
+    document.getElementById('pfill').style.width=pct+'%';
+    document.getElementById('ppct').textContent=pct+'%';
+    document.getElementById('ptxt').textContent=(document.body.dataset.lang==='ar')?('تمت الإجابة على '+done+' من '+fs.length):(done+' of '+fs.length+' answered');
+  }
+  form.addEventListener('input',updateProgress);
+  form.addEventListener('change',updateProgress);
+  updateProgress();
+
+  /* submit */
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var lang=document.body.dataset.lang, ok=true, firstBad=null;
+    document.querySelectorAll('.field').forEach(function(f){f.classList.remove('invalid');});
+    function bad(f){ok=false;f.classList.add('invalid');if(!firstBad)firstBad=f;}
+    document.querySelectorAll('.field[data-req="1"]').forEach(function(f){ if(!isFilled(f)) bad(f); });
+    document.querySelectorAll('.field[data-consent]').forEach(function(f){ if(!f.querySelector('input').checked) bad(f); });
+    var es=document.getElementById('errsummary');
+    if(!ok){es.classList.add('show');firstBad.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    es.classList.remove('show');
+
+    var lines=[], answers={};
+    lines.push(lang==='ar'?'🏅 تقييم تغذية رياضي مراهق':'🏅 Teen Athlete Nutrition Assessment');
+    lines.push(lang==='ar'?'InBody: ٢٧ سبتمبر ٢٠٢٦ — وزن ٧٠٫٩ كجم، عضلات ٣١٫٨ كجم، دهون ٢٠٫٢٪':'InBody 27 Sept 2026: weight 70.9 kg, SMM 31.8 kg, PBF 20.2%');
+    lines.push('—');
+    var secs=document.querySelectorAll('section.section');
+    secs.forEach(function(sec){
+      var h2=sec.querySelector('h2 .'+lang); var title=h2?h2.textContent:'';
+      var sl=[];
+      sec.querySelectorAll('.field[data-k]').forEach(function(f){
+        var k=f.dataset.k, t=f.dataset.type, q=f.querySelector('.'+lang), qtxt=q?q.textContent:k, val;
+        if(t==='radio'||t==='check'){
+          var c=[].slice.call(f.querySelectorAll('input:checked')); if(!c.length) return;
+          val=c.map(function(x){return lang==='ar'?x.dataset.ar:x.value;}).join(', ');
+          answers[k]=c.map(function(x){return x.value;}).join(', ');
+        } else {
+          var el=f.querySelector('input,textarea'); if(!el.value.trim()) return;
+          val=el.value.trim(); answers[k]=val;
+        }
+        sl.push('• '+qtxt+': '+val);
+      });
+      if(sl.length){lines.push('*'+title+'*');lines=lines.concat(sl);lines.push('');}
+    });
+    var msg=lines.join('\n');
+
+    if(SHEET_ENDPOINT){try{fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(answers).toString()});}catch(err){}}
+
+    var link='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(msg);
+    document.getElementById('waLink').href=link;
+    document.getElementById('copyBtn').onclick=function(){
+      navigator.clipboard&&navigator.clipboard.writeText(msg);
+      this.querySelector('.'+lang).textContent=(lang==='ar'?'تم النسخ ✓':'Copied ✓');
+    };
+    form.style.display='none';
+    document.querySelector('.progress').style.display='none';
+    var s=document.getElementById('success'); s.classList.add('show');
+    s.scrollIntoView({behavior:'smooth',block:'start'});
+    window.location.href=link;
+  });
+</script>
+</body>
+</html>
