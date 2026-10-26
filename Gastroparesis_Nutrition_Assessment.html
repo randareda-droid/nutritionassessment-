@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eating Habits &amp; Symptom Assessment — Gastroparesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--teal-deep:#123d36;--teal:#1F4E46;--teal-soft:#2c6b60;--gold:#B3924F;--gold-soft:#e9dcc0;--cream:#F8F5EE;--ink:#1d2b28;--mut:#64736f;--line:#ded8c8;--coral:#E07A5F;--ok:#2e8b57;--bad:#d1495b;--card:#fff}
+@media (prefers-color-scheme:dark){:root{--cream:#0f1b19;--card:#16252a;--ink:#eef2ef;--mut:#9db0aa;--line:#2a3d3a;--gold-soft:#3a3322}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:'Cairo','Tajawal',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.65;font-size:16px}
+body[data-lang="en"] .ar{display:none!important}
+body[data-lang="ar"] .en{display:none!important}
+body[data-lang="ar"]{direction:rtl;text-align:right}
+body[data-lang="en"]{direction:ltr;text-align:left}
+.topbar{background:var(--teal-deep);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:30;border-bottom:3px solid var(--gold)}
+.brand{font-weight:700;font-size:.95rem;letter-spacing:.2px}
+.brand small{display:block;font-weight:400;color:#cfe3de;font-size:.72rem}
+.langbtn{background:var(--gold);color:#fff;border:2px solid #fff;border-radius:999px;padding:6px 16px;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.progress{height:6px;background:rgba(255,255,255,.18);position:absolute;left:0;right:0;bottom:-3px}
+.progress i{display:block;height:100%;width:0;background:var(--gold-soft);transition:width .3s}
+.hero{background:linear-gradient(135deg,var(--teal-deep),var(--teal-soft));color:#fff;padding:34px 18px 40px;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(1.4rem,4.5vw,2.1rem);line-height:1.35}
+.hero p{margin:0 auto;max-width:640px;color:#dcece8}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px 14px;margin-bottom:12px;font-size:.82rem;color:#f2e6c9}
+main{max-width:960px;margin:-20px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:16px 0;box-shadow:0 4px 18px rgba(18,61,54,.07);overflow:hidden}
+.card>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(90deg,var(--teal) 0%,var(--teal-soft) 100%);color:#fff;font-weight:700}
+.card>summary::-webkit-details-marker{display:none}
+.card.clin>summary{background:linear-gradient(90deg,#6d5a2d,var(--gold))}
+.num{flex:none;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;font-size:.95rem;border:2px solid #fff}
+.stitle{flex:1;font-size:1.05rem}
+.chev{width:10px;height:10px;border-right:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(45deg);transition:transform .2s;margin:0 6px}
+details[open]>summary .chev{transform:rotate(-135deg)}
+.sbody{padding:16px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.fld{display:block;margin:10px 0}
+.lbl{display:block;font-weight:600;font-size:.88rem;color:var(--teal);margin-bottom:4px}
+@media (prefers-color-scheme:dark){.lbl{color:#9fd3c7}}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{width:100%;font:inherit;font-size:.95rem;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);outline:none;transition:border .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(179,146,79,.25)}
+textarea{resize:vertical}
+.calc{padding:9px 11px;border:1.5px dashed var(--gold);border-radius:10px;background:var(--gold-soft);color:#4a3b14;font-weight:600;min-height:42px}
+@media (prefers-color-scheme:dark){.calc{color:#f2e6c9}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.col{flex-direction:column}
+.chip{position:relative;cursor:pointer}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip>span{display:inline-block;padding:7px 14px;border:1.5px solid var(--line);border-radius:999px;background:var(--card);font-size:.9rem;transition:all .15s}
+.chip.wide>span{display:block;border-radius:12px}
+.chip:hover>span{border-color:var(--gold)}
+.chip input:checked+span{background:var(--teal);color:#fff;border-color:var(--teal);box-shadow:0 2px 6px rgba(18,61,54,.3)}
+.chip input:focus-visible+span{outline:3px solid var(--gold)}
+.note{background:#eef6f3;border:1px solid #bfdcd3;border-inline-start:5px solid var(--teal);border-radius:12px;padding:11px 14px;margin-bottom:12px;font-size:.92rem}
+.note.gold{background:#fbf4e2;border-color:#e4d09c;border-inline-start-color:var(--gold)}
+@media (prefers-color-scheme:dark){.note{background:#173a35;border-color:#2b5b53}.note.gold{background:#352e1c;border-color:#5e5031}}
+h4.sub{margin:18px 0 8px;color:var(--teal);border-bottom:2px solid var(--gold-soft);padding-bottom:4px}
+h4.sub.warn{color:var(--bad)}
+.tabs{display:flex;gap:6px;background:var(--teal-deep);padding:6px;border-radius:14px;margin-bottom:12px;flex-wrap:wrap}
+.tab{flex:1;min-width:110px;border:2px solid transparent;background:transparent;color:#cfe3de;font:inherit;font-weight:600;padding:9px 10px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.tab.on{background:var(--gold);color:#fff;border-color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+.badge{background:rgba(255,255,255,.2);border-radius:999px;font-size:.75rem;padding:0 8px;min-width:22px;text-align:center}
+.tab.on .badge{background:#fff;color:var(--teal-deep)}
+.dayPanel{display:none}
+.dayPanel.on{display:block}
+.print-day{display:none}
+.rows{display:flex;flex-direction:column;gap:10px}
+.mrow{border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card);position:relative}
+.mrow .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;color:var(--gold);font-weight:700}
+.mrow .del{border:none;background:none;color:var(--bad);font-size:1.2rem;cursor:pointer;line-height:1}
+.mrow .mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.mrow .mg .wide2{grid-column:span 2}
+@media (max-width:520px){.mrow .mg .wide2{grid-column:span 1}}
+.mrow .mg label{font-size:.78rem;color:var(--mut);display:block}
+.mrow .sym{margin-top:8px}
+.mrow .sym .chip>span{padding:4px 10px;font-size:.82rem}
+.btn{font:inherit;font-weight:700;font-size:.88rem;border:none;border-radius:12px;padding:8px 13px;cursor:pointer;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn.add{width:100%;margin-top:10px;background:transparent;border:2px dashed var(--gold);color:var(--gold)}
+.btn.pri{background:var(--teal);color:#fff}
+.btn.gld{background:var(--gold);color:#fff}
+.btn.wa{background:#25a244;color:#fff}
+.btn.rst{background:transparent;border:2px solid var(--bad);color:var(--bad)}
+.totals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.tot{background:linear-gradient(160deg,var(--gold-soft),#fff0);border:1.5px solid var(--gold);border-radius:14px;text-align:center;padding:10px 6px}
+.tv{font-size:1.7rem;font-weight:800;color:var(--teal)}
+@media (prefers-color-scheme:dark){.tv{color:#f2e6c9}}
+.tl{font-size:.78rem;color:var(--mut)}
+.subf{margin-top:6px}
+.tolwrap{border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.tolhead,.tolrow{display:grid;grid-template-columns:2.4fr 1fr 1fr 1.2fr;align-items:center}
+.tolhead{background:var(--teal-deep);color:#fff;font-size:.8rem;font-weight:700;text-align:center;padding:8px 6px}
+.tolhead span:first-child{display:block}
+.tolrow{border-top:1px solid var(--line);padding:6px 8px}
+.tolrow:nth-child(even){background:rgba(179,146,79,.07)}
+.tname{padding:4px 6px;font-size:.9rem}
+.tcell{position:relative;display:flex;justify-content:center;cursor:pointer;padding:6px}
+.tcell input{position:absolute;opacity:0}
+.tcell i{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:block;transition:all .15s;background:var(--card)}
+.tcell input:checked+.tl2+i{color:#fff}
+.tcell.t0 input:checked+.tl2+i{background:var(--mut);border-color:var(--mut)}
+.tcell.t1 input:checked+.tl2+i{background:var(--ok);border-color:var(--ok)}
+.tcell.t2 input:checked+.tl2+i{background:var(--bad);border-color:var(--bad)}
+.tcell input:checked+.tl2+i::after{content:"✓";display:block;text-align:center;line-height:22px;font-weight:800}
+.tcell input:focus-visible+.tl2+i{outline:3px solid var(--gold)}
+.tl2{display:none}
+@media (max-width:600px){
+ .tolhead{display:none}
+ .tolrow{grid-template-columns:1fr 1fr 1fr;gap:4px}
+ .tname{grid-column:1/-1;font-weight:600}
+ .tcell{flex-direction:column;align-items:center;gap:4px;font-size:.72rem;text-align:center}
+ .tl2{display:block}
+}
+.slider{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.slbl{font-weight:600;font-size:.9rem}
+.srow{display:flex;align-items:center;gap:10px}
+.srow input[type=range]{flex:1;accent-color:var(--gold)}
+.sout{min-width:28px;text-align:center;font-weight:800;color:var(--teal);background:var(--gold-soft);border-radius:8px;padding:1px 6px}
+.sscale{display:flex;justify-content:space-between;font-size:.72rem;color:var(--mut)}
+.alert{margin-top:12px;background:#fdecee;border:2px solid var(--bad);color:#7a1020;border-radius:12px;padding:12px 14px;font-weight:700}
+.alert[hidden]{display:none}
+.actions{position:sticky;bottom:0;z-index:20;background:var(--teal-deep);padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;border-top:3px solid var(--gold)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--teal-deep);color:#fff;padding:9px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;border:1px solid var(--gold)}
+.toast.on{opacity:1}
+footer{background:var(--teal-deep);color:#e6efec;text-align:center;padding:22px 16px 90px;font-size:.88rem}
+footer b{color:#f2e6c9;display:block;font-size:1rem;margin-bottom:2px}
+@media print{
+ .topbar,.actions,.btn.add,.del,.toast,.tabs,.chev{display:none!important}
+ body{background:#fff;color:#000;font-size:11pt}
+ .hero{background:#fff;color:#000;border-bottom:3px solid var(--gold);padding:10px}
+ .hero p,.hero .tag{color:#333}
+ .card{box-shadow:none;break-inside:avoid-page;margin:8px 0}
+ .card>summary{background:#fff!important;color:#000;border-bottom:2px solid var(--gold)}
+ .dayPanel{display:block!important;break-inside:avoid}
+ .print-day{display:block;font-weight:800;color:var(--teal);margin:10px 0 4px}
+ footer{background:#fff;color:#000;padding:10px}
+ footer b{color:#000}
+ .chip input:checked+span,.tcell input:checked+.tl2+i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body data-lang="en">
+<div class="topbar">
+  <div class="brand"><span class="en">Prof. Randa Reda — Clinical Nutrition</span><span class="ar">أ.د. رانده رضا — التغذية الإكلينيكية</span><small><span class="en">Ain Shams University Faculty of Medicine</span><span class="ar">كلية الطب جامعة عين شمس</span></small></div>
+  <button type="button" class="langbtn" id="langBtn" aria-label="Language"><span class="en">العربية</span><span class="ar">English</span></button>
+  <div class="progress"><i id="prog"></i></div>
+</div>
+<header class="hero">
+  <span class="tag">🩺 <span class="en">Nutrition assessment · Gastroparesis</span><span class="ar">تقييم تغذوي · الشلل المعدي</span></span>
+  <h1><span class="en">Eating Habits &amp; Symptom Assessment</span><span class="ar">تقييم عادات الأكل والأعراض</span></h1>
+  <p><span class="en">This form helps us understand how you eat and how your stomach responds, so we can design a diet plan that fits you. Take your time — your answers are saved automatically on this device.</span><span class="ar">الاستمارة دي بتساعدنا نفهم بتاكلي إزاي ومعدتك بتتجاوب إزاي، عشان نعمل لك خطة غذائية مناسبة. خدي وقتك — إجاباتك بتتحفظ تلقائياً على الجهاز ده.</span></p>
+</header>
+<main>
+<details class="card " open><summary><span class="num">1</span><span class="stitle"><span class="en">Patient details</span><span class="ar">بيانات المريضة</span></span><span class="chev"></span></summary><div class="sbody"><div class="grid g3"><label class="fld "><span class="lbl"><span class="en">Patient name</span><span class="ar">اسم المريضة</span></span><input type="text" data-k="name" data-pen="Full name" data-par="الاسم بالكامل" ></label><label class="fld "><span class="lbl"><span class="en">Date</span><span class="ar">التاريخ</span></span><input type="date" data-k="date" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Current weight (kg)</span><span class="ar">الوزن الحالي (كجم)</span></span><input type="number" data-k="wt" data-pen="" data-par="" step="0.1" min="0" inputmode="decimal"></label><label class="fld "><span class="lbl"><span class="en">Usual weight before illness (kg)</span><span class="ar">الوزن المعتاد قبل المرض (كجم)</span></span><input type="number" data-k="wt0" data-pen="" data-par="" step="0.1" min="0" inputmode="decimal"></label><label class="fld "><span class="lbl"><span class="en">Height (cm)</span><span class="ar">الطول (سم)</span></span><input type="number" data-k="ht" data-pen="" data-par="" step="0.1" min="0" inputmode="decimal"></label><div class="fld"><span class="lbl"><span class="en">Auto-calculated</span><span class="ar">بتتحسب تلقائياً</span></span><div class="calc" id="calcAnthro">—</div></div></div><div class="fld"><span class="lbl"><span class="en">Completed by</span><span class="ar">اللي مَلَت الاستمارة</span></span><div class="chips"><label class="chip"><input type="radio" name="by" value="patient" data-k="by_patient"><span><span class="en">Patient</span><span class="ar">المريضة</span></span></label><label class="chip"><input type="radio" name="by" value="parent" data-k="by_parent"><span><span class="en">Parent</span><span class="ar">ولي الأمر</span></span></label><label class="chip"><input type="radio" name="by" value="clin" data-k="by_clin"><span><span class="en">Clinician interview</span><span class="ar">مقابلة مع الطبيبة</span></span></label></div></div></div></details><details class="card " open><summary><span class="num">2</span><span class="stitle"><span class="en">Medical background</span><span class="ar">الخلفية الطبية</span></span><span class="chev"></span></summary><div class="sbody"><div class="grid g2"><label class="fld "><span class="lbl"><span class="en">Cause of gastroparesis (if known)</span><span class="ar">سبب الشلل المعدي (لو معروف)</span></span><select data-k="cause" ><option value="" data-en="— choose —" data-ar="— اختاري —"></option><option value="diabetes" data-en="Diabetes" data-ar="السكر"></option><option value="postviral" data-en="After a viral illness" data-ar="بعد عدوى فيروسية"></option><option value="postsurg" data-en="After surgery" data-ar="بعد عملية"></option><option value="unknown" data-en="Unknown (idiopathic)" data-ar="غير معروف"></option><option value="other" data-en="Other" data-ar="سبب آخر"></option></select></label><label class="fld "><span class="lbl"><span class="en">Since when (month / year)</span><span class="ar">من إمتى (شهر / سنة)</span></span><input type="text" data-k="since" data-pen="e.g. March 2026" data-par="مثلاً مارس 2026" ></label></div><div class="fld"><span class="lbl"><span class="en">Gastric emptying test done?</span><span class="ar">اتعملت أشعة/فحص تفريغ المعدة؟</span></span><div class="chips"><label class="chip"><input type="radio" name="get" value="yes" data-k="get_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label><label class="chip"><input type="radio" name="get" value="no" data-k="get_no"><span><span class="en">No</span><span class="ar">لأ</span></span></label><label class="chip"><input type="radio" name="get" value="unk" data-k="get_unk"><span><span class="en">Not sure</span><span class="ar">مش متأكدة</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Has diabetes?</span><span class="ar">عندها سكر؟</span></span><div class="chips"><label class="chip"><input type="radio" name="dm" value="yes" data-k="dm_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label><label class="chip"><input type="radio" name="dm" value="no" data-k="dm_no"><span><span class="en">No</span><span class="ar">لأ</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Weight change in the last 3 months</span><span class="ar">تغيّر الوزن في آخر 3 شهور</span></span><div class="chips"><label class="chip"><input type="radio" name="wchg" value="lost" data-k="wchg_lost"><span><span class="en">Lost weight</span><span class="ar">نقص</span></span></label><label class="chip"><input type="radio" name="wchg" value="same" data-k="wchg_same"><span><span class="en">Stable</span><span class="ar">ثابت</span></span></label><label class="chip"><input type="radio" name="wchg" value="gain" data-k="wchg_gain"><span><span class="en">Gained</span><span class="ar">زاد</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Periods</span><span class="ar">الدورة الشهرية</span></span><div class="chips"><label class="chip"><input type="radio" name="per" value="reg" data-k="per_reg"><span><span class="en">Regular</span><span class="ar">منتظمة</span></span></label><label class="chip"><input type="radio" name="per" value="irr" data-k="per_irr"><span><span class="en">Irregular</span><span class="ar">غير منتظمة</span></span></label><label class="chip"><input type="radio" name="per" value="stop" data-k="per_stop"><span><span class="en">Stopped</span><span class="ar">واقفة</span></span></label><label class="chip"><input type="radio" name="per" value="none" data-k="per_none"><span><span class="en">Not started yet</span><span class="ar">لسه ما بدأتش</span></span></label></div></div><label class="fld "><span class="lbl"><span class="en">Current medicines (name and dose)</span><span class="ar">الأدوية الحالية (الاسم والجرعة)</span></span><textarea data-k="meds" rows="2" data-pen="e.g. metoclopramide, domperidone, ondansetron, insulin…" data-par="مثلاً: دومبيريدون، ميتوكلوبراميد، أوندانسيترون، إنسولين…"></textarea></label><label class="fld "><span class="lbl"><span class="en">Allergies / intolerances (e.g. lactose, gluten)</span><span class="ar">حساسية / عدم تحمّل (مثلاً اللاكتوز، الجلوتين)</span></span><textarea data-k="allerg" rows="2" data-pen="" data-par=""></textarea></label><label class="fld "><span class="lbl"><span class="en">Foods avoided for personal, religious or other reasons</span><span class="ar">أكل بتتجنبه لأي سبب شخصي أو ديني</span></span><textarea data-k="avoid" rows="2" data-pen="" data-par=""></textarea></label><div class="fld"><span class="lbl"><span class="en">Currently using any of these?</span><span class="ar">بتستخدم حاجة من دول حالياً؟</span></span><div class="chips"><label class="chip"><input type="check" name="feed" value="sup" data-k="feed_sup"><span><span class="en">Nutrition drinks (Ensure, Boost…)</span><span class="ar">مشروبات تغذية (إنشور، بوست…)</span></span></label><label class="chip"><input type="check" name="feed" value="ng" data-k="feed_ng"><span><span class="en">Feeding tube</span><span class="ar">أنبوب تغذية</span></span></label><label class="chip"><input type="check" name="feed" value="iv" data-k="feed_iv"><span><span class="en">IV fluids / drip</span><span class="ar">محاليل وريدية</span></span></label><label class="chip"><input type="check" name="feed" value="none" data-k="feed_none"><span><span class="en">None</span><span class="ar">لا شيء</span></span></label></div></div></div></details><details class="card " open><summary><span class="num">3</span><span class="stitle"><span class="en">3-day food & symptom log</span><span class="ar">سجل الأكل والأعراض لمدة 3 أيام</span></span><span class="chev"></span></summary><div class="sbody"><div class="note"><span class="en"><b>How to fill this in:</b> write down <b>everything</b> eaten or drunk over the past 3 days — start with yesterday (Day 1) and go back. Include small sips, bites and snacks, the amount, and whether anything was vomited. There are no right or wrong answers; honest details help us build the plan that suits you.</span><span class="ar"><b>إزاي تملي الاستمارة:</b> اكتبي <b>كل حاجة</b> أكلتيها أو شربتيها في آخر 3 أيام — ابدئي بإمبارح (اليوم الأول) وارجعي لورا. اكتبي الرشفات واللقيمات والسناكس الصغيرة، والكمية، وهل حصل قيء. مفيش إجابة صح أو غلط؛ التفاصيل الصادقة هي اللي بتساعدنا نعمل خطة مناسبة ليكي.</span></div><div class="tabs" role="tablist"><button type="button" class="tab on" data-day="1" role="tab"><span class="tico">🍽️</span><span><span class="en">Day 1</span><span class="ar">اليوم الأول</span></span><span class="badge" id="bd1">0</span></button><button type="button" class="tab" data-day="2" role="tab"><span class="tico">🥣</span><span><span class="en">Day 2</span><span class="ar">اليوم الثاني</span></span><span class="badge" id="bd2">0</span></button><button type="button" class="tab" data-day="3" role="tab"><span class="tico">🥤</span><span><span class="en">Day 3</span><span class="ar">اليوم الثالث</span></span><span class="badge" id="bd3">0</span></button></div><div class="dayPanel on" data-panel="1">
+  <div class="print-day"><span class="en">Day 1</span><span class="ar">اليوم الأول</span></div>
+  <div class="rows" id="rows1"></div>
+  <button type="button" class="btn add" data-add="1">＋ <span class="en">Add another meal / drink</span><span class="ar">ضيفي وجبة / مشروب</span></button>
+  <div class="totals">
+    <div class="tot"><div class="tv" id="t_occ1">0</div><div class="tl"><span class="en">Eating occasions</span><span class="ar">عدد مرات الأكل</span></div></div>
+    <div class="tot"><div class="tv" id="t_vom1">0</div><div class="tl"><span class="en">Vomiting episodes</span><span class="ar">عدد مرات القيء</span></div></div>
+    <div class="tot"><div class="tv" id="t_fl1">0</div><div class="tl"><span class="en">Total fluids (mL)</span><span class="ar">إجمالي السوائل (مل)</span></div></div>
+  </div>
+  <div class="grid g2">
+    <label class="fld "><span class="lbl"><span class="en">Extra vomiting episodes between meals (not linked to a meal above)</span><span class="ar">مرات قيء إضافية بين الوجبات (مش مرتبطة بوجبة فوق)</span></span><input type="number" data-k="xv1" data-pen="" data-par="" min="0" step="1" inputmode="numeric"></label>
+    <label class="fld "><span class="lbl"><span class="en">Fluids not listed above (water sips, juice, milk, soup…) in mL</span><span class="ar">سوائل مش مكتوبة فوق (مياه، عصير، لبن، شوربة…) بالمل</span></span><input type="number" data-k="xf1" data-pen="" data-par="" min="0" step="10" inputmode="numeric"></label>
+  </div>
+  <div class="fld"><span class="lbl"><span class="en">Nutrition supplement drinks (e.g., Ensure, Boost)</span><span class="ar">مشروبات التغذية (مثل إنشور، بوست)</span></span>
+    <div class="chips"><label class="chip"><input type="radio" name="sup1" value="none" data-k="sup1_none"><span><span class="en">None</span><span class="ar">ولا حاجة</span></span></label><label class="chip"><input type="radio" name="sup1" value="yes" data-k="sup1_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label></div>
+    <div class="grid g2 subf"><label class="fld "><span class="lbl"><span class="en">Type</span><span class="ar">النوع</span></span><input type="text" data-k="supt1" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Amount</span><span class="ar">الكمية</span></span><input type="text" data-k="supa1" data-pen="" data-par="" ></label></div>
+  </div>
+</div><div class="dayPanel" data-panel="2">
+  <div class="print-day"><span class="en">Day 2</span><span class="ar">اليوم الثاني</span></div>
+  <div class="rows" id="rows2"></div>
+  <button type="button" class="btn add" data-add="2">＋ <span class="en">Add another meal / drink</span><span class="ar">ضيفي وجبة / مشروب</span></button>
+  <div class="totals">
+    <div class="tot"><div class="tv" id="t_occ2">0</div><div class="tl"><span class="en">Eating occasions</span><span class="ar">عدد مرات الأكل</span></div></div>
+    <div class="tot"><div class="tv" id="t_vom2">0</div><div class="tl"><span class="en">Vomiting episodes</span><span class="ar">عدد مرات القيء</span></div></div>
+    <div class="tot"><div class="tv" id="t_fl2">0</div><div class="tl"><span class="en">Total fluids (mL)</span><span class="ar">إجمالي السوائل (مل)</span></div></div>
+  </div>
+  <div class="grid g2">
+    <label class="fld "><span class="lbl"><span class="en">Extra vomiting episodes between meals (not linked to a meal above)</span><span class="ar">مرات قيء إضافية بين الوجبات (مش مرتبطة بوجبة فوق)</span></span><input type="number" data-k="xv2" data-pen="" data-par="" min="0" step="1" inputmode="numeric"></label>
+    <label class="fld "><span class="lbl"><span class="en">Fluids not listed above (water sips, juice, milk, soup…) in mL</span><span class="ar">سوائل مش مكتوبة فوق (مياه، عصير، لبن، شوربة…) بالمل</span></span><input type="number" data-k="xf2" data-pen="" data-par="" min="0" step="10" inputmode="numeric"></label>
+  </div>
+  <div class="fld"><span class="lbl"><span class="en">Nutrition supplement drinks (e.g., Ensure, Boost)</span><span class="ar">مشروبات التغذية (مثل إنشور، بوست)</span></span>
+    <div class="chips"><label class="chip"><input type="radio" name="sup2" value="none" data-k="sup2_none"><span><span class="en">None</span><span class="ar">ولا حاجة</span></span></label><label class="chip"><input type="radio" name="sup2" value="yes" data-k="sup2_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label></div>
+    <div class="grid g2 subf"><label class="fld "><span class="lbl"><span class="en">Type</span><span class="ar">النوع</span></span><input type="text" data-k="supt2" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Amount</span><span class="ar">الكمية</span></span><input type="text" data-k="supa2" data-pen="" data-par="" ></label></div>
+  </div>
+</div><div class="dayPanel" data-panel="3">
+  <div class="print-day"><span class="en">Day 3</span><span class="ar">اليوم الثالث</span></div>
+  <div class="rows" id="rows3"></div>
+  <button type="button" class="btn add" data-add="3">＋ <span class="en">Add another meal / drink</span><span class="ar">ضيفي وجبة / مشروب</span></button>
+  <div class="totals">
+    <div class="tot"><div class="tv" id="t_occ3">0</div><div class="tl"><span class="en">Eating occasions</span><span class="ar">عدد مرات الأكل</span></div></div>
+    <div class="tot"><div class="tv" id="t_vom3">0</div><div class="tl"><span class="en">Vomiting episodes</span><span class="ar">عدد مرات القيء</span></div></div>
+    <div class="tot"><div class="tv" id="t_fl3">0</div><div class="tl"><span class="en">Total fluids (mL)</span><span class="ar">إجمالي السوائل (مل)</span></div></div>
+  </div>
+  <div class="grid g2">
+    <label class="fld "><span class="lbl"><span class="en">Extra vomiting episodes between meals (not linked to a meal above)</span><span class="ar">مرات قيء إضافية بين الوجبات (مش مرتبطة بوجبة فوق)</span></span><input type="number" data-k="xv3" data-pen="" data-par="" min="0" step="1" inputmode="numeric"></label>
+    <label class="fld "><span class="lbl"><span class="en">Fluids not listed above (water sips, juice, milk, soup…) in mL</span><span class="ar">سوائل مش مكتوبة فوق (مياه، عصير، لبن، شوربة…) بالمل</span></span><input type="number" data-k="xf3" data-pen="" data-par="" min="0" step="10" inputmode="numeric"></label>
+  </div>
+  <div class="fld"><span class="lbl"><span class="en">Nutrition supplement drinks (e.g., Ensure, Boost)</span><span class="ar">مشروبات التغذية (مثل إنشور، بوست)</span></span>
+    <div class="chips"><label class="chip"><input type="radio" name="sup3" value="none" data-k="sup3_none"><span><span class="en">None</span><span class="ar">ولا حاجة</span></span></label><label class="chip"><input type="radio" name="sup3" value="yes" data-k="sup3_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label></div>
+    <div class="grid g2 subf"><label class="fld "><span class="lbl"><span class="en">Type</span><span class="ar">النوع</span></span><input type="text" data-k="supt3" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Amount</span><span class="ar">الكمية</span></span><input type="text" data-k="supa3" data-pen="" data-par="" ></label></div>
+  </div>
+</div></div></details><details class="card " open><summary><span class="num">4</span><span class="stitle"><span class="en">Food tolerance check (past week)</span><span class="ar">اختبار تحمّل الأنواع المختلفة من الأكل (الأسبوع اللي فات)</span></span><span class="chev"></span></summary><div class="sbody"><div class="note"><span class="en">For each food type during the past week, choose what fits best.</span><span class="ar">لكل نوع أكل في الأسبوع اللي فات، اختاري اللي ينطبق أكتر.</span></div><div class="tolwrap"><div class="tolhead"><span></span><span><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><span><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><span><span class="en">Caused symptoms / vomiting</span><span class="ar">سبّب أعراض / قيء</span></span></div><div class="tolrow"><div class="tname"><span class="en">Liquids (milk, smoothies, soups, supplement drinks)</span><span class="ar">سوائل (لبن، سموذي، شوربة، مشروبات التغذية)</span></div><label class="tcell t0"><input type="radio" name="tol0" value="none" data-k="tol0_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol0" value="good" data-k="tol0_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol0" value="bad" data-k="tol0_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Pureed / blended foods</span><span class="ar">أكل مهروس / مخلوط</span></div><label class="tcell t0"><input type="radio" name="tol1" value="none" data-k="tol1_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol1" value="good" data-k="tol1_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol1" value="bad" data-k="tol1_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Soft starches (white rice, potato, pasta, white bread, crackers)</span><span class="ar">نشويات طرية (رز أبيض، بطاطس، مكرونة، عيش أبيض، بسكويت سادة)</span></div><label class="tcell t0"><input type="radio" name="tol2" value="none" data-k="tol2_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol2" value="good" data-k="tol2_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol2" value="bad" data-k="tol2_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Lean meat, fish, eggs</span><span class="ar">لحوم قليلة الدهن، سمك، بيض</span></div><label class="tcell t0"><input type="radio" name="tol3" value="none" data-k="tol3_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol3" value="good" data-k="tol3_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol3" value="bad" data-k="tol3_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Fried or fatty foods</span><span class="ar">أكل مقلي أو دسم</span></div><label class="tcell t0"><input type="radio" name="tol4" value="none" data-k="tol4_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol4" value="good" data-k="tol4_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol4" value="bad" data-k="tol4_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Raw vegetables, salads, fruit skins, berries, oranges</span><span class="ar">خضار نيّة، سلطة، قشر الفاكهة، توت، برتقان</span></div><label class="tcell t0"><input type="radio" name="tol5" value="none" data-k="tol5_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol5" value="good" data-k="tol5_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol5" value="bad" data-k="tol5_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Beans, lentils, whole grains, bran</span><span class="ar">فول، عدس، حبوب كاملة، نخالة</span></div><label class="tcell t0"><input type="radio" name="tol6" value="none" data-k="tol6_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol6" value="good" data-k="tol6_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol6" value="bad" data-k="tol6_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Fizzy drinks</span><span class="ar">مشروبات غازية</span></div><label class="tcell t0"><input type="radio" name="tol7" value="none" data-k="tol7_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol7" value="good" data-k="tol7_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol7" value="bad" data-k="tol7_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Dairy (milk, yogurt, cheese)</span><span class="ar">ألبان (لبن، زبادي، جبن)</span></div><label class="tcell t0"><input type="radio" name="tol8" value="none" data-k="tol8_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol8" value="good" data-k="tol8_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol8" value="bad" data-k="tol8_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div><div class="tolrow"><div class="tname"><span class="en">Hot / spicy foods</span><span class="ar">أكل حار / متبّل</span></div><label class="tcell t0"><input type="radio" name="tol9" value="none" data-k="tol9_none"><span class="tl2"><span class="en">Not eaten</span><span class="ar">ما أكلتهوش</span></span><i></i></label><label class="tcell t1"><input type="radio" name="tol9" value="good" data-k="tol9_good"><span class="tl2"><span class="en">Tolerated well</span><span class="ar">اتحمّل كويس</span></span><i></i></label><label class="tcell t2"><input type="radio" name="tol9" value="bad" data-k="tol9_bad"><span class="tl2"><span class="en">Caused symptoms</span><span class="ar">سبّب أعراض</span></span><i></i></label></div></div><div class="grid g2"><label class="fld "><span class="lbl"><span class="en">Foods she tolerates best</span><span class="ar">الأكل اللي بتتحمّله أحسن</span></span><textarea data-k="best" rows="2" data-pen="" data-par=""></textarea></label><label class="fld "><span class="lbl"><span class="en">Foods that always cause vomiting</span><span class="ar">الأكل اللي بيسبّب قيء دايماً</span></span><textarea data-k="worst" rows="2" data-pen="" data-par=""></textarea></label></div></div></details><details class="card " open><summary><span class="num">5</span><span class="stitle"><span class="en">Eating pattern & symptoms</span><span class="ar">نمط الأكل والأعراض</span></span><span class="chev"></span></summary><div class="sbody"><div class="fld"><span class="lbl"><span class="en">Meals per day</span><span class="ar">عدد الوجبات في اليوم</span></span><div class="chips"><label class="chip"><input type="radio" name="mpd" value="1-2" data-k="mpd_1-2"><span><span class="en">1–2</span><span class="ar">1–2</span></span></label><label class="chip"><input type="radio" name="mpd" value="3" data-k="mpd_3"><span><span class="en">3</span><span class="ar">3</span></span></label><label class="chip"><input type="radio" name="mpd" value="4-6" data-k="mpd_4-6"><span><span class="en">4–6</span><span class="ar">4–6</span></span></label><label class="chip"><input type="radio" name="mpd" value="more" data-k="mpd_more"><span><span class="en">More</span><span class="ar">أكتر</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Typical portion size compared with before illness</span><span class="ar">حجم الوجبة المعتاد مقارنةً بقبل المرض</span></span><div class="chips"><label class="chip"><input type="radio" name="port" value="same" data-k="port_same"><span><span class="en">Same</span><span class="ar">نفسه</span></span></label><label class="chip"><input type="radio" name="port" value="half" data-k="port_half"><span><span class="en">½</span><span class="ar">نص</span></span></label><label class="chip"><input type="radio" name="port" value="quarter" data-k="port_quarter"><span><span class="en">¼ or less</span><span class="ar">ربع أو أقل</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Time of day vomiting is worst</span><span class="ar">أسوأ وقت للقيء في اليوم</span></span><div class="chips"><label class="chip"><input type="check" name="vt" value="morning" data-k="vt_morning"><span><span class="en">Morning</span><span class="ar">الصبح</span></span></label><label class="chip"><input type="check" name="vt" value="after" data-k="vt_after"><span><span class="en">After meals</span><span class="ar">بعد الأكل</span></span></label><label class="chip"><input type="check" name="vt" value="evening" data-k="vt_evening"><span><span class="en">Evening</span><span class="ar">بالليل المبكر</span></span></label><label class="chip"><input type="check" name="vt" value="night" data-k="vt_night"><span><span class="en">Night</span><span class="ar">في الليل</span></span></label><label class="chip"><input type="check" name="vt" value="none" data-k="vt_none"><span><span class="en">No vomiting</span><span class="ar">مفيش قيء</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Undigested food vomited many hours after eating</span><span class="ar">بترجّع أكل غير مهضوم بعد ساعات من الأكل</span></span><div class="chips"><label class="chip"><input type="radio" name="und" value="yes" data-k="und_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label><label class="chip"><input type="radio" name="und" value="no" data-k="und_no"><span><span class="en">No</span><span class="ar">لأ</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Full after a few bites (early satiety)</span><span class="ar">بتشبع بعد كام لقمة</span></span><div class="chips"><label class="chip"><input type="radio" name="sat" value="yes" data-k="sat_yes"><span><span class="en">Yes</span><span class="ar">أيوه</span></span></label><label class="chip"><input type="radio" name="sat" value="no" data-k="sat_no"><span><span class="en">No</span><span class="ar">لأ</span></span></label></div></div><div class="grid g2"><label class="fld "><span class="lbl"><span class="en">Days in the past week with almost no food</span><span class="ar">عدد الأيام في الأسبوع اللي فات اللي ما أكلتش فيها تقريباً</span></span><input type="number" data-k="nofood" data-pen="" data-par="" min="0" max="7" step="1" inputmode="numeric"></label><label class="fld "><span class="lbl"><span class="en">Position / activity after meals</span><span class="ar">بتعملي إيه بعد الأكل</span></span><select data-k="after" ><option value="" data-en="— choose —" data-ar="— اختاري —"></option><option value="upright" data-en="Stay upright / walk a little" data-ar="بقعد معدولة / بمشي شوية"></option><option value="lie" data-en="Lie down soon after" data-ar="بنام / بتمدد بعدها بسرعة"></option><option value="mix" data-en="Varies" data-ar="بيختلف"></option></select></label></div><h4 class="sub"><span class="en">How bad are the symptoms on a typical day? (0 = none, 10 = worst)</span><span class="ar">الأعراض قد إيه في يوم عادي؟ (0 = مفيش، 10 = أسوأ حاجة)</span></h4><div class="grid g2"><div class="slider"><div class="slbl"><span class="en">Nausea</span><span class="ar">غثيان</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_nausea" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Fullness</span><span class="ar">امتلاء</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_full" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Bloating</span><span class="ar">انتفاخ</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_bloat" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Abdominal pain</span><span class="ar">ألم في البطن</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_pain" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Vomiting</span><span class="ar">قيء</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_vomit" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Heartburn / reflux</span><span class="ar">حموضة / ارتجاع</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_heart" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div><div class="slider"><div class="slbl"><span class="en">Appetite (0 = none, 10 = excellent)</span><span class="ar">الشهية (0 = معدومة، 10 = ممتازة)</span></div><div class="srow"><input type="range" min="0" max="10" value="0" data-k="s_appetite" data-slider="1"><output class="sout">0</output></div><div class="sscale"><span><span class="en">None</span><span class="ar">مفيش</span></span><span><span class="en">Worst</span><span class="ar">أسوأ حاجة</span></span></div></div></div></div></details><details class="card " open><summary><span class="num">6</span><span class="stitle"><span class="en">Daily life & warning signs</span><span class="ar">الحياة اليومية وعلامات التحذير</span></span><span class="chev"></span></summary><div class="sbody"><div class="fld"><span class="lbl"><span class="en">Do any of these happen?</span><span class="ar">هل بيحصل أي من دول؟</span></span><div class="chips"><label class="chip"><input type="check" name="life" value="fear" data-k="life_fear"><span><span class="en">Afraid to eat because of symptoms</span><span class="ar">بخاف آكل بسبب الأعراض</span></span></label><label class="chip"><input type="check" name="life" value="skip" data-k="life_skip"><span><span class="en">Skip meals to avoid symptoms</span><span class="ar">بفوّت وجبات عشان أتجنب الأعراض</span></span></label><label class="chip"><input type="check" name="life" value="school" data-k="life_school"><span><span class="en">Can't eat properly at school</span><span class="ar">مبعرفش آكل كويس في المدرسة</span></span></label><label class="chip"><input type="check" name="life" value="slow" data-k="life_slow"><span><span class="en">Takes a long time to finish meals</span><span class="ar">الوجبة بتاخد وقت طويل</span></span></label><label class="chip"><input type="check" name="life" value="fluid" data-k="life_fluid"><span><span class="en">Hard to drink enough fluids</span><span class="ar">صعب أشرب سوائل كفاية</span></span></label><label class="chip"><input type="check" name="life" value="fatigue" data-k="life_fatigue"><span><span class="en">Tired / low energy</span><span class="ar">تعب / طاقة قليلة</span></span></label></div></div><div class="grid g2"><label class="fld "><span class="lbl"><span class="en">Who prepares most of her meals?</span><span class="ar">مين بيجهّز أغلب أكلها؟</span></span><select data-k="cook" ><option value="" data-en="— choose —" data-ar="— اختاري —"></option><option value="mother" data-en="Mother / family" data-ar="الأم / الأسرة"></option><option value="self" data-en="Herself" data-ar="هي بنفسها"></option><option value="out" data-en="Bought outside / school canteen" data-ar="من بره / كانتين المدرسة"></option></select></label><label class="fld "><span class="lbl"><span class="en">Physical activity / sport</span><span class="ar">النشاط البدني / الرياضة</span></span><input type="text" data-k="act" data-pen="Type and how often" data-par="النوع وكام مرة" ></label></div><label class="fld "><span class="lbl"><span class="en">Anything else you would like to tell us</span><span class="ar">أي حاجة تانية حابة تقوليها</span></span><textarea data-k="else" rows="2" data-pen="" data-par=""></textarea></label><h4 class="sub warn"><span class="en">Warning signs — tick any that apply</span><span class="ar">علامات تحذير — علّمي على اللي بيحصل</span></h4><div class="chips"><label class="chip"><input type="check" name="rf" value="allv" data-k="rf_allv"><span><span class="en">Vomiting almost everything for more than 24 hours</span><span class="ar">قيء لكل الأكل والشرب تقريباً أكتر من 24 ساعة</span></span></label><label class="chip"><input type="check" name="rf" value="nofl" data-k="rf_nofl"><span><span class="en">Cannot keep fluids down</span><span class="ar">مش قادرة تحتفظ بالسوائل</span></span></label><label class="chip"><input type="check" name="rf" value="dizz" data-k="rf_dizz"><span><span class="en">Dizziness or fainting when standing</span><span class="ar">دوخة أو إغماء عند الوقوف</span></span></label><label class="chip"><input type="check" name="rf" value="urine" data-k="rf_urine"><span><span class="en">Very little or very dark urine</span><span class="ar">بول قليل جداً أو غامق جداً</span></span></label><label class="chip"><input type="check" name="rf" value="pain" data-k="rf_pain"><span><span class="en">Severe or worsening abdominal pain</span><span class="ar">ألم شديد أو بيزيد في البطن</span></span></label><label class="chip"><input type="check" name="rf" value="blood" data-k="rf_blood"><span><span class="en">Blood or green/dark fluid in vomit</span><span class="ar">دم أو سائل أخضر/غامق في القيء</span></span></label></div><div class="alert" id="rfAlert" hidden><span class="en">⚠️ Some of the signs ticked need urgent medical attention. Please go to the nearest hospital emergency department now — do not wait for the appointment.</span><span class="ar">⚠️ بعض العلامات اللي علّمتي عليها محتاجة رعاية طبية عاجلة. من فضلك اتوجهي لأقرب طوارئ مستشفى دلوقتي — ما تستنيش الموعد.</span></div></div></details><details class="card clin" ><summary><span class="num">7</span><span class="stitle"><span class="en">Clinician summary & plan</span><span class="ar">ملخص الطبيبة والخطة</span></span><span class="chev"></span></summary><div class="sbody"><div class="note gold"><span class="en">For the clinician — completed after reviewing the 3-day log. Values marked “auto” are calculated from the log and can be overwritten.</span><span class="ar">للطبيبة — تُستكمل بعد مراجعة سجل الـ 3 أيام. القيم المكتوب عليها «تلقائي» محسوبة من السجل ويمكن تعديلها.</span></div><div class="grid g3"><label class="fld "><span class="lbl"><span class="en">Avg eating occasions / day (auto)</span><span class="ar">متوسط مرات الأكل / يوم (تلقائي)</span></span><input type="text" data-k="c_occ" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Avg vomiting episodes / day (auto)</span><span class="ar">متوسط مرات القيء / يوم (تلقائي)</span></span><input type="text" data-k="c_vom" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Estimated fluid intake mL/day (auto) — target ~1–1.5 L/day</span><span class="ar">السوائل المقدّرة مل/يوم (تلقائي) — الهدف ~1–1.5 لتر/يوم</span></span><input type="text" data-k="c_fl" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Estimated average energy intake (kcal/day)</span><span class="ar">متوسط الطاقة المقدّر (سعر/يوم)</span></span><input type="number" data-k="c_kcal" data-pen="" data-par="" min="0" inputmode="numeric"></label><label class="fld "><span class="lbl"><span class="en">Estimated energy need (kcal/day)</span><span class="ar">احتياج الطاقة المقدّر (سعر/يوم)</span></span><input type="number" data-k="c_need" data-pen="" data-par="" min="0" inputmode="numeric"></label><div class="fld"><span class="lbl"><span class="en">Intake as % of need (auto)</span><span class="ar">الاستهلاك كنسبة من الاحتياج (تلقائي)</span></span><div class="calc" id="calcPct">—</div></div><label class="fld "><span class="lbl"><span class="en">Estimated protein intake (g/day)</span><span class="ar">البروتين المقدّر (جم/يوم)</span></span><input type="number" data-k="c_prot" data-pen="" data-par="" min="0" inputmode="numeric"></label></div><div class="fld"><span class="lbl"><span class="en">Proportion of intake kept down (not vomited)</span><span class="ar">نسبة اللي اتحمّل ومارجعش</span></span><div class="chips"><label class="chip"><input type="radio" name="kept" value="gt75" data-k="kept_gt75"><span><span class="en">>75%</span><span class="ar">>75%</span></span></label><label class="chip"><input type="radio" name="kept" value="50-75" data-k="kept_50-75"><span><span class="en">50–75%</span><span class="ar">50–75%</span></span></label><label class="chip"><input type="radio" name="kept" value="lt50" data-k="kept_lt50"><span><span class="en"><50%</span><span class="ar"><50%</span></span></label></div></div><div class="fld"><span class="lbl"><span class="en">Best-tolerated textures</span><span class="ar">أفضل قوام بيتحمّله</span></span><div class="chips"><label class="chip"><input type="check" name="tex" value="liquid" data-k="tex_liquid"><span><span class="en">Liquid</span><span class="ar">سائل</span></span></label><label class="chip"><input type="check" name="tex" value="pureed" data-k="tex_pureed"><span><span class="en">Pureed</span><span class="ar">مهروس</span></span></label><label class="chip"><input type="check" name="tex" value="soft" data-k="tex_soft"><span><span class="en">Soft</span><span class="ar">طري</span></span></label><label class="chip"><input type="check" name="tex" value="solid" data-k="tex_solid"><span><span class="en">Solid</span><span class="ar">صلب</span></span></label></div></div><h4 class="sub"><span class="en">Plan</span><span class="ar">الخطة</span></h4><div class="chips col"><label class="chip wide"><input type="checkbox" data-k="plan_p1"><span><span class="en">Small-particle (blended/chopped), low-fat, low-fibre diet, 4–6 small meals/day</span><span class="ar">نظام غذائي صغير الجزيئات (مفروم/مخلوط)، قليل الدهن، قليل الألياف، 4–6 وجبات صغيرة يومياً</span></span></label><label class="chip wide"><input type="checkbox" data-k="plan_p2"><span><span class="en">Shift to liquid/pureed meals if solids not tolerated</span><span class="ar">التحويل إلى وجبات سائلة/مهروسة لو الأكل الصلب مش متحمّل</span></span></label><label class="chip wide"><input type="checkbox" data-k="plan_p3"><span><span class="en">Add oral nutrition supplement</span><span class="ar">إضافة مكمّل تغذية فموي</span></span></label><label class="chip wide"><input type="checkbox" data-k="plan_p4"><span><span class="en">Check K, Mg, phosphate before increasing calories (refeeding risk)</span><span class="ar">فحص البوتاسيوم والماغنيسيوم والفوسفات قبل زيادة السعرات (خطر متلازمة إعادة التغذية)</span></span></label><label class="chip wide"><input type="checkbox" data-k="plan_p5"><span><span class="en">Refer for enteral (jejunal) feeding if intake remains inadequate</span><span class="ar">التحويل للتغذية المعوية (الصائمية) لو الاستهلاك فضل غير كافٍ</span></span></label></div><div class="grid g2"><label class="fld "><span class="lbl"><span class="en">Supplement (type / amount)</span><span class="ar">المكمّل (النوع / الكمية)</span></span><input type="text" data-k="c_supp" data-pen="" data-par="" ></label><label class="fld "><span class="lbl"><span class="en">Repeat 3-day log on</span><span class="ar">إعادة سجل الـ 3 أيام بتاريخ</span></span><input type="date" data-k="c_rep" data-pen="" data-par="" ></label></div><label class="fld "><span class="lbl"><span class="en">Clinician notes</span><span class="ar">ملاحظات الطبيبة</span></span><textarea data-k="c_notes" rows="2" data-pen="" data-par=""></textarea></label></div></details>
+</main>
+<div class="actions">
+  <button type="button" class="btn gld" id="bPrint">🖨️ <span class="en">Print / Save PDF</span><span class="ar">طباعة / حفظ PDF</span></button>
+  <button type="button" class="btn pri" id="bCopy">📋 <span class="en">Copy summary</span><span class="ar">نسخ الملخص</span></button>
+  <button type="button" class="btn wa" id="bWa">💬 <span class="en">Send via WhatsApp</span><span class="ar">إرسال واتساب</span></button>
+  <button type="button" class="btn rst" id="bReset">↺ <span class="en">Clear</span><span class="ar">مسح</span></button>
+</div>
+<footer>
+  <b><span class="en">Prof. Dr. Randa Abd El-Wahab Reda Mabrouk</span><span class="ar">أ.د. رانده عبد الوهاب رضا مبروك</span></b>
+  <span class="en">Professor, Former Head and Founder of the Clinical Nutrition Unit — Ain Shams University Faculty of Medicine</span><span class="ar">أستاذ ورئيس سابق ومؤسس وحدة التغذية الإكلينيكية — كلية الطب جامعة عين شمس</span>
+</footer>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+var DAYS=[1,2,3];
+var body=document.body;
+var STORE='gp_assess_v1';
+var TEX=[["liquid","Liquid","سائل"],["pureed","Pureed","مهروس"],["soft","Soft","طري"],["solid","Solid","صلب"]];
+var FAT=[["low","Low","قليل"],["med","Medium","متوسط"],["high","High","عالي"]];
+var VOM=[["no","No","لأ"],["some","Some","جزء"],["all","All","كله"]];
+var SYM=[["nausea","Nausea","غثيان"],["full","Fullness","امتلاء"],["bloat","Bloating","انتفاخ"],["pain","Pain","ألم"],["none","None","مفيش"]];
+function lang(){return body.getAttribute('data-lang')||'en';}
+function opts(list,withBlank){var h='';if(withBlank)h+='<option value="" data-en="— choose —" data-ar="— اختاري —"></option>';list.forEach(function(o){h+='<option value="'+o[0]+'" data-en="'+o[1]+'" data-ar="'+o[2]+'"></option>';});return h;}
+function sb(en,ar){return '<span class="en">'+en+'</span><span class="ar">'+ar+'</span>';}
+var uid=0;
+function addRow(day,data){
+  uid++;var id='r'+day+'_'+uid;
+  var el=document.createElement('div');el.className='mrow';el.dataset.day=day;
+  var sym=SYM.map(function(s){return '<label class="chip"><input type="checkbox" data-f="sym_'+s[0]+'"><span>'+sb(s[1],s[2])+'</span></label>';}).join('');
+  el.innerHTML=
+   '<div class="head"><span class="rn"></span><button type="button" class="del" aria-label="remove">✕</button></div>'+
+   '<div class="mg">'+
+    '<div><label>'+sb('Time','الوقت')+'</label><input type="time" data-f="time"></div>'+
+    '<div class="wide2"><label>'+sb('Food or drink (describe)','الأكل أو المشروب (وصف)')+'</label><input type="text" data-f="food"></div>'+
+    '<div><label>'+sb('Amount (cups, spoons, pieces)','الكمية (أكواب، معالق، قطع)')+'</label><input type="text" data-f="amount"></div>'+
+    '<div><label>'+sb('Fluid volume (mL)','كمية السوائل (مل)')+'</label><input type="number" min="0" step="10" inputmode="numeric" data-f="ml"></div>'+
+    '<div><label>'+sb('Texture','القوام')+'</label><select data-f="tex">'+opts(TEX,true)+'</select></div>'+
+    '<div><label>'+sb('Fat','الدهون')+'</label><select data-f="fat">'+opts(FAT,true)+'</select></div>'+
+    '<div><label>'+sb('Vomited?','رجّعتي؟')+'</label><select data-f="vom">'+opts(VOM,false)+'</select></div>'+
+    '<div><label>'+sb('Time after eating','بعد الأكل بقد إيه')+'</label><input type="text" data-f="vt" data-pen="e.g. 45 min" data-par="مثلاً 45 دقيقة"></div>'+
+   '</div>'+
+   '<div class="sym"><label style="font-size:.78rem;color:var(--mut)">'+sb('Symptoms after (tick all that apply)','الأعراض بعدها (علّمي على اللي حصل)')+'</label><div class="chips">'+sym+'</div></div>';
+  document.getElementById('rows'+day).appendChild(el);
+  if(data){el.querySelectorAll('[data-f]').forEach(function(f){var v=data[f.dataset.f];if(v===undefined)return;if(f.type==='checkbox')f.checked=!!v;else f.value=v;});}
+  else{el.querySelector('[data-f="vom"]').value='no';}
+  el.querySelector('.del').addEventListener('click',function(){el.remove();renumber(day);recalc();save();});
+  renumber(day);applyLang();return el;
+}
+function renumber(day){var rs=document.querySelectorAll('#rows'+day+' .mrow');rs.forEach(function(r,i){r.querySelector('.rn').innerHTML=sb('Entry '+(i+1),'الوجبة '+(i+1));});}
+function applyLang(){
+  var L=lang();
+  document.querySelectorAll('option[data-en]').forEach(function(o){o.textContent=o.getAttribute('data-'+L);});
+  document.querySelectorAll('[data-pen]').forEach(function(i){var p=i.getAttribute('data-p'+L);if(p!==null)i.placeholder=p;});
+  document.documentElement.lang=L;document.documentElement.dir=(L==='ar'?'rtl':'ltr');
+  document.title=L==='ar'?'تقييم عادات الأكل والأعراض — الشلل المعدي':'Eating Habits & Symptom Assessment — Gastroparesis';
+}
+function dayData(d){
+  var rows=document.querySelectorAll('#rows'+d+' .mrow'),occ=0,vom=0,fl=0,list=[];
+  rows.forEach(function(r){
+    var g=function(n){var e=r.querySelector('[data-f="'+n+'"]');return e?e.value:'';};
+    var food=g('food').trim();
+    if(food||g('amount').trim()){occ++;}
+    var v=g('vom');if(v&&v!=='no')vom++;
+    fl+=parseFloat(g('ml'))||0;
+    var sy=[];r.querySelectorAll('[data-f^="sym_"]').forEach(function(c){if(c.checked)sy.push(c.dataset.f.slice(4));});
+    if(food||g('amount').trim()||g('time'))list.push({time:g('time'),food:food,amount:g('amount'),ml:g('ml'),tex:g('tex'),fat:g('fat'),vom:v,vt:g('vt'),sym:sy});
+  });
+  var xv=parseFloat(val('xv'+d))||0, xf=parseFloat(val('xf'+d))||0;
+  return {occ:occ,vom:vom+xv,fl:fl+xf,list:list};
+}
+function val(k){var e=document.querySelector('[data-k="'+k+'"]');return e?e.value:'';}
+function chk(k){var e=document.querySelector('[data-k="'+k+'"]');return e&&e.checked;}
+function setv(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+function recalc(){
+  var tot={occ:0,vom:0,fl:0},filled=0;
+  DAYS.forEach(function(d){var x=dayData(d);setv('t_occ'+d,x.occ);setv('t_vom'+d,x.vom);setv('t_fl'+d,x.fl);setv('bd'+d,x.list.length);tot.occ+=x.occ;tot.vom+=x.vom;tot.fl+=x.fl;if(x.occ>0)filled++;});
+  var n=filled||0;
+  function setIfAuto(k,v){var e=document.querySelector('[data-k="'+k+'"]');if(e&&e.dataset.manual!=='1')e.value=v;}
+  if(n){setIfAuto('c_occ',(tot.occ/n).toFixed(1));setIfAuto('c_vom',(tot.vom/n).toFixed(1));setIfAuto('c_fl',Math.round(tot.fl/n));}
+  else{setIfAuto('c_occ','');setIfAuto('c_vom','');setIfAuto('c_fl','');}
+  var w=parseFloat(val('wt')),w0=parseFloat(val('wt0')),h=parseFloat(val('ht')),parts=[];
+  if(w>0&&h>0){parts.push('BMI '+(w/Math.pow(h/100,2)).toFixed(1)+' kg/m² '+(lang()==='ar'?'(قارنيه بمنحنى الـ BMI حسب العمر)':'(plot on BMI-for-age chart)'));}
+  if(w>0&&w0>0){var l=(w0-w)/w0*100;parts.push((lang()==='ar'?'التغيّر في الوزن: ':'Weight change: ')+(l>0?'−':'+')+Math.abs(l).toFixed(1)+'%');}
+  var ca=document.getElementById('calcAnthro');ca.textContent=parts.length?parts.join(' · '):'—';
+  var k1=parseFloat(val('c_kcal')),k2=parseFloat(val('c_need'));
+  document.getElementById('calcPct').textContent=(k1>0&&k2>0)?Math.round(k1/k2*100)+'%':'—';
+  var rf=document.querySelectorAll('[data-k^="rf_"]:checked').length>0;document.getElementById('rfAlert').hidden=!rf;
+  progress();
+}
+function progress(){
+  var keys=['name','date','wt','wt0','ht','cause','mpd_x','port_x'];var done=0,total=0;
+  ['name','date','wt','wt0','ht','cause'].forEach(function(k){total++;if(val(k).trim())done++;});
+  ['by','mpd','port','und','sat','dm','get'].forEach(function(n){total++;if(document.querySelector('input[name="'+n+'"]:checked'))done++;});
+  DAYS.forEach(function(d){total++;if(dayData(d).occ>0)done++;});
+  var t=0;for(var i=0;i<10;i++){t++;if(document.querySelector('input[name="tol'+i+'"]:checked'))done++;}total+=t;
+  document.getElementById('prog').style.width=Math.round(done/total*100)+'%';
+}
+function collect(){
+  var s={f:{},rows:{},manual:{}};
+  document.querySelectorAll('[data-k]').forEach(function(e){s.f[e.dataset.k]=(e.type==='checkbox'||e.type==='radio')?e.checked:e.value;if(e.dataset.manual==='1')s.manual[e.dataset.k]=1;});
+  DAYS.forEach(function(d){s.rows[d]=[];document.querySelectorAll('#rows'+d+' .mrow').forEach(function(r){var o={};r.querySelectorAll('[data-f]').forEach(function(f){o[f.dataset.f]=f.type==='checkbox'?f.checked:f.value;});s.rows[d].push(o);});});
+  s.lang=lang();return s;
+}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(collect()));}catch(e){}}
+function restore(){
+  var s=null;try{s=JSON.parse(localStorage.getItem(STORE)||'null');}catch(e){}
+  if(!s){DAYS.forEach(function(d){for(var i=0;i<4;i++)addRow(d);});return;}
+  DAYS.forEach(function(d){var r=(s.rows&&s.rows[d])||[];if(!r.length)for(var i=0;i<4;i++)addRow(d);else r.forEach(function(x){addRow(d,x);});});
+  document.querySelectorAll('[data-k]').forEach(function(e){var v=s.f[e.dataset.k];if(v===undefined)return;if(e.type==='checkbox'||e.type==='radio')e.checked=!!v;else e.value=v;if(s.manual&&s.manual[e.dataset.k])e.dataset.manual='1';});
+  if(s.lang)body.setAttribute('data-lang',s.lang);
+}
+function sliders(){document.querySelectorAll('[data-slider]').forEach(function(r){var o=r.parentNode.querySelector('output');var f=function(){o.textContent=r.value;};r.addEventListener('input',f);f();});}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
+function label(map,v){return v||'';}
+function summary(){
+  var ar=lang()==='ar';var o=[];
+  o.push(ar?'*تقييم عادات الأكل والأعراض — الشلل المعدي*':'*Eating habits & symptom assessment — Gastroparesis*');
+  o.push((ar?'الاسم: ':'Name: ')+val('name')+'   '+(ar?'التاريخ: ':'Date: ')+val('date'));
+  o.push((ar?'الوزن الحالي/المعتاد/الطول: ':'Weight now/usual/height: ')+val('wt')+' / '+val('wt0')+' kg / '+val('ht')+' cm');
+  o.push(document.getElementById('calcAnthro').textContent);
+  DAYS.forEach(function(d){
+    var x=dayData(d);o.push('');o.push((ar?'اليوم ':'Day ')+d+' — '+(ar?'وجبات: ':'meals: ')+x.occ+' | '+(ar?'قيء: ':'vomiting: ')+x.vom+' | '+(ar?'سوائل: ':'fluids: ')+x.fl+' mL');
+    x.list.forEach(function(r){o.push('• '+(r.time?r.time+' ':'')+r.food+(r.amount?' ('+r.amount+')':'')+(r.ml?' '+r.ml+'mL':'')+(r.tex?' ['+r.tex+']':'')+(r.fat?' fat:'+r.fat:'')+(r.sym.length?' sym:'+r.sym.join(','):'')+(r.vom&&r.vom!=='no'?' VOMIT:'+r.vom+(r.vt?' @'+r.vt:''):''));});
+  });
+  var tn=[],bd=[];for(var i=0;i<10;i++){var g=document.querySelector('input[name="tol'+i+'"]:checked');if(!g)continue;var nm=document.querySelectorAll('.tolrow .tname')[i].querySelector('.'+(ar?'ar':'en')).textContent;if(g.value==='good')tn.push(nm);if(g.value==='bad')bd.push(nm);}
+  o.push('');o.push((ar?'اتحمّل كويس: ':'Tolerated well: ')+tn.join('; '));o.push((ar?'سبّب أعراض: ':'Caused symptoms: ')+bd.join('; '));
+  o.push((ar?'الأفضل: ':'Best tolerated: ')+val('best'));o.push((ar?'دايماً قيء: ':'Always vomits: ')+val('worst'));
+  var sy=['s_nausea','s_full','s_bloat','s_pain','s_vomit','s_heart','s_appetite'].map(function(k){return k.slice(2)+' '+val(k);}).join(', ');o.push((ar?'الأعراض (0-10): ':'Symptoms (0-10): ')+sy);
+  var rf=document.querySelectorAll('[data-k^="rf_"]:checked').length;if(rf)o.push('⚠️ '+(ar?'علامات تحذير: ':'Warning signs ticked: ')+rf);
+  return o.join('\n');
+}
+function init(){
+  restore();applyLang();sliders();
+  document.getElementById('langBtn').addEventListener('click',function(){body.setAttribute('data-lang',lang()==='en'?'ar':'en');applyLang();recalc();save();});
+  document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){var d=t.dataset.day;document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===t);});document.querySelectorAll('.dayPanel').forEach(function(p){p.classList.toggle('on',p.dataset.panel===d);});});});
+  document.querySelectorAll('[data-add]').forEach(function(b){b.addEventListener('click',function(){var d=b.dataset.add;var r=addRow(d);r.querySelector('[data-f="food"]').focus();recalc();save();});});
+  document.addEventListener('input',function(e){if(e.target.matches('[data-k="c_occ"],[data-k="c_vom"],[data-k="c_fl"]'))e.target.dataset.manual='1';recalc();save();});
+  document.addEventListener('change',function(){recalc();save();});
+  document.getElementById('bPrint').addEventListener('click',function(){window.print();});
+  document.getElementById('bCopy').addEventListener('click',function(){var t=summary();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast(lang()==='ar'?'تم نسخ الملخص':'Summary copied');}).catch(function(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast(lang()==='ar'?'تم نسخ الملخص':'Summary copied');}catch(e){}a.remove();});});
+  document.getElementById('bWa').addEventListener('click',function(){window.open('https://wa.me/?text='+encodeURIComponent(summary()),'_blank');});
+  document.getElementById('bReset').addEventListener('click',function(){if(confirm(lang()==='ar'?'مسح كل البيانات؟':'Clear all entries?')){try{localStorage.removeItem(STORE);}catch(e){}location.reload();}});
+  recalc();
+}
+init();
+})();
+</script>
+</body>
+</html>
